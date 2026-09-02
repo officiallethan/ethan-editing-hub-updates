@@ -1,0 +1,16 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body style="display:none"><script>
+(function(){
+  function ready(result){
+    try{
+      var req=(window.cep_node&&window.cep_node.require)?window.cep_node.require:require;
+      var fs=req('fs'),path=req('path'),proc=req('process');
+      var dir=path.join(proc.env.APPDATA||'', 'EthanAE');
+      try{fs.mkdirSync(dir,{recursive:true});}catch(e0){}
+      fs.writeFileSync(path.join(dir,'ae_ready.flag'),new Date().toISOString()+'\n'+String(result||'ready'),'utf8');
+    }catch(e){}
+  }
+  setTimeout(function(){
+    try{if(window.__adobe_cep__)window.__adobe_cep__.evalScript('EthanHub_backgroundBoot()',ready);else ready('CEP bridge unavailable');}catch(e){ready('Background error: '+e);}
+  },900); // one shot only — no constant project polling
+})();
+</script></body></html>

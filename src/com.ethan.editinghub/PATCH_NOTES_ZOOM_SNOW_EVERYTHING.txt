@@ -1,0 +1,20 @@
+ETHAN'S EDITING HUB PREMIUM 2.0 — ZOOM / SNOW / EVERYTHING PATCH
+
+1) VIRAL ZOOM OVERLAP
+- First authored zoom keyframe = 3 frames BEFORE each split clip inPoint (clamped to comp start).
+- Last authored zoom keyframe = 4 frames AFTER each split clip outPoint (clamped to comp end).
+- Shift X / Shift Y / Shift Z helper keyframes inherit those times and remain exactly 0.
+
+2) AE SNOW PARTICLES — FIXED
+- Broken serialized AE Snow .ffx is disabled and is never applied by Viral Edit.
+- The Presets page's AE Snow button now creates CC Particle World natively, preventing the AE 2:7 preset-deserialization warning.
+- Lighter/slower values: Birth Rate 0.45, Longevity 7.0, Velocity 0.05, Gravity 0.03, Resistance 0.55, soft Faded Sphere particles.
+- Viral Edit uses this same fixed snow engine.
+
+3) EVERYTHING PRECOMP
+- At the end of ETHAN'S VIRAL EDIT, the complete Viral visual stack is precomposed as: everything
+- Helper layers and the edited clip-precomps travel together so adjustment layers keep working correctly.
+- Edit Audio stays outside and audible. Live text stays outside so it does not get sharpened/processed with the edit stack.
+- The final 'everything' layer is automatically selected.
+
+Previous Smooth Jaws Rotate, end-locked watermark, Edge Rays 0 -> 0.90 -> 0 brightness, preset library, and centered geometric diamond changes remain intact.

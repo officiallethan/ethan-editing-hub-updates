@@ -1,0 +1,11 @@
+Ethan's Editing Hub PREMIUM 2.0 — Smooth Skew + Smooth Jaws V4
+
+- Viral Edit: every 5th named Split Clip gets a 10-frame Easy-Eased smooth skew recovery, alternating -11/+11 toward 0.
+- Smooth Jaws: the second clip in every transition pair gets Skew -15.00 -> 0.00 over 10 frames, Easy Eased.
+- Edge Rays: Rays Brightness / Edge Brightness are forced to 0.00 -> 0.97 -> 0.00 and Easy Eased.
+- Smooth Jaws actual CC Jaws solids are comp-size BLACK solids. The front solid sits above the hero footage during the whip; rear jaws remain visible in the exposed side columns.
+- CC Jaws settings: Center = comp center, Height = 0.0, Width = 10.0, Shape = Spikes.
+- CC Jaws Completion = 100 -> 70 -> 100.
+- CC Jaws Direction follows the selected rotation: OUT 0 -> +/-90, incoming +/-90 -> 0.
+- All authored Jaws, skew, Edge Rays, warp, transform, lens, blur and opacity keyframes are Easy Eased.
+- Existing alternating Viral Smooth Jaws pattern remains: Intro->Beat Drop then repeating automatic pairs with alternating left/right direction.

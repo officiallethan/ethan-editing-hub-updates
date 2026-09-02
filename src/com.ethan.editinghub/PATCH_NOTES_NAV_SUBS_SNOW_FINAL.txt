@@ -1,0 +1,14 @@
+Ethan's Editing Hub PREMIUM 2.0 — NAV / SUBSCRIPTIONS / SNOW FINAL PATCH
+
+- Main navigation is now one HOME dropdown with options in this exact order:
+  Home, Profile, Tools, Subscriptions, Utilities, Text, Legacy.
+- HOME is the startup page.
+- Subscription plan cards keep their exact colors/templates; fake/gimmick/disclaimer wording removed from visible UI.
+- Existing saved plan selection migrates from the older localStorage key automatically.
+- VIP crown lowered only slightly for optical alignment.
+- Viral zooms remain retimed 3 frames before clip in-point through 4 frames after clip out-point.
+- Shift Y / Shift Z (and Shift X when exposed) remain 0 at generated zoom keyframes.
+- AE Snow no longer applies the broken serialized .ffx. It is rebuilt natively with CC Particle World, slightly less dense and slower.
+- Viral Edit uses the fixed snow path too.
+- Viral Edit finishes with the selected 'everything' precomp. Edited clip-precomps remain inside it intentionally so adjustment helpers continue to affect footage.
+- Smooth Jaws Rotate, Edge Rays 0 -> 0.90 -> 0, preset buttons, centered geometric diamond, and end-locked watermark are preserved.

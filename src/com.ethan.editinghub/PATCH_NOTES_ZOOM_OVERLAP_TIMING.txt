@@ -1,0 +1,7 @@
+ETHAN'S EDITING HUB PREMIUM 2.0 — ZOOM OVERLAP TIMING PATCH
+
+- ETHAN'S VIRAL EDIT zoom preset keyframe window now begins 3 comp frames before each split clip inPoint.
+- The same zoom keyframe window now ends 4 comp frames after that split clip outPoint.
+- Timing clamps safely to comp start/end.
+- Shift Y / Shift Z / Shift X helper keyframes keep value 0 while inheriting the expanded zoom timings.
+- Existing Smooth Jaws Rotate, end-locked watermark, Edge Rays 0 -> 0.90 -> 0 brightness, preset buttons, and geometric centered diamond remain intact.

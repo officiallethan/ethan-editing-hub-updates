@@ -1,0 +1,14 @@
+ETHAN'S EDITING HUB PREMIUM 2.0 — INTRO / EDIT AUDIO ROUTING FIX
+
+🔥 ETHAN'S VIRAL EDIT
+- Select All Split Clips now selects visual split clips only.
+- Edit Audio and any eye-OFF / audio-ON source layer are excluded from the visual clip list.
+- Viral Edit automatically duplicates the first visual Intro BEFORE editing.
+- The ORIGINAL Intro becomes Edit Audio, is moved to the bottom, spans the full composition, keeps audio ON, and has its eye OFF.
+- The DUPLICATED Intro remains visual, is named exactly Intro, stays audio OFF, and is edited together with every other visual split clip.
+- This prevents a full-length audio source from becoming clip #1 and shifting beat-drop / transition timing.
+- Final EVERYTHING precomp still excludes Edit Audio and live text.
+
+PRESERVED
+- SMOOTH JAWS ROTATE is still under Tools > Editing Toolbox > Transitions and remains wired to EthanHub_smoothJawsRotate().
+- Zoom overlap timing, neutral Shift Y/Z keys, fixed scripted snow, Edge Rays brightness, preset buttons, centered diamond, dropdown nav, subscriptions styling, and end-locked watermark remain intact.

@@ -1,0 +1,8 @@
+{
+  "extensionId": "com.ethan.editinghub",
+  "version": "3.2.0",
+  "build": "3200",
+  "name": "Liquid Harmony",
+  "notes": "Theme coherence + persistent themes, Tahoe Liquid Glass Light/Dark, theme-aware scrollbars/nav/buttons, top-right update status badge, lightweight interactions, About/device/performance page, and calmer Viral Edit rotations with BCC Jaws synced to the rotation. No Color -> Color remains locked from Beat Drop onward.",
+  "channel": "stable"
+}

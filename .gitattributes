@@ -1,0 +1,12 @@
+# Preserve the imported extension and existing OTA assets byte for byte.
+src/** -text
+*.zip binary
+*.png binary
+*.jpg binary
+*.mp4 binary
+*.wav binary
+*.ffx binary
+tools/** text eol=lf
+tests/** text eol=lf
+.github/** text eol=lf
+*.md text eol=lf

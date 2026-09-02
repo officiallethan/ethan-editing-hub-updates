@@ -1,0 +1,9 @@
+PREMIUM 2.0 V6.1 — Auto Captions bootstrap
+
+- Auto Captions remains free/local and CPU-only by default.
+- First use automatically downloads whisper.cpp v1.9.1 + tiny.en Q5_1 (~31 MB model).
+- If ffmpeg is not already installed, the setup now downloads a local ffmpeg copy automatically.
+- No API key, subscription, cloud transcription, or GPU is required.
+- The Hub ZIP itself stays small; first-use components are downloaded once and cached locally.
+
+YouTube note: the two supplied YouTube URLs could not be reliably fetched by this build environment, so the included one-click edit styles are NOT falsely claimed as exact reproductions of those two external tutorials. They are built from the uploaded tutorials/reference clips plus the Hub's smooth timing math.

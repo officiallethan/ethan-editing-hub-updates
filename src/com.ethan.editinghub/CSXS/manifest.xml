@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.ethan.editinghub" ExtensionBundleVersion="3.1.2" ExtensionBundleName="Ethan's Editing Hub PREMIUM">
+  <ExtensionList>
+    <Extension Id="com.ethan.editinghub.panel" Version="3.1.2"/>
+    <Extension Id="com.ethan.editinghub.background" Version="3.1.2"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="AEFT" Version="[22.0,99.9]"/>
+    </HostList>
+    <LocaleList><Locale Code="All"/></LocaleList>
+    <RequiredRuntimeList><RequiredRuntime Name="CSXS" Version="10.0"/></RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="com.ethan.editinghub.panel">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <ScriptPath>./jsx/backend.jsx</ScriptPath>
+          <CEFCommandLine>
+            <Parameter>--allow-file-access</Parameter>
+            <Parameter>--allow-file-access-from-files</Parameter>
+          </CEFCommandLine>
+        </Resources>
+        <Lifecycle><AutoVisible>true</AutoVisible></Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>Ethan's Editing Hub PREMIUM 2.0</Menu>
+          <Geometry>
+            <Size><Width>420</Width><Height>650</Height></Size>
+            <MinSize><Width>220</Width><Height>250</Height></MinSize>
+            <MaxSize><Width>1400</Width><Height>1400</Height></MaxSize>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+    <Extension Id="com.ethan.editinghub.background">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./background.html</MainPath>
+          <ScriptPath>./jsx/backend.jsx</ScriptPath>
+          <CEFCommandLine><Parameter>--allow-file-access</Parameter><Parameter>--enable-nodejs</Parameter></CEFCommandLine>
+        </Resources>
+        <Lifecycle><AutoVisible>true</AutoVisible></Lifecycle>
+        <UI><Type>Custom</Type></UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

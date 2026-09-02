@@ -1,0 +1,20 @@
+Ethan's Editing Hub PREMIUM 2.0 — follow-up fixes
+
+1. Viral zoom helper keyframes
+- Shift Y = 0 on every generated helper keyframe.
+- Shift Z = 0 on every generated helper keyframe when the preset exposes Shift Z.
+- Shift X remains neutral at 0.
+- The authored Z Dist zoom itself is preserved; it is NOT flattened.
+
+2. Edge Rays
+- Rays Brightness and Edge Brightness now use 3 Easy-Eased keys: 0.00 -> 0.90 -> 0.00.
+- Fixes the old base*multiplier bug where a base of zero made all three brightness keys zero.
+
+3. Presets toolbox
+- Added clickable buttons for every .ffx bundled in PREMIUM 2.0: Jamesmaximoffs, Ethan, AE Snow and Tattooedhe8rt.
+- Select one or more AE layers and click a preset to apply it directly.
+
+4. Header diamond
+- Replaced the font-glyph sparkle with a geometric CSS sparkle centered at exact 50% / 50%, eliminating font baseline drift.
+
+Existing Smooth Jaws Rotate and end-locked watermark changes are retained.

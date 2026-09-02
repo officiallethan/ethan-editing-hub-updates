@@ -1,0 +1,49 @@
+ETHAN EDITING HUB SOFTWARE UPDATE — REMOTE FEED CONTRACT
+========================================================
+
+This Hub now contains a real Software Update client.
+For truly automatic future updates, link ONE permanent HTTPS URL to latest.json
+inside SOFTWARE UPDATE > Advanced Update Settings.
+
+latest.json schema:
+{
+  "extensionId": "com.ethan.editinghub",
+  "version": "3.2.0",
+  "build": "3200",
+  "name": "Velvet Motion",
+  "notes": "Release notes shown inside After Effects.",
+  "sizeLabel": "1.4 MB",
+  "packageUrl": "https://YOUR-HOST/EthanHub_3.2.0.zip",
+  "sha256": "64_HEX_CHARACTERS"
+}
+
+REMOTE PACKAGE FORMAT
+---------------------
+Preferred:
+EthanHub_3.2.0.zip
+  payload/
+    com.ethan.editinghub/
+      index.html
+      js/app.js
+      jsx/backend.jsx
+      CSXS/manifest.xml
+      ...the COMPLETE extension contents...
+
+The updater also accepts a ZIP whose root is com.ethan.editinghub/ or whose root
+itself is a complete com.ethan.editinghub extension. Update packages should contain the
+COMPLETE extension because installation mirrors the verified payload to prevent stale files.
+
+SECURITY / SAFETY
+-----------------
+• Remote feed must be HTTPS.
+• extensionId must equal com.ethan.editinghub.
+• Remote packages MUST have a SHA-256 in latest.json.
+• The package is downloaded + verified + extracted before any live Hub file changes.
+• Current Hub is backed up automatically.
+• Live files are copied only after AfterFX.exe is closed.
+• RESTORE PREVIOUS VERSION uses the most recent automatic backup.
+
+IMPORTANT
+---------
+The updater itself cannot invent an Internet host. One permanent public HTTPS feed
+must be linked once. After that, releases can be published to the same feed forever.

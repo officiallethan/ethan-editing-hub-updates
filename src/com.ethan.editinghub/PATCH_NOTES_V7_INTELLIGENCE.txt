@@ -1,0 +1,11 @@
+PREMIUM 2.0 V7 Intelligence pass
+- Match Zoom Flow (manual Motion button): adjacent BlurMoCurves Z-Dist continuity + velocity-aware second-key smoothing.
+- Short-Clip Intelligence concept surfaced via heatmap and enabled setting.
+- Style Builder with selectable Zoom/Skew/Rays/Flash/Best Rotate Jaws recipe + local saved styles.
+- Dependency Checker.
+- Caption style selector + restyle existing timed captions.
+- Hub History local action log.
+- Edit Score with continuity, transform safety, short-clip timing.
+- Safe Test Mode comp duplicate.
+- Fix My Edit mechanical safety pass.
+- Short-Clip Heatmap.

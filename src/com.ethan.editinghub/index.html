@@ -1,0 +1,615 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ethan's Editing Hub PREMIUM 2.0</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="topShell">
+    <div class="topBrand">
+      <div class="diamondLogo">✦</div>
+      <div class="brandText">
+        <div class="title">Ethan's Editing Hub</div>
+        <div class="sub">PREMIUM 2.0 • VIRAL ENGINE</div>
+        <div class="creatorMetaLine">
+          <div class="creatorByline" id="brandProfileName">officiallethannn</div>
+          <img class="bylineVerifiedBadge" src="assets/verified_badge.png" alt="Verified badge" title="Verified creator">
+        </div>
+        <div class="alwaysBadges" aria-label="Creator badges">
+          <span class="alwaysVerifiedEditor">VERIFIED EDITOR</span>
+          <span class="alwaysVip"><span class="alwaysVipCrown">👑</span><span>VIP</span></span>
+          <span id="activePlanBadge" class="activePlanBadge plan-badge-default"><span id="activePlanIcon" class="activePlanIcon">○</span><span id="activePlanText">DEFAULT</span></span>
+        </div>
+      </div>
+      <div id="headerUpdateStatus" class="headerUpdateStatus is-latest" title="Software Update status" role="status" aria-live="polite">
+        <span class="updateStatusDot" aria-hidden="true"></span><span id="headerUpdateText">LATEST UPDATE</span><span id="headerUpdateCount" class="headerUpdateCount" hidden>1</span>
+      </div>
+      <button class="profileChip" id="headerProfileChip" type="button" title="Open Profile">
+        <span class="miniAvatar"><img id="avatarImg" alt=""><span id="avatarFallback">✦</span></span>
+        <span class="headerNameWithBadge"><span id="headerProfileName">officiallethannn</span><img class="headerVerifiedBadge" src="assets/verified_badge.png" alt="Verified"></span><span class="headerVip"><span class="headerVipCrown">👑</span> VIP</span>
+      </button>
+    </div>
+    <div class="mainNav pageSelectNav" id="mainNav" aria-label="Main sections">
+      <button id="pageDropdownToggle" class="pageSelectToggle" type="button" aria-haspopup="true" aria-expanded="false">
+        <span id="pageDropdownLabel">HOME</span><span class="pageDropdownArrow" aria-hidden="true">⌄</span>
+      </button>
+      <div id="pageDropdownMenu" class="pageSelectMenu" role="menu" aria-label="Choose page">
+        <button data-page="home" class="active" role="menuitem" type="button">HOME</button>
+        <button data-page="profile" role="menuitem" type="button">PROFILE</button>
+        <button data-page="tools" role="menuitem" type="button">TOOLS</button>
+        <button data-page="subscriptions" role="menuitem" type="button">SUBSCRIPTIONS</button>
+        <button data-page="utilities" role="menuitem" type="button">UTILITIES</button>
+        <button data-page="text" role="menuitem" type="button">TEXT</button>
+        <button data-page="legacy" role="menuitem" type="button">LEGACY</button>
+        <button data-page="inspector" role="menuitem" type="button">INSPECTOR</button>
+        <button data-page="settings" role="menuitem" type="button">SETTINGS</button>
+        <button data-page="softwareupdate" role="menuitem" type="button">SOFTWARE UPDATE</button>
+        <button data-page="about" role="menuitem" type="button">ABOUT</button>
+        <button data-page="customize" role="menuitem" type="button">CUSTOMIZE</button>
+        <button data-page="remove" role="menuitem" type="button">REMOVE</button>
+        <button data-page="builder" role="menuitem" type="button">STYLE BUILDER</button>
+        <button data-page="diagnostics" role="menuitem" type="button">DIAGNOSTICS</button>
+      </div>
+    </div>
+    <div class="themeChooser" aria-label="Hub theme">
+      <span>THEME</span>
+      <select id="themeSelect">
+        <option value="ocean">Baby Blue + Dark Blue</option>
+        <option value="gold">Black + Gold</option>
+        <option value="emerald">Emerald</option>
+        <option value="black">Midnight Black</option>
+        <option value="white">Pearl White</option>
+        <option value="default">Purple + Pink</option>
+        <option value="rainbow">Rainbow</option>
+        <option value="ruby">Ruby</option>
+        <option value="tahoe-dark">Tahoe Liquid Glass (Dark)</option>
+        <option value="tahoe-light" selected>Tahoe Liquid Glass (Light)</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section id="page-tools" class="page">
+      <section class="viralCard panelCard">
+        <div class="sectionTag">ONE CLICK EDIT</div>
+        <button id="viralBtn" class="megaButton primary">🔥 ETHAN'S VIRAL EDIT</button>
+        <div class="miniSectionTitle">OTHER ONE-CLICK EDIT STYLES</div>
+        <div class="threeButtonRow">
+          <button id="smoothFlowEdit" class="secondary">SMOOTH FLOW</button>
+          <button id="impactFlowEdit" class="secondary">IMPACT FLOW</button>
+          <button id="cinematicGlideEdit" class="secondary">CINEMATIC GLIDE</button>
+        </div>
+        <div class="twoButtonRow">
+          <button id="removeBtn" class="danger">REMOVE VIRAL EDIT</button>
+          <button id="selectAllSplits" class="secondary">SELECT ALL SPLIT CLIPS</button>
+        </div>
+        <button id="attemptSplit" class="secondary soft">ATTEMPT TO SPLIT SCENES</button>
+
+        <div class="resolutionBox">
+          <label class="switchLine"><input id="forceResolution" type="checkbox"> <span>Force Resolution</span></label>
+          <select id="resolutionSelect" aria-label="Resolution"><option>720P</option><option selected>1080P</option><option>2K</option><option>4K</option></select>
+          <label class="switchLine"><input id="backupFirst" type="checkbox" checked> <span>Backup first</span></label>
+        </div>
+        <div id="status">Ready. Manually split your edit. Selection is optional — Viral Edit auto-grabs visual split clips.</div>
+      </section>
+
+      <section class="toolHub panelCard">
+        <div class="toolHubHead">
+          <div><div class="sectionTag">TOOLS</div><h2>Editing toolbox</h2></div>
+          <div class="scaleMini">🔍 <select id="zoomSelect" aria-label="Panel size"><option>10</option><option>30</option><option>40</option><option>50</option><option>70</option><option>90</option><option selected>100</option><option>110</option><option>130</option><option>150</option></select><span>%</span></div>
+          <input id="zoomRange" class="hiddenRange" type="range" min="10" max="150" step="10" value="100" aria-hidden="true">
+        </div>
+
+        <div class="toolGrid" role="tablist" aria-label="Tool categories">
+          <button class="toolTile active" data-tool="motion"><span>◉</span><b>Motion</b></button>
+          <button class="toolTile" data-tool="transitions"><span>↔</span><b>Transitions</b></button>
+          <button class="toolTile" data-tool="effects"><span>FX</span><b>Effects</b></button>
+          <button class="toolTile" data-tool="audio"><span>♫</span><b>Audio</b></button>
+          <button class="toolTile" data-tool="text"><span>T</span><b>Text</b></button>
+          <button class="toolTile" data-tool="watermark"><span>WM</span><b>Watermark</b></button>
+          <button class="toolTile" data-tool="fix"><span>⌁</span><b>Fix</b></button>
+          <button class="toolTile" data-tool="presets"><span>★</span><b>Presets</b></button>
+          <button class="toolTile safeBackupTile" data-tool="safebackup"><span>⛉</span><b>Safe Backup</b></button>
+        </div>
+
+        <div class="toolPanels">
+          <section class="toolPanel active" id="tool-motion">
+            <div class="panelTitle"><span>◉</span><div><h3>Motion</h3><p>Zooms, shakes, Motion Tile and clip movement.</p></div></div>
+            <button id="bestMotion">ETHAN'S BEST MOTION TILE</button>
+            <button id="reboundPanning">REBOUND SWING / PANNING</button>
+            <button id="fixMotion">FIX MOTION TILES</button>
+            <button id="fixZooms">FIX / SELECT ZOOMS</button>
+            <button id="matchZoomFlow" class="primary">🔗 MATCH ZOOM FLOW</button>
+            <div class="infoBanner">Matches adjacent S_BlurMoCurves Z-Dist boundaries mathematically so one clip flows into the next. Manual button only.</div>
+            <button id="fixShakes">FIX / SELECT SHAKES</button>
+          </section>
+
+          <section class="toolPanel" id="tool-transitions">
+            <div class="panelTitle"><span>↔</span><div><h3>Transitions</h3><p>Ripple / Jaws repair plus reference-matched transition tools.</p></div></div>
+            <button id="smoothJawsRotate" class="smoothJawsAction">SMOOTH JAWS ROTATE</button>
+            <button id="bestRotateJaws" class="secondary">BEST ROTATE JAWS</button>
+            <div class="infoBanner">Select the two clips touching a cut — or park the playhead on the cut. Matches the supplied 30fps reference: 4-frame warped outgoing spin, bundled vertical Jaws behind it, then a soft 10-frame bouncy settle.</div>
+            <button id="fixRipples">FIX RIPPLE CENTERS</button>
+            <button id="fixJaws">FIX JAWS CENTERS</button>
+            <button id="selectNoIntro">SELECT SPLIT CLIPS - NO INTRO</button>
+          </section>
+
+          <section class="toolPanel" id="tool-effects">
+            <div class="panelTitle"><span>FX</span><div><h3>Effects</h3><p>Viral Edit automatically handles Halftone, Cross Glitch, Snow, Flicker, Edge Rays, flashes and clip-local helpers.</p></div></div>
+            <div class="infoRows">
+              <div><b>Halftone</b><span>12-frame • exact Ethan reference settings • masks from the clip underneath</span></div>
+              <div><b>BCC Cross Glitch</b><span>11-frame transition • alternates with Halftone</span></div>
+              <div><b>Edge Rays</b><span>Direct on footage • slow Easy-Eased ray movement</span></div>
+              <div><b>Ripple</b><span>Adjustment touching its clip</span></div>
+            </div>
+          </section>
+
+          <section class="toolPanel" id="tool-audio">
+            <div class="panelTitle"><span>♫</span><div><h3>Audio</h3><p>Fast edit-audio tools for the selected audio layer. If nothing is selected, the Hub targets “ethan's edit audio”.</p></div></div>
+            <div class="infoBanner">Viral Edit routes EXACTLY ONE audio bed: original bottom Intro → full-comp ethan's edit audio (eye OFF • audio ON); one duplicate → visual Intro (audio OFF). Re-running reuses ethan's edit audio instead of duplicating it.</div>
+
+            <div class="audioSection">
+              <div class="miniSectionTitle">QUICK AUDIO</div>
+              <div class="audioButtonGrid">
+                <button id="audioDistort">DISTORT AUDIO</button>
+                <button id="audioSlowReverb">SLOW + REVERB</button>
+                <button id="audioVolUp">VOLUME +6 dB</button>
+                <button id="audioVolDown">VOLUME -6 dB</button>
+                <button id="audioVolReset">RESET VOLUME</button>
+              </div>
+            </div>
+
+            <div class="audioSection">
+              <div class="miniSectionTitle">VOICE STYLES</div>
+              <div class="audioButtonGrid twoCol">
+                <button class="audioStyle" data-style="megaphone">MEGAPHONE</button>
+                <button class="audioStyle" data-style="bass">BASS BOOST</button>
+                <button class="audioStyle" data-style="ballroom">BALLROOM</button>
+                <button class="audioStyle" data-style="reverb">REVERB</button>
+                <button class="audioStyle" data-style="speech">SPEECH</button>
+                <button class="audioStyle" data-style="microphone">MICROPHONE</button>
+                <button class="audioStyle" data-style="distorted">HEAVY DISTORT</button>
+              </div>
+            </div>
+
+            <div class="audioSection">
+              <div class="miniSectionTitle">VIRAL SOUND FX • ADDS AT PLAYHEAD</div>
+              <div class="sfxGrid">
+                <button class="sfxBtn" data-sfx="click">CLICK</button>
+                <button class="sfxBtn" data-sfx="snap">SNAP</button>
+                <button class="sfxBtn" data-sfx="crack">CRACK</button>
+                <button class="sfxBtn" data-sfx="pop">POP</button>
+                <button class="sfxBtn" data-sfx="slam">SLAM</button>
+                <button class="sfxBtn" data-sfx="whoosh_fast">WHOOSH FAST</button>
+                <button class="sfxBtn" data-sfx="whoosh_slow">WHOOSH SLOW</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="toolPanel" id="tool-text">
+            <div class="panelTitle"><span>T</span><div><h3>Text</h3><p>Keep the text workflow clean and precomped.</p></div></div>
+            <button id="autoCaptions" class="primary">AUTO GENERATE CAPTIONS • LOCAL</button>
+            <div class="infoBanner">Free local Whisper Tiny Q5 captions. First use automatically installs the ~31 MB speech model + lightweight CPU runtime. No subscription/API fee; GPU is disabled by default.</div>
+            <button id="precompText">PRECOMP ALL TEXT</button>
+            <button id="snakeText">SMOOTH SNAKE SLIDE TEXT</button>
+          </section>
+
+          <section class="toolPanel" id="tool-watermark">
+            <div class="panelTitle"><span>WM</span><div><h3>Watermark</h3><p>Your bundled watermark is END-LOCKED: its final source frame lands exactly on the final frame of the comp at true 100% speed, fits by HEIGHT only, stays directly under AE Snow, and is forced to LIGHTEN.</p></div></div>
+            <button id="fixWatermark">FIX / SELECT WATERMARK</button>
+            <div class="watermarkColorGrid">
+              <button id="wmChangeToColor">ENABLE CHANGE TO COLOR</button>
+              <button id="wmChangeColor">ENABLE CHANGE COLOR</button>
+              <button id="wmColorOff">TURN RECOLOR OFF</button>
+            </div>
+            <div class="infoBanner">Bundled: 4K 120 FPS WATERMARK ETHAN.mp4 • END touches COMP END exactly • 100% time stretch • HEIGHT fit only • LIGHTEN • Snow stays above it. Use the recolor buttons, then pick the exact color in Effect Controls.</div>
+          
+            <div class="miniSectionTitle">EDITABLE VIRAL TEXT WATERMARKS</div>
+            <div class="audioButtonGrid twoCol">
+              <button class="wmTextStyle" data-wmstyle="Orbit">ORBIT LETTERS</button>
+              <button class="wmTextStyle" data-wmstyle="Split Letters">SPLIT LETTERS</button>
+              <button class="wmTextStyle" data-wmstyle="Punch Glow">PUNCH GLOW</button>
+              <button class="wmTextStyle" data-wmstyle="Ribbon">RIBBON SWING</button>
+              <button class="wmTextStyle" data-wmstyle="Clean Pop">CLEAN POP</button>
+            </div>
+            <div class="infoBanner">Each creates editable AE text — change the username afterward and the animation stays.</div>
+</section>
+
+          <section class="toolPanel" id="tool-fix">
+            <div class="panelTitle"><span>⌁</span><div><h3>Fix</h3><p>Scan the whole active comp and repair/select matching edit parts.</p></div></div>
+            <button class="fixAlias" data-target="fixMotion">FIX MOTION TILES</button>
+            <button class="fixAlias" data-target="fixZooms">FIX / SELECT ZOOMS</button>
+            <button class="fixAlias" data-target="fixShakes">FIX / SELECT SHAKES</button>
+            <button class="fixAlias" data-target="fixRipples">FIX RIPPLE CENTERS</button>
+            <button class="fixAlias" data-target="fixJaws">FIX JAWS CENTERS</button>
+            <button class="fixAlias" data-target="fixWatermark">FIX / SELECT WATERMARK</button>
+          </section>
+
+          <section class="toolPanel" id="tool-presets">
+            <div class="panelTitle"><span>★</span><div><h3>Presets</h3><p>Preset library and old Premium tools.</p></div></div>
+            <button id="choosePresetRoot">CHOOSE EXTERNAL PRESET ROOT</button>
+            <button id="openPresetFolder">OPEN BUNDLED PRESET FOLDER</button>
+            <div class="presetLibraryHead"><b>ACTUAL BUNDLED PRESETS</b><span>Select AE layer(s), then click a preset.</span></div>
+            <div class="presetLibrary">
+              <div class="presetCreator">JAMESMAXIMOFFS</div>
+              <button class="bundledPresetBtn" data-preset="jamesmaximoffs flicker.ffx" type="button"><span>Jamesmaximoffs</span><b>Flicker</b></button>
+              <div class="presetCreator">ETHAN</div>
+              <button class="bundledPresetBtn" data-preset="ethans waep chroma + jiggly wiggy(1).ffx" type="button"><span>Ethan</span><b>WAEP Chroma + Jiggly Wiggy</b></button>
+              <div class="presetCreator">AE</div>
+              <button id="fixedSnowPreset" class="bundledPresetBtn fixedSnowPresetBtn" type="button"><span>AE</span><b>AE Snow Particles</b><small>Original Ethan .ffx values • rebuilt safely to bypass AE 2:7</small></button>
+              <div class="presetCreator">TATTOOEDHE8RT</div>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt cc jaws horizontal.ffx" type="button"><span>Tattooedhe8Rt</span><b>CC Jaws Horizontal</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt cc jaws vertical.ffx" type="button"><span>Tattooedhe8Rt</span><b>CC Jaws Vertical</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt edge rays.ffx" type="button"><span>Tattooedhe8Rt</span><b>Edge Rays</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt ripple.ffx" type="button"><span>Tattooedhe8Rt</span><b>Ripple</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt slide down 1.ffx" type="button"><span>Tattooedhe8Rt</span><b>Slide Down 1</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt slide down 2.ffx" type="button"><span>Tattooedhe8Rt</span><b>Slide Down 2</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt slide left 1.ffx" type="button"><span>Tattooedhe8Rt</span><b>Slide Left 1</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt slide left 2.ffx" type="button"><span>Tattooedhe8Rt</span><b>Slide Left 2</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt y end shake.ffx" type="button"><span>Tattooedhe8Rt</span><b>Y End Shake</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt zoom in(2).ffx" type="button"><span>Tattooedhe8Rt</span><b>Zoom In</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt zoom out(2).ffx" type="button"><span>Tattooedhe8Rt</span><b>Zoom Out</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt zoom in out(2).ffx" type="button"><span>Tattooedhe8Rt</span><b>Zoom In Out</b></button>
+              <button class="bundledPresetBtn" data-preset="tattooedhe8rt zoom out in(2).ffx" type="button"><span>Tattooedhe8Rt</span><b>Zoom Out In</b></button>
+            </div>
+            <button id="legacyBtn">OPEN ORIGINAL PREMIUM 1.4.0</button>
+            <div class="renameList">
+              <div><span>Motion Tile</span><b>Ethan's Best Motion Tile</b></div>
+              <div><span>Warp Chroma</span><b>ethan's warp chroma + wiggle</b></div>
+            </div>
+          </section>
+
+          <section class="toolPanel" id="tool-safebackup">
+            <div class="panelTitle"><span>⛉</span><div><h3>Safe Backup</h3><p>One click makes a timestamped copy of the actual .aep project file without changing the project you are editing.</p></div></div>
+            <button id="safeBackupNow" class="safeBackupAction">MAKE SAFE BACKUP NOW</button>
+            <div class="infoBanner">It saves the current project first, then copies the .aep into an “Ethan Hub Safe Backups” folder beside your project. If the project has never been saved, save it once first.</div>
+          </section>
+        </div>
+      </section>
+    </section>
+
+
+    <section id="page-home" class="page active">
+      <section class="panelCard restoredPage">
+        <div class="sectionTag">HOME</div>
+        <h2>Premium 2.0 Home</h2>
+        <p>Your old Home idea is back without replacing the new cosmetic layout.</p>
+        <div class="restoredGrid">
+          <button id="homeGoTools" class="primary">OPEN VIRAL / TOOLS</button>
+          <button id="homeGoProfile" class="secondary">OPEN PROFILE</button>
+          <button id="homeSelectSplits" class="secondary">SELECT ALL SPLIT CLIPS</button>
+          <button id="homeAttemptSplit" class="secondary">ATTEMPT TO SPLIT SCENES</button>
+        </div>
+      </section>
+      <section class="panelCard restoredPage">
+        <div class="sectionTag">WORKFLOW</div>
+        <div class="infoRows">
+          <div><b>1</b><span>Split clips manually</span></div>
+          <div><b>2</b><span>Select all split clips</span></div>
+          <div><b>3</b><span>Run Ethan's Viral Edit</span></div>
+          <div><b>4</b><span>Use Fix tools for anything you want to tweak</span></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-text" class="page">
+      <section class="panelCard restoredPage">
+        <div class="sectionTag">TEXT</div>
+        <h2>Text</h2>
+        <p>The quick old-style Text page is back. These call the same upgraded tools as the Text toolbox.</p>
+        <label class="fieldLabel">Caption Style<select id="captionStyle"><option value="big">BIG VIRAL</option><option value="clean">CLEAN POP</option><option value="karaoke">KARAOKE HIGHLIGHT</option><option value="minimal">MINIMAL SUBTITLE</option><option value="bounce">WORD BOUNCE</option><option value="cinematic">SOFT CINEMATIC</option></select></label>
+        <button id="pageAutoCaptions" class="primary">AUTO GENERATE CAPTIONS • LOCAL</button>
+        <button id="restyleCaptions" class="secondary">RESTYLE EXISTING CAPTIONS</button>
+        <button id="pagePrecompText" class="secondary">PRECOMP ALL TEXT</button>
+        <button id="pageSnakeText" class="secondary">SMOOTH SNAKE SLIDE TEXT</button>
+        <button id="pageOpenTextTools" class="secondary">OPEN FULL TEXT TOOLBOX</button>
+      </section>
+    </section>
+
+
+    <section id="page-subscriptions" class="page">
+      <section class="panelCard subscriptionsPage">
+        <div class="sectionTag">SUBSCRIPTIONS</div>
+        <h2>Choose your plan</h2>
+        <p class="subscriptionIntro">Select the plan you want displayed in your workspace. Your choice is saved automatically.</p>
+        <div id="currentPlanBanner" class="currentPlanBanner">YOU ARE CURRENTLY ON “DEFAULT” PLAN.</div>
+
+        <div class="planGrid" role="list" aria-label="Subscription plans">
+          <button class="planCard plan-default" data-plan="Default" data-price="Free" type="button"><span class="planElement">○</span><b>Default Plan</b><em>Free</em><small>Base workspace</small></button>
+          <button class="planCard plan-plus" data-plan="Plus" data-price="$5" type="button"><span class="planElement">＋</span><b>Plus Plan</b><em>$5</em><small>Electric blue boost</small></button>
+          <button class="planCard plan-pro" data-plan="Pro" data-price="$30" type="button"><span class="planElement">◆</span><b>Pro Plan</b><em>$30</em><small>Deep purple pro tier</small></button>
+          <button class="planCard plan-premium" data-plan="Premium" data-price="$150" type="button"><span class="planElement">✦</span><b>Premium Plan</b><em>$150</em><small>Pink premium glow</small></button>
+          <button class="planCard plan-bronze" data-plan="Bronze" data-price="$300" type="button"><span class="planElement">◈</span><b>Bronze Plan</b><em>$300</em><small>Bronze metal tier</small></button>
+          <button class="planCard plan-silver" data-plan="Silver" data-price="$700" type="button"><span class="planElement">◇</span><b>Silver Plan</b><em>$700</em><small>Silver chrome tier</small></button>
+          <button class="planCard plan-gold" data-plan="Gold" data-price="$5K" type="button"><span class="planElement">♛</span><b>Gold Plan</b><em>$5K</em><small>24K flex tier</small></button>
+          <button class="planCard plan-diamond" data-plan="Diamond" data-price="$50K" type="button"><span class="planElement">💎</span><b>Diamond Plan</b><em>$50K</em><small>Ice-blue diamond tier</small></button>
+          <button class="planCard plan-elite" data-plan="ELITE" data-price="$10M" type="button"><span class="planElement">♚</span><b>ELITE PLAN</b><em>$10M</em><small>Ruby × emerald final boss</small></button>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-utilities" class="page">
+      <section class="panelCard restoredPage">
+        <div class="sectionTag">UTILITIES</div>
+        <h2>Utilities</h2>
+        <p>Fast repair and selection controls without digging through the Tools grid.</p>
+        <div class="restoredGrid">
+          <button id="utilSelectAll">SELECT ALL SPLIT CLIPS</button>
+          <button id="utilSelectNoIntro">SELECT CLIPS - NO INTRO</button>
+          <button id="utilFixMotion">FIX MOTION TILES</button>
+          <button id="utilFixZooms">FIX ZOOMS</button>
+          <button id="utilNoColor">NO COLOR -> COLOR</button>
+          <button id="utilFixWatermark">FIX WATERMARK</button>
+          <button id="utilAttemptSplit">ATTEMPT TO SPLIT SCENES</button>
+        </div>
+        <div class="infoBanner">Force Resolution remains OFF by default. Set it from the Viral card only when you actually want the comp resized.</div>
+      </section>
+    </section>
+
+    <section id="page-legacy" class="page">
+      <section class="panelCard restoredPage legacyPageCard">
+        <div class="sectionTag">LEGACY</div>
+        <h2>Original Premium Hub</h2>
+        <p>Your original Premium 1.4.0 is still bundled as the just-in-case backup toolset.</p>
+        <button id="legacyPageBtn" class="primary">OPEN ORIGINAL PREMIUM 1.4.0</button>
+        <div class="infoBanner">This opens the legacy ScriptUI hub. It does not replace or uninstall Premium 2.0.</div>
+      </section>
+    </section>
+
+
+    <section id="page-inspector" class="page">
+      <section class="panelCard restoredPage"><div class="sectionTag">VIRAL EDIT INSPECTOR</div><h2>Scan this edit</h2>
+        <button id="runInspector" class="primary">SCAN EVERYTHING</button><div id="inspectorOutput" class="inspectorOutput">No scan yet.</div>
+      </section>
+    </section>
+    <section id="page-settings" class="page">
+      <section class="panelCard restoredPage"><div class="sectionTag">SETTINGS</div><h2>Viral Edit Settings</h2>
+        <div class="settingsGrid">
+          <label>Jaws every N clips<input id="setJawsEvery" type="number" min="2" max="30" value="12"></label>
+          <label>Cross Glitch frames<input id="setCrossFrames" type="number" min="2" max="40" value="10"></label>
+          <label>Halftone frames<input id="setHalfFrames" type="number" min="2" max="40" value="10"></label>
+          <label>Edge Rays middle brightness<input id="setEdgeBrightness" type="number" min="0.1" max="2" step="0.01" value="0.97"></label>
+          <label>Smooth skew every N clips<input id="setSkewEvery" type="number" min="2" max="30" value="8"></label>
+          <label>Jaws outgoing frames<input id="setJawsOut" type="number" min="4" max="20" value="8"></label>
+          <label>Jaws incoming recovery frames<input id="setJawsIn" type="number" min="6" max="30" value="13"></label>
+          <label class="switchLine"><input id="shortClipIntel" type="checkbox" checked> <span>Short-Clip Intelligence</span></label>
+        </div>
+        <div class="twoButtonRow"><button id="saveViralSettings" class="primary">SAVE MY DEFAULT</button><button id="resetViralSettings" class="secondary">RESET ETHAN DEFAULT</button></div>
+      </section>
+    </section>
+    <section id="page-remove" class="page">
+      <section class="panelCard restoredPage"><div class="sectionTag">REMOVE</div><h2>Remove effects precisely</h2>
+        <label class="fieldLabel">Effect<select id="removeEffectSelect"><option>Smooth Jaws</option><option>Smooth Skew</option><option>Edge Rays</option><option>Zoom</option><option>Halftone</option><option>Cross Glitch</option><option>Snow</option><option>Flash</option><option>Ripple</option></select></label>
+        <div class="twoButtonRow"><button id="scanRemoveSpecific" class="secondary">REMOVE SPECIFIC</button><button id="removeEffectAll" class="danger">REMOVE ALL</button></div>
+        <div id="specificClipList" class="specificClipList">Choose an effect and click Remove Specific. Only clips that actually contain that effect will appear.</div>
+        <button id="confirmRemoveSpecific" class="primary" style="display:none">REMOVE FROM CHECKED CLIPS</button>
+      </section>
+    </section>
+
+    <section id="page-builder" class="page">
+      <section class="panelCard restoredPage"><div class="sectionTag">EDIT STYLE BUILDER</div><h2>Build a one-click motion recipe</h2>
+        <div class="settingsGrid"><label><input type="checkbox" id="bZoom" checked> Smooth Zoom</label><label><input type="checkbox" id="bSkew" checked> Smooth Skew</label><label><input type="checkbox" id="bRays"> Edge Rays</label><label><input type="checkbox" id="bFlash"> White Flash</label><label><input type="checkbox" id="bJaws"> Best Rotate Jaws</label><label>Strength<select id="bStrength"><option value="0.7">SOFT</option><option value="1" selected>SMOOTH</option><option value="1.25">STRONG</option></select></label></div>
+        <label class="fieldLabel">Style name<input id="customStyleName" value="ETHAN CUSTOM FLOW"></label><div class="twoButtonRow"><button id="previewCustomStyle" class="primary">APPLY TO SELECTED CLIPS</button><button id="saveCustomStyle" class="secondary">SAVE STYLE</button></div><div id="savedStyles"></div>
+      </section>
+    </section>
+    <section id="page-diagnostics" class="page">
+      <section class="panelCard restoredPage"><div class="sectionTag">DIAGNOSTICS + HISTORY</div><h2>Make the Hub police itself</h2>
+        <div class="twoButtonRow"><button id="dependencyCheck" class="primary">DEPENDENCY CHECKER</button><button id="editScore">EDIT SCORE</button></div>
+        <div class="twoButtonRow"><button id="timelineHeatmap">SHORT-CLIP HEATMAP</button><button id="fixMyEdit">FIX MY EDIT</button></div>
+        <button id="safeTestMode" class="secondary">SAFE TEST MODE • DUPLICATE COMP</button>
+        <pre id="diagnosticOutput" class="inspectorOutput">No diagnostics yet.</pre>
+        <div class="miniSectionTitle">HUB HISTORY</div><div class="twoButtonRow"><button id="refreshHistory">REFRESH HISTORY</button><button id="clearHistory" class="danger">CLEAR HISTORY</button></div><pre id="hubHistory" class="inspectorOutput">No Hub actions logged yet.</pre>
+      </section>
+    </section>
+    <section id="page-profile" class="page">
+      <section class="profileHero panelCard">
+        <div class="profileAvatarWrap">
+          <div class="vipCrown"><span class="vipCrownIcon">👑</span><span>VIP</span></div>
+          <div class="profileAvatar"><img id="profileImg" alt=""><div id="profileFallback">✦</div></div>
+        </div>
+        <div class="profileIdentity">
+          <div class="sectionTag">VERIFIED CREATOR PROFILE</div>
+          <h1 class="verifiedNameRow"><span id="profileHeading">officiallethannn</span><img class="verifiedBadgeImage" src="assets/verified_badge.png" alt="Verified badge" title="Verified creator"></h1>
+          <div class="verifiedCreatorPill">VERIFIED EDITOR</div>
+          <p>Premium 2.0 editor workspace</p>
+        </div>
+      </section>
+
+      <section class="profileStats">
+        <div><b>2.0</b><span>Premium</span></div>
+        <div><b>VIRAL</b><span>Engine</span></div>
+        <div><b>✦</b><span>Personal Hub</span></div>
+      </section>
+
+      <section class="panelCard profileSettings">
+        <h2>Profile</h2>
+        <input id="profileFile" type="file" accept="image/*" hidden>
+        <button id="chooseProfilePhoto" class="primary">CHOOSE PROFILE PHOTO</button>
+        <button id="adjustProfilePhoto" class="secondary">ADJUST CURRENT PHOTO CROP</button>
+        <div class="profilePhotoHint">Choose a photo, then drag it exactly where you want your face and zoom in/out before saving.</div>
+        <label class="fieldLabel">Display name<input id="displayName" type="text" value="officiallethannn"></label>
+        <label class="fieldLabel">Default panel size<select id="profileScale"><option>10</option><option>30</option><option>40</option><option>50</option><option>70</option><option>90</option><option selected>100</option><option>110</option><option>130</option><option>150</option></select></label>
+        <button id="saveProfile" class="primary">SAVE PROFILE SETTINGS</button>
+        <button id="resetProfile" class="secondary">REMOVE PROFILE PHOTO</button>
+      </section>
+
+      <section class="panelCard profileSettings">
+        <h2>Workspace</h2>
+        <div class="infoRows">
+          <div><b>Touchpad scroll</b><span>Anywhere in panel</span></div>
+          <div><b>Force Resolution</b><span>OFF until you enable it</span></div>
+          <div><b>Scene splitting</b><span>Separate optional button</span></div>
+          <div><b>Timeline</b><span>Snow → Jaws → flashes → transitions → local helpers → footage</span></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-softwareupdate" class="page">
+      <section class="panelCard softwareUpdateCard">
+        <div class="sectionTag">SOFTWARE UPDATE</div>
+        <div class="softwareUpdateHero">
+          <div class="softwareUpdateIcon" aria-hidden="true"><span>↻</span></div>
+          <div class="softwareUpdateIdentity">
+            <h2>Ethan's Editing Hub</h2>
+            <div class="softwareUpdateVersion" id="softwareCurrentVersion">PREMIUM 2.0 • 3.2.0</div>
+            <div class="softwareUpdateRelease" id="softwareCurrentRelease">Liquid Harmony</div>
+          </div>
+        </div>
+
+        <div class="softwareUpdateState" id="softwareUpdateState">
+          <b id="softwareUpdateHeadline">Your Hub is ready for Software Update.</b>
+          <span id="softwareUpdateSummary">Check for new fixes, tweaks and full Hub releases without replacing the panel by hand.</span>
+        </div>
+
+        <button id="checkForHubUpdate" class="primary softwareUpdateMainButton">CHECK FOR UPDATES</button>
+        <button id="installHubUpdate" class="primary softwareUpdateInstallButton" disabled>UPDATE NOW</button>
+        <div class="softwareUpdateProgress" id="softwareUpdateProgress" hidden>
+          <div class="softwareUpdateProgressTrack"><i id="softwareUpdateProgressBar"></i></div>
+          <span id="softwareUpdateProgressText">Preparing…</span>
+        </div>
+
+        <div class="softwareUpdateDetails" id="softwareUpdateDetails" hidden>
+          <div class="softwareUpdateAvailableTag">UPDATE AVAILABLE</div>
+          <h3 id="softwareUpdateName">—</h3>
+          <div class="softwareUpdateMeta" id="softwareUpdateMeta">—</div>
+          <pre id="softwareUpdateNotes">—</pre>
+        </div>
+
+        <label class="switchLine softwareUpdateAuto"><input id="autoCheckHubUpdates" type="checkbox" checked> <span>Automatically check when I open Software Update</span></label>
+        <div class="twoButtonRow softwareUpdateSecondaryRow">
+          <button id="installLocalHubUpdate" class="secondary">INSTALL LOCAL UPDATE…</button>
+          <button id="restoreHubVersion" class="secondary">RESTORE PREVIOUS VERSION</button>
+        </div>
+
+        <details class="softwareUpdateAdvanced" id="softwareUpdateAdvanced">
+          <summary>Advanced Update Settings</summary>
+          <p>The updater only installs packages for <b>com.ethan.editinghub</b>. Remote packages must include a SHA-256 checksum before Update Now is enabled.</p>
+          <label class="fieldLabel">Update feed URL
+            <input id="softwareUpdateFeedUrl" type="text" placeholder="https://…/latest.json" autocomplete="off" spellcheck="false">
+          </label>
+          <div class="twoButtonRow">
+            <button id="saveHubUpdateFeed" class="secondary">SAVE UPDATE FEED</button>
+            <button id="clearHubUpdateFeed" class="secondary">CLEAR FEED</button>
+          </div>
+          <div class="softwareUpdateFeedStatus" id="softwareUpdateFeedStatus">Cloud update feed: not linked yet.</div>
+        </details>
+
+        <div class="softwareUpdateFootnote">
+          <b>How updates install:</b> the Hub downloads and verifies the update, stages it safely, and makes a rollback backup. Close After Effects when prompted; the installer finishes while AE is closed. Reopen AE and the new Hub is there.
+        </div>
+      </section>
+    </section>
+
+
+
+    <section id="page-about" class="page">
+      <section class="panelCard aboutCard">
+        <div class="sectionTag">ABOUT ETHAN'S EDITING HUB</div>
+        <div class="aboutHero">
+          <div class="aboutAppIcon">✦</div>
+          <div><h2>Ethan's Editing Hub</h2><div class="aboutVersionLine">PREMIUM 2.0 • 3.2.0 • LIQUID HARMONY</div><p>Built for Ethan's After Effects workflow.</p></div>
+        </div>
+        <div class="aboutInfoGrid">
+          <div><span>After Effects</span><b id="aboutAEVersion">Reading…</b></div>
+          <div><span>Computer</span><b id="aboutDevice">Reading…</b></div>
+          <div><span>Operating system</span><b id="aboutOS">Reading…</b></div>
+          <div><span>CPU</span><b id="aboutCPU">Reading…</b></div>
+          <div><span>CPU cores / threads</span><b id="aboutCores">Reading…</b></div>
+          <div><span>Memory</span><b id="aboutRAM">Reading…</b></div>
+          <div class="aboutWide"><span>GPU</span><b id="aboutGPU">Reading…</b></div>
+        </div>
+        <div class="aboutLiveBox">
+          <div class="aboutLiveHead"><div><b>AE PERFORMANCE SNAPSHOT</b><span>Lightweight • only while About is open</span></div><label class="switchLine"><input id="aboutLiveToggle" type="checkbox"> <span>Live</span></label></div>
+          <div class="aboutMeters">
+            <div class="aboutMeter"><div><span>AfterFX CPU</span><b id="aboutCPUUsage">—</b></div><i><em id="aboutCPUBar"></em></i></div>
+            <div class="aboutMeter"><div><span>AfterFX GPU</span><b id="aboutGPUUsage">—</b></div><i><em id="aboutGPUBar"></em></i></div>
+            <div class="aboutMeter"><div><span>AE memory</span><b id="aboutMemUsage">—</b></div><i><em id="aboutMemBar"></em></i></div>
+          </div>
+          <p class="aboutPerformanceNote" id="aboutPerformanceNote">Live sampling is OFF by default. When enabled, it samples about every 8 seconds and pauses automatically while Render Queue is actively rendering. GPU process usage may show “Unavailable” on Windows builds/drivers that do not expose per-process GPU counters.</p>
+          <button id="refreshAbout" class="secondary">REFRESH ABOUT INFO</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="page-customize" class="page">
+      <section class="panelCard luxeStudioCard">
+        <div class="sectionTag">ETHAN APPEARANCE STUDIO</div>
+        <h2>Make the Hub yours</h2>
+        <p>Change the parts I actually control safely: Ethan panel colors, glass, labels, corner roundness, motion and branding. This does not patch Adobe DLLs.</p>
+        <div class="luxePreview" id="luxePreview"><span class="luxeOrb">✦</span><div><b id="luxePreviewTitle">Ethan's Editing Hub</b><small id="luxePreviewSub">TAHOE LIQUID GLASS</small></div></div>
+        <div class="settingsGrid luxeSettingsGrid">
+          <label>Hub name<input id="luxeHubName" value="Ethan's Editing Hub"></label>
+          <label>Subtitle<input id="luxeHubSub" value="PREMIUM 2.0 • TAHOE LUXE"></label>
+          <label>Accent<input id="luxeAccent" type="color" value="#7c5cff"></label>
+          <label>Glass tint<input id="luxeGlass" type="color" value="#eaf2ff"></label>
+          <label>Text<input id="luxeText" type="color" value="#f7f8ff"></label>
+          <label>Glow<input id="luxeGlow" type="color" value="#c9b7ff"></label>
+          <label>Glass opacity<input id="luxeOpacity" type="range" min="35" max="95" value="72"></label>
+          <label>Corner roundness<input id="luxeRadius" type="range" min="8" max="32" value="22"></label>
+          <label>Brand icon<select id="luxeIcon"><option value="✦">Diamond star</option><option value="◆">Diamond</option><option value="◈">Gem</option><option value="★">Star</option><option value="E">E</option></select></label>
+          <label>Motion<select id="luxeMotion"><option value="full">Liquid</option><option value="calm">Calm</option><option value="off">Off</option></select></label>
+          <label>Button naming<select id="luxeNaming"><option value="ethan">Ethan style</option><option value="clean">Clean/simple</option></select></label>
+        </div>
+        <div class="twoButtonRow"><button id="saveLuxeTheme" class="primary">SAVE CUSTOM LOOK</button><button id="resetLuxeTheme" class="secondary">RESET TAHOE LOOK</button></div>
+      </section>
+
+      <section class="panelCard systemCenterCard">
+        <div class="sectionTag">ETHAN AE SYSTEM CENTER</div><h2>Project intelligence</h2>
+        <p>Big-brain tools, explained like normal human words. None of these sit there hammering AE every frame.</p>
+        <div class="systemToolGrid">
+          <button id="initProject" class="primary"><b>FURNISH PROJECT</b><span>Creates your folders + names the main comp.</span></button>
+          <button id="liveStats"><b>PROJECT STATS</b><span>Counts comps, layers, effects, missing files and memory.</span></button>
+          <button id="effectProfiler"><b>WHO'S SLOWING ME DOWN?</b><span>Effect profiler.</span></button>
+          <button id="pluginHealth"><b>PLUGIN HEALTH</b><span>Checks the important effect families.</span></button>
+          <button id="projectDoctor"><b>PROJECT DOCTOR</b><span>Flags mechanical danger before render.</span></button>
+          <button id="autoRelink"><b>FIND MY MISSING SHIT</b><span>Safe exact-name relinker.</span></button>
+          <button id="fixEditAudio"><b>FIX EDIT AUDIO</b><span>Forces the audio bed name to Edit Audio.</span></button>
+          <button id="openNativePresets"><b>NATIVE PRESET LIBRARY</b><span>Your .ffx presets live in Hub + AE search.</span></button>
+        </div>
+        <pre id="systemOutput" class="systemOutput">System Center ready.</pre>
+        <label class="switchLine"><input id="autoStats" type="checkbox"> <span>Live stats every 5 seconds while this page is open (OFF by default for performance)</span></label>
+      </section>
+    </section>
+  </main>
+  <div id="photoEditor" class="photoEditorOverlay" hidden aria-hidden="true">
+    <section class="photoEditorCard" role="dialog" aria-modal="true" aria-labelledby="photoEditorTitle">
+      <div class="photoEditorHead">
+        <div>
+          <div class="sectionTag">PROFILE PHOTO</div>
+          <h2 id="photoEditorTitle">Position your photo</h2>
+        </div>
+        <button id="closePhotoEditor" class="iconClose" type="button" aria-label="Close photo editor">×</button>
+      </div>
+      <p class="cropHelp">Drag the photo to move it. Use the zoom slider to frame it exactly how you want inside the circle.</p>
+      <div class="cropStage" id="cropStage">
+        <canvas id="cropCanvas" width="360" height="360" aria-label="Profile photo crop preview"></canvas>
+        <div class="cropCircle" aria-hidden="true"></div>
+      </div>
+      <label class="cropZoomLabel">
+        <span>Zoom</span>
+        <input id="cropZoom" type="range" min="100" max="300" value="100" step="1">
+        <b id="cropZoomValue">100%</b>
+      </label>
+      <div class="nudgeArea" aria-label="Fine position controls">
+        <span>Fine move</span>
+        <div class="nudgeButtons">
+          <button id="nudgeLeft" type="button" title="Move left">←</button>
+          <button id="nudgeUp" type="button" title="Move up">↑</button>
+          <button id="nudgeDown" type="button" title="Move down">↓</button>
+          <button id="nudgeRight" type="button" title="Move right">→</button>
+        </div>
+      </div>
+      <div class="cropActions">
+        <button id="resetCrop" class="secondary" type="button">RESET CENTER</button>
+        <button id="applyCrop" class="primary" type="button">USE THIS CROP</button>
+      </div>
+    </section>
+  </div>
+
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

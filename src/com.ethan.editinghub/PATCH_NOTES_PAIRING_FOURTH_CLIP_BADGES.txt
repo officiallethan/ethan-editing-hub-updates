@@ -1,0 +1,16 @@
+Ethan's Editing Hub PREMIUM 2.0 — Pairing / 4th-from-end / badge micro-fix
+
+- HARD forward pair rules:
+  * Slide Left 1 at clip END => next visual clip REQUIRED Slide Left 2 at BEGINNING.
+  * Slide Down 1 at clip END => next visual clip REQUIRED Slide Down 2 at BEGINNING.
+  Existing matching partner effects are reused rather than duplicated.
+- Fourth visual clip from the END only:
+  * any Viral zoom Z-Dist key exactly +0.500 is changed to +0.160.
+  * Shift X / Shift Y helper keys stay 0.00.
+  * its S_Halftone Mask From Layer is forced to None.
+  * zoom safety-fill is rebuilt from the corrected Z-Dist.
+- ALL Edge Rays created by Viral Edit continue to use explicit brightness 0.00 -> 0.90 -> 0.00.
+- Verified badges:
+  * top/byline badge reduced slightly and lowered 1px.
+  * large profile badge retains its size and is lowered 2px for optical alignment.
+- Other zoom patterns intentionally left unchanged to avoid altering Ethan's otherwise-flawless edit pattern.

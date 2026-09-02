@@ -1,0 +1,28 @@
+Ethan's Editing Hub PREMIUM 2.0 — Inspector / Captions / Styles / Watermarks pass
+
+ADDED
+- SETTINGS page with saved defaults: Jaws frequency, Cross Glitch frames, Halftone frames,
+  Edge Rays middle brightness, periodic skew frequency, outgoing Jaws anticipation, incoming Jaws recovery.
+- REMOVE page: Remove All or Remove Specific. Specific mode scans only clips that actually carry the chosen effect.
+- VIRAL EDIT INSPECTOR page: clip/effect counts + suspicious transform scan.
+- AUTO GENERATE CAPTIONS: local whisper.cpp tiny.en Q5_1 bootstrap, CPU-only by default, no API charge.
+- Three extra one-click edit styles: Smooth Flow, Impact Flow, Cinematic Glide.
+- BEST ROTATE JAWS transition tool.
+- Five editable text watermark generators: Orbit Letters, Split Letters, Punch Glow, Ribbon Swing, Clean Pop.
+
+SMOOTH JAWS V6
+- Short-clip adaptive timing: outgoing anticipation happens closer to the cut.
+- Incoming clip is intentionally slower/longer than outgoing recovery.
+- Outgoing skew no longer starts early; it is limited to the last transition frames.
+- Literal comp-size BLACK solid with real bundled Jaws preset stays above the pair.
+- Black solid opacity is Easy-Eased 85 -> 91 -> 100 -> 94 -> 85.
+- Jaws Completion 100 -> 88 -> 70 -> 86 -> 100.
+- Jaws Direction follows left/right 0 -> +/-18 -> +/-90 -> +/-32 -> 0.
+- Height 0, Width 10, Shape Spikes, comp-centered.
+- Warp, blur, lens/fisheye pulse, squeeze, skew and Jaws animated keys are Easy Eased.
+
+AUTO CAPTIONS NOTES
+- First caption run executes SETUP_AUTO_CAPTIONS.bat and downloads whisper.cpp v1.9.1 CPU runtime
+  plus ggml-tiny.en-q5_1.bin. Downloads happen once and remain local.
+- ffmpeg must be available in PATH to extract a temporary 16 kHz mono WAV from the edit audio.
+- Captions are generated as editable AE text layers timed to Whisper word timestamps when available.

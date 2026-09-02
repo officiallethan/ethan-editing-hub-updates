@@ -1,0 +1,46 @@
+ETHAN'S EDITING HUB PREMIUM 2.0
+THEME V2 + VIRAL SMOOTH JAWS V3 — 2026-08-30
+
+UI THEMES
+- Added Rainbow theme.
+- Theme system now overrides the older high-specificity purple/pink surfaces.
+- Main page dropdown, tool buttons, cards, panels, theme selector, profile surfaces,
+  diamond circle, preset headers, audio controls, crop UI, status boxes, scrollbars,
+  primary actions, Smooth Jaws button, etc. all inherit the active theme.
+- Text colors remain readable and authored identity/plan badges remain branded.
+- Subscription plan cards now theme-match too; labels/icons still identify each plan.
+- Elite top plan badge follows the active UI theme.
+- Elite shows a rainbow gradient + rainbow icon only while Rainbow theme is active.
+
+SMOOTH JAWS ROTATE V3
+Reference: supplied 512x512, 30fps, 30-frame rendered clip.
+Visible timing matched as:
+- ~f04-f17: gradual foreground width squeeze / side reveal.
+- f18-f19: outgoing wiggly/lens/blur whip.
+- f20: incoming blurred counter-whip.
+- f21-f30: elastic recovery to full frame.
+
+Depth stack on BOTH clips:
+1) Foreground clip = smooth width squeeze + soft transform rotation + turbulence/wave/lens/blur.
+2) Full-frame ghost footage = dark/soft image visible in the exposed side gaps.
+3) REAL BCC Vertical Jaws = bundled tattooedhe8rt vertical Jaws preset on dedicated solids,
+   masked to left/right side columns behind the foreground clip.
+4) Brief translucent front BCC Jaws ghost at the whip.
+
+BCC Jaws motion follows direction:
+- OUT layer Completion builds 0 -> 100 while Rotation builds 0 -> +/-90.
+- IN layer starts from Completion 100 / Rotation +/-90 and releases to 0 / 0.
+- Across the cut this visually reads as Completion 0 -> 100 -> 0.
+
+VIRAL EDIT AUTO PATTERN
+- Intro -> Beat Drop: Smooth Jaws Rotate LEFT.
+- Clips 6 -> 7: RIGHT.
+- Clips 12 -> 13: LEFT.
+- Clips 18 -> 19: RIGHT.
+- Continues every 6 clips, alternating LEFT/RIGHT.
+- The manual Smooth Jaws Rotate button remains available and applies the LEFT version
+  to the two selected clips touching a cut.
+
+Existing fixes retained: original snow rebuild, Edge Rays 0->0.90->0 brightness,
+4th-from-last exception/anti-void handling, Slide 1->2 pairing rules, Edit Audio routing,
+end-locked watermark, presets library, subscription selection, dropdown navigation, etc.

@@ -1,0 +1,217 @@
+ETHAN'S EDITING HUB PREMIUM 2.0
+LOCKED VIRAL EDIT RECIPE — WINDOWS HP VICTUS / AFTER EFFECTS 2025
+Build: 2026-09-02 R1
+
+PURPOSE
+This file locks the latest known Ethan's Viral Edit choreography so future fixes do not accidentally regress to older conflicting values. The actual bundled .ffx files remain the authority for third-party preset-internal parameters.
+
+LATEST SETTINGS OVERRIDE OLDER PATCH NOTES
+- Smooth Jaws cadence: every 8th + 9th visual pair after Intro -> Beat Drop.
+- BCC Cross Glitch duration: 10 frames.
+- S_Halftone duration: 10 frames.
+- Edge Rays brightness peak: 0.97.
+- Smooth Skew cadence: every 5th Split Clip.
+- Smooth Jaws outgoing default: 8 frames.
+- Smooth Jaws incoming default: 13 frames.
+- Ethan Fade Exposure: -5 -> +1.77 -> 0. (+10 was an older superseded value.)
+
+INPUT / SELECTION
+1. User manually splits the source edit first.
+2. Selection is optional: if fewer than 2 visual clips are selected, Viral Edit automatically targets every eligible visual split clip in chronological order.
+3. Generated helpers, text, audio-only layers, edit audio, and the final EVERYTHING precomp are excluded from visual-clip detection.
+4. If Backup First is enabled, duplicate the active comp before editing.
+
+AUDIO / INTRO ROUTING
+1. Earliest/deepest original Intro source becomes exactly: ethan's edit audio.
+2. One duplicate becomes the visual Intro.
+3. ethan's edit audio: full-comp bounds where source permits, eye OFF, audio ON, bottom of main comp, excluded from visual processing.
+4. Visual Intro and all visual clips: video ON, audio OFF.
+5. Ethan Viral Reverb on edit audio: Reverb Time 2.2, Diffusion 72, Dry 78, Wet 36 when AE exposes those controls.
+6. Reassert the edit-audio name/state after naming, after precomp, and at finish.
+
+VISUAL NAMING
+- Visual clip 1: Intro
+- Visual clip 2: beat drop
+- Remaining: Split Clip#1, Split Clip#2, Split Clip#3, ...
+
+SAFE PRECOMP / FOUNDATION
+- Each visual split is safely precomped individually and parent layer keeps its clip name/bounds.
+- Ethan's Best Motion Tile applied to visual parent clips:
+  Tile Center = composition center
+  Tile Width = 100
+  Tile Height = 100
+  Output Width = 200
+  Output Height = 200
+  Mirror Edges = ON
+  Phase = 90
+
+RESTORED ORIGINAL ONE-CLICK FOUNDATION — EVERY VISUAL CLIP
+A. Pan Left, Too Calm, entire clip
+   - Transform effect named Ethan Pan Left [VIRAL]
+   - Position starts slightly right and eases to comp center.
+   - Horizontal offset = comp width * 0.055 * (2/8).
+   - Scale approximately 101.1575 -> 100.
+   - Bezier / temporal Easy Ease.
+
+B. Shake, Super Calm, beginning only
+   - Up to first 6 frames.
+   - Position amplitude p=3 with four Easy-Eased keys.
+   - Rotation amplitude 0.16 degrees with four Easy-Eased keys.
+   - Scale 100.55 -> 100.
+
+C. Black Flash 2
+   - 4-frame desired pulse at beginning.
+   - Calm peak = 45% opacity.
+   - Opacity: 0 -> 45 at 42% of pulse -> 15.75 at 72% -> 0.
+   - Easy Ease.
+
+D. Ethan Fade Exposure adjustment
+   - Full clip.
+   - Exposure: -5 at start -> +1.77 at midpoint -> 0 at end.
+   - Easy Ease.
+
+E. Blur -> Clean
+   - Intro receives restored blur; later clips also receive Viral blur transition.
+   - Viral blur transition uses Gaussian Blur 50 -> 0 over roughly first 3 frames and adjustment opacity 100 -> 0, Easy Eased.
+
+PER-CUT / PER-CLIP HELPERS
+- White Flash Transition at each post-Intro clip start: 2 frames, 85% opacity.
+- No Color -> Color adjustment on post-Intro clips: Master Saturation -100; adjustment opacity 100 -> 0 across first half; Easy Ease.
+
+BEAT DROP SPECIAL
+- BCC Ripple adjustment using exact bundled: tattooedhe8rt ripple.ffx.
+- Preset keys Easy Eased and centers forced to comp center where applicable.
+- Full black vertical Jaws solid using exact bundled: tattooedhe8rt cc jaws vertical.ffx.
+- Jaws solid is comp-sized, centered, keys Easy Eased.
+
+HORIZONTAL JAWS
+- Every 9th slot after Intro according to the Viral loop.
+- Exact bundled: tattooedhe8rt cc jaws horizontal.ffx.
+- Black solid; opacity 22 -> 100 -> 22; Easy Ease.
+
+HALFTONE / CROSS GLITCH CADENCE
+- Every 4th slot after Intro alternates S_Halftone and BCC Cross Glitch.
+
+S_Halftone — 10 frames
+- Effect: S_Halftone / S_HalfTone.
+- Mask From Layer points to the exact visual clip directly below unless the fourth-from-end exception requires None.
+- Dots Frequency 61.00
+- Dots Angle -25.00
+- Dots Rel Width 1.110
+- Dots Sharpness 5.800
+- Dots Lighten -0.030
+- Smooth Source 6.60
+- Color1 white
+- Color0 black
+- Dots Shift X 1.300
+- Dots Shift Y -6.000
+- Blur Mask 103.00
+- Invert Mask 0
+- Adjustment opacity 100 -> 0 by the last frame; Easy Ease.
+
+BCC Cross Glitch — 10 frames
+- Effect: BCC Cross Glitch / BCC CrossGlitch.
+- Adjustment spans 10 frames (or clip end if shorter).
+
+ZOOM / SLIDE CHOREOGRAPHY
+Repeating post-Intro pattern:
+1 zin
+2 zoutin
+3 zin
+4 zout
+5 slide down 1
+6 slide down 2
+7 zinout
+8 zoutin
+9 zin
+10 zout + slide down 1
+11 slide down 2
+... repeat.
+
+Exact bundled zoom presets:
+- tattooedhe8rt zoom in(2).ffx
+- tattooedhe8rt zoom out(2).ffx
+- tattooedhe8rt zoom in out(2).ffx
+- tattooedhe8rt zoom out in(2).ffx
+
+Viral zoom timing:
+- First authored animated key retimed to 3 comp frames BEFORE clip inPoint where possible.
+- Final authored animated key retimed to 4 frames AFTER clip outPoint where possible.
+- Shift X/Y/Z helpers remain neutral 0 unless user manually reframes.
+- Easy Ease / safety fill maintained.
+
+Exact bundled slide presets:
+- tattooedhe8rt slide left 1.ffx
+- tattooedhe8rt slide left 2.ffx
+- tattooedhe8rt slide down 1.ffx
+- tattooedhe8rt slide down 2.ffx
+
+Strict pairing:
+- Slide Left 1 at outgoing clip -> next visual clip MUST receive Slide Left 2.
+- Slide Down 1 -> next visual clip MUST receive Slide Down 2.
+- Incoming Slide Left 2 ensures prior clip has Left 1.
+- Slide rotation neutralized.
+- Slide 1 outgoing timing roughly outPoint-5f -> outPoint+3f.
+- Slide 2 incoming timing roughly inPoint-1f -> inPoint+7f.
+
+SMOOTH SKEW + EDGE RAYS
+- Every 5th named Split Clip.
+- Smooth Skew alternates -11 / +11 -> 0 across 10 frames; Easy Ease.
+- Exact bundled Edge Rays: tattooedhe8rt edge rays.ffx.
+- All preset animated properties Easy Eased.
+- Rays Length subtle motion: roughly 0.93x -> 1.08x -> 0.97x of authored/default value.
+- Rays Brightness: 0 -> 0.97 -> 0.
+- Edge Brightness: 0 -> 0.97 -> 0.
+- Beginning / midpoint / end keys, Easy Ease.
+
+SMOOTH JAWS ROTATE
+- Pair #1 always Intro -> Beat Drop, LEFT.
+- Then every 8th + 9th visual pair: 8->9, 16->17, 24->25, ...
+- Direction alternates after first pair: LEFT, RIGHT, LEFT, RIGHT, ...
+- Adaptive outgoing/incoming timing defaults: 8f OUT / 13f IN.
+- Real comp-size black Jaws solids using exact bundled vertical Jaws preset.
+- Height 0, Width 10, Spikes.
+- Completion recovers through the authored squeeze/rebound around 100 -> 70 -> 100; keys Easy Eased.
+- Incoming skew includes -15 -> 0.
+- Side/rear/ghost footage + elastic rotation / warp / lens / blur recovery retained by current V5 engine.
+
+FOURTH VISUAL CLIP FROM THE END — ONE EXCEPTION
+- Only that visual clip receives the special anti-void repair.
+- Authored positive Z-Dist exception uses +0.160 instead of the problematic +0.500 at the first affected value while retaining the later +0.500 choreography where authored by the current final routine.
+- Shift X / Y helpers remain neutral.
+- Special counter-scale follows Z-Dist; +0.160 is approximately 148% safety fill.
+- Halftone Mask From Layer forced to None on this exception when present.
+
+GLOBAL FINISH
+1. Jamesmaximoffs Flicker x2
+   - Exact bundled jamesmaximoffs flicker.ffx applied twice on a full-comp adjustment.
+   - Adjustment opacity 75.
+2. AE Snow
+   - Rebuilt with decoded values from the exact bundled AE Snow Particles Preset(2).ffx instead of loading the incompatible legacy serialization.
+   - Current CC Particle World values include Birth Rate .45, Longevity 1.00, Producer Radius X 4.11 / Y 5.16 / Z 6.18, Animation 9, Velocity 1.00, Gravity .50, particle type 5, Rotation Speed 180, Birth/Death Size .25, Size Variation 50, Max Opacity 75, plus the rest of the current rebuilt recipe.
+   - Deep Glow added when installed, with current Ethan recipe (Radius 500, Exposure .30, Spread 33, Amount .25, Mix 100 where exposed).
+3. Ethan Watermark
+   - Source: assets/4K 120 FPS WATERMARK ETHAN.mp4
+   - True 100% speed.
+   - END locked exactly to composition end.
+   - Fit by HEIGHT only, centered.
+   - Blending mode LIGHTEN.
+   - Audio OFF.
+   - Positioned directly under AE Snow.
+4. Timeline order
+   - Snow
+   - Watermark
+   - Jaws stacks
+   - White/Black flashes
+   - Flicker
+   - Halftone/Cross/Saturation/Exposure transitions
+   - Clip-local blur/ripple immediately touching their footage
+   - Rainbow labels.
+5. Final precomp
+   - All Viral visual precomps + tagged visual helpers are precomposed together into exactly: everything
+   - everything is full comp and selected.
+   - ethan's edit audio remains OUTSIDE, bottom, eye OFF, sound ON.
+   - Live text remains OUTSIDE and above everything.
+
+THIRD-PARTY PRESET AUTHORITY
+The exact .ffx files bundled under /presets are the authoritative storage for internal Tattooedhe8rt / Jamesmaximoffs preset settings. Do not replace them with approximations during future repair work.

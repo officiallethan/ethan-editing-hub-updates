@@ -1,0 +1,9 @@
+ETHAN EDITING HUB PREMIUM 2.0 — AUDIO/SNOW/JAWS REMASTER
+
+- Edit Audio routing is idempotent: exactly one generated Edit Audio layer.
+- Original bottom Intro becomes Edit Audio; one silent visual duplicate becomes Intro.
+- Visual clip naming happens after audio routing so Edit Audio cannot be renamed back to Intro.
+- Existing Edit Audio is reused on rerun; extras are removed.
+- Original AE Snow Particles Preset(2).ffx restored byte-for-byte; no native rebuild or retuning.
+- REVERB added to Voice Styles.
+- Smooth Jaws Rotate rebuilt from the supplied 30fps reference: front + rear vertical Jaws passes on BOTH selected clips, width squeeze revealing rear side footage, ghosted rear layer, elastic rotation, Turbulent Displace + Wave Warp + Optics Compensation + blur.

@@ -1,0 +1,7 @@
+PREMIUM 2.0 patch — Theme + Plan Badge + 4th-to-last Anti-Void
+
+- Small top/byline verified badge: 8px and lifted 0.5px for optical baseline alignment.
+- Full-panel themes: Purple/Pink default, Midnight Black, Pearl White, Baby Blue/Dark Blue, Emerald, Ruby, Black/Gold. Saved locally.
+- Permanent top subscription badge added beside VERIFIED EDITOR + VIP. It updates instantly with plan name/icon and remembers the selected plan.
+- 4th-to-last visual clip keeps Z-Dist +0.160 and Shift X/Y 0, but generic safety fill is replaced by a dedicated anti-void counter-scale (~148% at +0.160) so it cannot collapse into the black background.
+- All earlier Viral Edit, Smooth Jaws, slide pair, Edge Rays, snow, watermark, audio routing, preset, and subscription behaviors retained.

@@ -1,0 +1,16 @@
+Ethan's Editing Hub PREMIUM 2.0 — Smooth Jaws V5 patch
+
+- Smooth Jaws auto pattern: Intro -> Beat Drop, then every 8th -> 9th visual clip.
+- Alternating left/right direction.
+- Added literal comp-size black Jaws solid above each Smooth Jaws pair.
+- Jaws: centered to comp, Completion 100 -> 70 -> 100, Height 0, Width 10, Spikes,
+  Direction follows left/right rotate, Easy Eased.
+- Slower/adaptive outgoing and slower incoming recovery for short edit clips.
+- Incoming Smooth Jaws skew: -15 -> 0 over ~12 frames, Easy Eased.
+- Slight fisheye/lens pulse is keyframed normal -> subtle bend -> normal.
+- Rebound Swing / Panning button added to Motion, full-comp adjustment layer using tutorial S_Shake values.
+- Viral audio bed renamed exactly: ethan's edit audio
+- Cross Glitch length: 11 frames.
+- Halftone length: 12 frames.
+- Fourth-to-last visual clip: first Z-Dist key 0.160, second Z-Dist key 0.500; Shift X/Y remain 0.
+- Existing Edge Rays Easy Ease + 0 -> 0.97 -> 0 brightness pulse retained.

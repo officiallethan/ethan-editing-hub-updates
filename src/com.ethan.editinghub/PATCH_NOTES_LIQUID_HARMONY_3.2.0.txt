@@ -1,0 +1,14 @@
+ETHAN'S EDITING HUB 3.2.0 — LIQUID HARMONY
+
+- Fixed theme persistence across AE restarts.
+- Removed Appearance Studio bug that forced Tahoe on startup.
+- Themes sorted alphabetically.
+- Tahoe Liquid Glass split into Light + Dark neutral glass themes.
+- Theme-aware scrollbar, page selector, tabs, buttons, Software Update surfaces.
+- Top-right Software Update status chip: LATEST UPDATE / CHECKING / UPDATE AVAILABLE + count.
+- Added lightweight click/hover micro-interactions; no looping effects. CSS motion disables automatically during active Render Queue rendering when About live sampling sees it.
+- Added ABOUT tab after Software Update with AE version, Windows device, CPU, cores/threads, RAM, GPU and optional low-frequency AE-only CPU/GPU/memory sampling.
+- Viral Edit default Jaws spacing increased from 8 to 12 clips; periodic Smooth Skew from 5 to 8 clips. Existing legacy default settings auto-migrate while custom settings are preserved.
+- Smooth Jaws direction still alternates Left/Right, but BCC Jaws direction keys now follow the actual clip rotation angles instead of spinning much harder than the footage.
+- No Color -> Color remains exactly: every visual clip from Beat Drop onward gets a half-duration adjustment layer, Hue/Saturation Master Saturation = -100, Opacity 100% at clip start -> 0% at exact midpoint, Easy Eased.
+- Software Update page continues to display sizeLabel from latest.json for every future release.

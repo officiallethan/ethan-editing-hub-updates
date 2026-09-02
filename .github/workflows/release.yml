@@ -1,0 +1,43 @@
+name: Publish OTA release
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish a new release and update the live OTA feed (leave off to validate only)'
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ethan-hub-stable-release
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: github.repository == 'officiallethan/ethan-editing-hub-updates' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Test release contracts
+        run: python -m unittest discover -s tests -v
+      - name: Build and verify
+        run: python tools/hub_release.py build
+      - name: Check JavaScript syntax
+        run: node --check src/com.ethan.editinghub/js/app.js
+      - name: Publish and verify before promoting feed
+        if: inputs.publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/publish_release.py

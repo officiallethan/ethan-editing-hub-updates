@@ -1,0 +1,22 @@
+ETHAN'S EDITING HUB PREMIUM 2.0 — SMOOTH JAWS ROTATE PATCH
+
+SMOOTH JAWS ROTATE
+- Location: TOOLS > Editing toolbox > Transitions > SMOOTH JAWS ROTATE
+- Select the two split clips touching the cut, OR place the playhead near the cut.
+- Uses the bundled "tattooedhe8rt cc jaws vertical.ffx" as the background Jaws layer.
+- Reference timing was sampled from the supplied 1.000-second / 30fps clip.
+- Outgoing: smooth lead-in, lens/soft warp, ~88-degree final-frame rotation, motion softness.
+- Incoming: reverse lean, lens/soft warp, scale undershoot + rebound, then exact 100% / 0-degree settle.
+- Timing is converted from the 30fps reference into the current comp frame rate, so a 60fps comp keeps the same real-time feel instead of running twice as fast.
+- Re-running on the same cut removes/replaces the transition's tagged effects/background instead of stacking duplicates.
+
+WATERMARK
+- 100% speed / no time stretch change.
+- Watermark END is locked to COMP END exactly.
+- Full source duration is preserved whenever the comp is long enough.
+- Still fits comp HEIGHT only.
+- Still uses LIGHTEN.
+- Still stacks directly under AE Snow.
+
+UI
+- Main navigation wraps into visible rows so page tabs do not hide off-screen.

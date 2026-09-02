@@ -1,0 +1,4 @@
+Auto Captions uses whisper.cpp v1.9.1 (MIT) and the Whisper tiny.en Q5_1 model converted for whisper.cpp.
+Runtime: https://github.com/ggml-org/whisper.cpp
+Model: https://huggingface.co/ggerganov/whisper.cpp
+The Hub downloads these free components only on first caption use. Inference is local and CPU-only by default.

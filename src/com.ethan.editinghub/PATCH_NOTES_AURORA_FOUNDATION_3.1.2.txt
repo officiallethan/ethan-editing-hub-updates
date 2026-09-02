@@ -1,0 +1,8 @@
+ETHAN EDITING HUB 3.1.2 — AURORA FOUNDATION
+
+- Fixes Check for Updates on Windows by using curl.exe before any PowerShell fallback.
+- Fixes INSTALL LOCAL UPDATE by using Windows tar.exe to extract ZIPs.
+- Uses certutil for SHA-256 verification before PowerShell.
+- Adds real extraction/download diagnostics instead of misleading package-root errors.
+- Bakes in the permanent GitHub latest.json feed for officiallethan/ethan-editing-hub-updates.
+- Keeps the original PREMIUM 2.0 UI and Viral Edit backend.
