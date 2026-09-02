@@ -1,10 +1,10 @@
 {
   "extensionId": "com.ethan.editinghub",
-  "version": "3.1.2",
-  "build": "3120",
-  "name": "Aurora Foundation",
-  "notes": "Stable Software Update foundation. Remote update checking, Windows curl downloading, tar extraction, SHA-256 verification, backup and rollback support.",
-  "sizeLabel": "",
-  "packageUrl": "",
-  "sha256": ""
+  "version": "3.2.0",
+  "build": "3200",
+  "name": "Liquid Harmony",
+  "notes": "Theme persistence + fully theme-aware UI; Tahoe Liquid Glass Light/Dark; alphabetical themes; lightweight micro-interactions; persistent top-right update status; new About page with AE/device/specs and optional low-frequency AE-only performance snapshot; calmer Viral Edit rotation/skew cadence with BCC Jaws synced to the rotation; Beat Drop onward No Color -> Color locked to half-clip -100 saturation / 100%→0% opacity Easy Ease.",
+  "sizeLabel": "1.12 MB",
+  "packageUrl": "https://raw.githubusercontent.com/officiallethan/ethan-editing-hub-updates/refs/heads/main/EthanHub_Update_3.2.0_Liquid_Harmony.zip",
+  "sha256": "ECB726616B3CD1DD0F0CD195E485C7E727936724B1AF9B59924F58EBA4BEDECE"
 }
