@@ -25,6 +25,7 @@
   document.querySelectorAll('#pageDropdownMenu button[data-page]').forEach(function(b){b.onclick=function(e){if(e&&e.stopPropagation)e.stopPropagation();showPage(b.dataset.page);};});
   document.addEventListener('click',function(e){if(mainNav&&(!e||!mainNav.contains(e.target)))closePageMenu();});
   document.getElementById('headerProfileChip').onclick=function(){showPage('profile');};
+  document.getElementById('headerUpdateStatus').onclick=function(){showPage('softwareupdate');};
   showPage('home');
 
   function showTool(name){document.querySelectorAll('.toolTile').forEach(function(b){b.classList.toggle('active',b.dataset.tool===name);});document.querySelectorAll('.toolPanel').forEach(function(p){p.classList.toggle('active',p.id==='tool-'+name);});}
@@ -55,7 +56,7 @@
 
   function viralSettingsPayload(){
     function v(id,d){var e=document.getElementById(id);return e?e.value:d;}
-    return [v('setJawsEvery',12),v('setCrossFrames',10),v('setHalfFrames',10),v('setEdgeBrightness',.97),v('setSkewEvery',8),v('setJawsOut',8),v('setJawsIn',13)].join('|');
+    return [v('setJawsEvery',12),v('setCrossFrames',10),v('setHalfFrames',13),v('setEdgeBrightness',.97),v('setSkewEvery',8),v('setJawsOut',8),v('setJawsIn',13)].join('|');
   }
   function syncViralSettingsToAE(cb){evalAE("EthanHub_setRuntimeSettings('"+esc(viralSettingsPayload())+"')",function(){if(cb)cb();});}
   document.getElementById('viralBtn').onclick=function(){setStatus('Building FULL Viral Edit — auto-grabbing your visual split clips…');var force=document.getElementById('forceResolution').checked?'true':'false';var res=document.getElementById('resolutionSelect').value;var backup=document.getElementById('backupFirst').checked?'true':'false';syncViralSettingsToAE(function(){evalAE("EthanHub_viralEdit("+force+",'"+esc(res)+"',"+backup+")",setStatus);});};
@@ -162,9 +163,9 @@
 
   // Settings, Inspector, and surgical Remove UI.
   var setIds=['setJawsEvery','setCrossFrames','setHalfFrames','setEdgeBrightness','setSkewEvery','setJawsOut','setJawsIn'];
-  function loadViralSettings(){var defs=['12','10','10','0.97','8','8','13'],saved=null;try{saved=JSON.parse(localStorage.getItem('ethanHubViralSettings_RestoredFullEdit_v2')||'null');if(!saved){var old=JSON.parse(localStorage.getItem('ethanHubViralSettings_RestoredFullEdit_v1')||'null');if(old){saved=old;if(String(saved[0])==='8')saved[0]='12';if(String(saved[4])==='5')saved[4]='8';localStorage.setItem('ethanHubViralSettings_RestoredFullEdit_v2',JSON.stringify(saved));}}}catch(e){}setIds.forEach(function(id,i){var e=document.getElementById(id);if(e)e.value=(saved&&saved[i]!=null)?saved[i]:defs[i];});}
-  var saveViralSettings=document.getElementById('saveViralSettings');if(saveViralSettings)saveViralSettings.onclick=function(){var vals=setIds.map(function(id){return document.getElementById(id).value;});localStorage.setItem('ethanHubViralSettings_RestoredFullEdit_v2',JSON.stringify(vals));syncViralSettingsToAE(function(){setStatus('Viral Edit settings saved as your default.');});};
-  var resetViralSettings=document.getElementById('resetViralSettings');if(resetViralSettings)resetViralSettings.onclick=function(){localStorage.removeItem('ethanHubViralSettings_RestoredFullEdit_v2');loadViralSettings();syncViralSettingsToAE(function(){setStatus('Reset to Ethan defaults.');});};
+  function loadViralSettings(){var defs=['12','10','13','0.97','8','8','13'],saved=null;try{saved=JSON.parse(localStorage.getItem('ethanHubViralSettings_RestoredFullEdit_v3')||'null');if(!saved){saved=JSON.parse(localStorage.getItem('ethanHubViralSettings_RestoredFullEdit_v2')||'null');if(!saved){var old=JSON.parse(localStorage.getItem('ethanHubViralSettings_RestoredFullEdit_v1')||'null');if(old){saved=old;if(String(saved[0])==='8')saved[0]='12';if(String(saved[4])==='5')saved[4]='8';}}if(saved&&String(saved[2])==='10')saved[2]='13';if(saved)localStorage.setItem('ethanHubViralSettings_RestoredFullEdit_v3',JSON.stringify(saved));}}catch(e){}setIds.forEach(function(id,i){var e=document.getElementById(id);if(e)e.value=(saved&&saved[i]!=null)?saved[i]:defs[i];});}
+  var saveViralSettings=document.getElementById('saveViralSettings');if(saveViralSettings)saveViralSettings.onclick=function(){var vals=setIds.map(function(id){return document.getElementById(id).value;});localStorage.setItem('ethanHubViralSettings_RestoredFullEdit_v3',JSON.stringify(vals));syncViralSettingsToAE(function(){setStatus('Viral Edit settings saved as your default.');});};
+  var resetViralSettings=document.getElementById('resetViralSettings');if(resetViralSettings)resetViralSettings.onclick=function(){localStorage.removeItem('ethanHubViralSettings_RestoredFullEdit_v3');loadViralSettings();syncViralSettingsToAE(function(){setStatus('Reset to Ethan defaults.');});};
   loadViralSettings();syncViralSettingsToAE();
   var runInspector=document.getElementById('runInspector');if(runInspector)runInspector.onclick=function(){evalAE('EthanHub_inspectViral()',function(r){var box=document.getElementById('inspectorOutput');try{var d=JSON.parse(r),s='VISUAL CLIPS: '+d.clips+'\nZOOMS: '+d.zoom+'\nEDGE RAYS: '+d.edge+'\nSMOOTH SKEW: '+d.skew+'\nSMOOTH JAWS: '+d.jaws+'\nHALFTONE HELPERS: '+d.halftone+'\nCROSS GLITCH: '+d.cross+'\nSNOW: '+d.snow+'\nFLASHES: '+d.flash+'\n\nSUSPICIOUS TRANSFORMS:\n'+((d.suspicious&&d.suspicious.length)?d.suspicious.join('\n'):'None detected');box.textContent=s;}catch(e){box.textContent=r;}setStatus('Inspector scan complete.');});};
   var removeEffectSelect=document.getElementById('removeEffectSelect'),specificClipList=document.getElementById('specificClipList'),confirmRemoveSpecific=document.getElementById('confirmRemoveSpecific');
@@ -312,9 +313,9 @@
 // SOFTWARE UPDATE — safe in-panel updater for Windows / AE 2025
 // ============================================================
 (function(){
-  var CURRENT_VERSION='3.2.0';
-  var CURRENT_BUILD='3200';
-  var CURRENT_RELEASE='Liquid Harmony';
+  var CURRENT_VERSION='3.2.7';
+  var CURRENT_BUILD='3270';
+  var CURRENT_RELEASE='Permanent GitHub Channel';
   var EXTENSION_ID='com.ethan.editinghub';
   var lastManifest=null;
   var checking=false;
@@ -324,15 +325,15 @@
   function ae(code,cb){if(!window.__adobe_cep__){if(cb)cb('ERROR|CEP bridge unavailable.');return;}window.__adobe_cep__.evalScript(code,function(r){if(cb)cb(String(r||''));});}
   function setHeadline(h,s){if(E('softwareUpdateHeadline'))E('softwareUpdateHeadline').textContent=h;if(E('softwareUpdateSummary'))E('softwareUpdateSummary').textContent=s||'';}
   function setFeedText(t){if(E('softwareUpdateFeedStatus'))E('softwareUpdateFeedStatus').textContent=t;}
-  function headerUpdate(state,count){var box=E('headerUpdateStatus'),txt=E('headerUpdateText'),num=E('headerUpdateCount');if(!box||!txt)return;box.className='headerUpdateStatus '+(state==='available'?'is-available':state==='checking'?'is-checking':'is-latest');txt.textContent=state==='available'?'UPDATE AVAILABLE':state==='checking'?'CHECKING…':'LATEST UPDATE';if(num){var c=Math.max(0,parseInt(count||0,10)||0);num.hidden=!(state==='available'&&c);num.textContent=String(c||1);}}
+  function headerUpdate(state,count){var box=E('headerUpdateStatus'),txt=E('headerUpdateText'),num=E('headerUpdateCount');if(!box||!txt)return;var labels={'latest':'LATEST UPDATE','checking':'CHECKING…','available':'UPDATE AVAILABLE','preparing':'PREPARING UPDATE…','ready':'READY TO INSTALL'};var cls=(state==='available')?'is-available':(state==='ready')?'is-ready':(state==='checking'||state==='preparing')?'is-checking':'is-latest';box.className='headerUpdateStatus '+cls;txt.textContent=labels[state]||labels.latest;box.setAttribute('aria-label','Software Update status: '+txt.textContent);box.title=(state==='available')?'Update available — open Software Update':(state==='ready')?'Update ready to install — open Software Update':'Open Software Update';if(num){var c=Math.max(0,parseInt(count||0,10)||0);num.hidden=!(state==='available'||state==='ready');if(!c)num.hidden=true;num.textContent=String(c||1);}}
   function progress(show,pct,text){var box=E('softwareUpdateProgress'),bar=E('softwareUpdateProgressBar'),label=E('softwareUpdateProgressText');if(box)box.hidden=!show;if(bar)bar.style.width=Math.max(0,Math.min(100,pct||0))+'%';if(label)label.textContent=text||'';}
   function parseResult(r){try{return JSON.parse(r);}catch(e){return {ok:false,error:String(r||'Unknown updater response')};}}
-  function feed(){var def='https://raw.githubusercontent.com/officiallethan/ethan-editing-hub-updates/refs/heads/main/latest.json';try{return (localStorage.getItem('ethanHubUpdateFeedUrl')||def).trim();}catch(e){return def;}}
+  function feed(){var def='https://raw.githubusercontent.com/officiallethan/ethan-editing-hub-updates/refs/heads/main/latest.json';var oldDropbox='https://www.dropbox.com/scl/fo/sq3pmcx9ybnmsrrvr78m9/AApkrBLppkh55By938Z5Kf0?rlkey=o6yvzz0wkmpd1xknm9d2v24mr&dl=0';try{var saved=(localStorage.getItem('ethanHubUpdateFeedUrl')||'').trim();var sameGitHub=(saved===def)||/raw\.githubusercontent\.com\/officiallethan\/ethan-editing-hub-updates/i.test(saved);var oldDropboxFeed=(saved===oldDropbox)||/dropbox\.com\/scl\/fo\/sq3pmcx9ybnmsrrvr78m9/i.test(saved);if(!saved||sameGitHub||oldDropboxFeed){localStorage.setItem('ethanHubUpdateFeedUrl',def);return def;}return saved;}catch(e){return def;}}
   function semver(v){return String(v||'0').split('.').map(function(x){return parseInt(x,10)||0;});}
   function newer(a,b){var A=semver(a),B=semver(b),n=Math.max(A.length,B.length);for(var i=0;i<n;i++){var x=A[i]||0,y=B[i]||0;if(x>y)return true;if(x<y)return false;}return false;}
-  function renderCurrent(){if(E('softwareCurrentVersion'))E('softwareCurrentVersion').textContent='PREMIUM 2.0 • '+CURRENT_VERSION+' • BUILD '+CURRENT_BUILD;if(E('softwareCurrentRelease'))E('softwareCurrentRelease').textContent=CURRENT_RELEASE;var f=feed();if(E('softwareUpdateFeedUrl'))E('softwareUpdateFeedUrl').value=f;setFeedText(f?'Cloud update feed linked.':'Cloud update feed: not linked yet.');}
+  function renderCurrent(){if(E('softwareCurrentVersion'))E('softwareCurrentVersion').textContent='PREMIUM 2.0 • NEW VERSION';if(E('softwareCurrentRelease')){E('softwareCurrentRelease').textContent='';E('softwareCurrentRelease').hidden=true;}var f=feed();if(E('softwareUpdateFeedUrl'))E('softwareUpdateFeedUrl').value=f;setFeedText(f?'Cloud update feed linked.':'Cloud update feed: not linked yet.');}
   function hideUpdate(){lastManifest=null;if(E('softwareUpdateDetails'))E('softwareUpdateDetails').hidden=true;if(E('installHubUpdate'))E('installHubUpdate').disabled=true;progress(false,0,'');}
-  function showManifest(m){lastManifest=m;if(E('softwareUpdateDetails'))E('softwareUpdateDetails').hidden=false;if(E('softwareUpdateName'))E('softwareUpdateName').textContent=(m.name||'Ethan Hub Update')+' • '+m.version;if(E('softwareUpdateMeta'))E('softwareUpdateMeta').textContent='Build '+(m.build||'—')+(m.sizeLabel?' • '+m.sizeLabel:'');if(E('softwareUpdateNotes'))E('softwareUpdateNotes').textContent=m.notes||'No release notes provided.';if(E('installHubUpdate'))E('installHubUpdate').disabled=!(m.packageUrl&&m.sha256&&m.extensionId===EXTENSION_ID);}
+  function showManifest(m){lastManifest=m;if(E('softwareUpdateDetails'))E('softwareUpdateDetails').hidden=false;if(E('softwareUpdateName'))E('softwareUpdateName').textContent=(m.name||'Ethan Hub Update')+' • '+m.version;if(E('softwareUpdateMeta'))E('softwareUpdateMeta').textContent='Build '+(m.build||'—')+(m.sizeLabel?' • '+m.sizeLabel:'');if(E('softwareUpdateNotes'))E('softwareUpdateNotes').textContent=m.notes||'No release notes provided.';if(E('installHubUpdate'))E('installHubUpdate').disabled=!((m.packageReady||m.packageUrl)&&m.sha256&&m.extensionId===EXTENSION_ID);}
   function check(manual){
     if(checking)return;
     hideUpdate();renderCurrent();var f=feed();
@@ -343,8 +344,33 @@
   if(E('checkForHubUpdate'))E('checkForHubUpdate').onclick=function(){check(true);};
   if(E('saveHubUpdateFeed'))E('saveHubUpdateFeed').onclick=function(){var u=(E('softwareUpdateFeedUrl').value||'').trim();if(u&&!/^https:\/\//i.test(u)){setFeedText('Use an HTTPS update-feed URL.');return;}try{localStorage.setItem('ethanHubUpdateFeedUrl',u);}catch(e){}renderCurrent();setHeadline(u?'Update feed saved.':'Update feed cleared.',u?'Press CHECK FOR UPDATES.':'Remote updates are not linked.');};
   if(E('clearHubUpdateFeed'))E('clearHubUpdateFeed').onclick=function(){try{localStorage.removeItem('ethanHubUpdateFeedUrl');}catch(e){}if(E('softwareUpdateFeedUrl'))E('softwareUpdateFeedUrl').value='';hideUpdate();renderCurrent();setHeadline('Cloud update feed cleared.','You can link a new HTTPS feed at any time.');};
-  if(E('installHubUpdate'))E('installHubUpdate').onclick=function(){var f=feed();if(!lastManifest||!f)return;progress(true,12,'Downloading update…');setHeadline('Preparing update…','Do not close After Effects until the download and verification finish.');E('installHubUpdate').disabled=true;ae("EthanHub_prepareUpdate('"+esc(f)+"','"+CURRENT_VERSION+"')",function(r){var d=parseResult(r);if(!d.ok){progress(false,0,'');E('installHubUpdate').disabled=false;setHeadline('Update could not be prepared.',d.error||'Unknown updater error.');return;}progress(true,100,'Update verified and staged.');setHeadline('Update is ready to install.','SAVE YOUR PROJECT, then close After Effects. The updater will install the new Hub automatically while AE is closed. Reopen AE when the installer window says COMPLETE.');if(E('softwareUpdateSummary'))E('softwareUpdateSummary').textContent+=' Rollback backup: '+(d.backupHint||'automatic');});};
-  if(E('installLocalHubUpdate'))E('installLocalHubUpdate').onclick=function(){setHeadline('Choose an Ethan Hub update package…','Select the update ZIP; the Hub will validate its identity before staging it.');progress(true,10,'Waiting for update package…');ae("EthanHub_installLocalUpdate('"+CURRENT_VERSION+"')",function(r){var d=parseResult(r);if(!d.ok){progress(false,0,'');setHeadline(d.cancelled?'Update cancelled.':'Update package rejected.',d.error||'No update was installed.');return;}progress(true,100,'Update verified and staged.');setHeadline('Local update is ready to install.','SAVE YOUR PROJECT and close After Effects. The updater finishes automatically while AE is closed; then reopen AE.');});};
+  function pollBackgroundUpdate(jobId,startedAt){
+    ae("EthanHub_pollBackgroundUpdate('"+esc(jobId)+"')",function(r){
+      var d=parseResult(r),state=String(d.state||'working'),pct=Math.max(5,Math.min(100,parseInt(d.pct||10,10)||10));
+      if(!d.ok||state==='error'){
+        headerUpdate('available',1);progress(false,0,'');if(E('installHubUpdate'))E('installHubUpdate').disabled=false;
+        setHeadline('Update could not be prepared.',d.error||d.message||'Background updater failed.');return;
+      }
+      if(state==='ready'){
+        headerUpdate('ready',1);progress(true,100,'Update verified and staged.');
+        setHeadline('Update is ready to install.','SAVE YOUR PROJECT, then close After Effects. The updater will install the new Hub automatically while AE is closed. Reopen AE when the installer window says COMPLETE.');
+        if(E('softwareUpdateSummary'))E('softwareUpdateSummary').textContent+=' Rollback backup: '+(d.backupHint||'automatic');return;
+      }
+      if((new Date().getTime()-startedAt)>900000){
+        headerUpdate('available',1);progress(false,0,'');if(E('installHubUpdate'))E('installHubUpdate').disabled=false;
+        setHeadline('Background preparation timed out.','The worker did not finish within 15 minutes. No update was installed.');return;
+      }
+      headerUpdate('preparing',0);progress(true,pct,d.message||'Preparing update in background…');
+      setHeadline('Preparing update in background…','You can keep using After Effects while the updater downloads, verifies, and stages the release.');
+      setTimeout(function(){pollBackgroundUpdate(jobId,startedAt);},900);
+    });
+  }
+  if(E('installHubUpdate'))E('installHubUpdate').onclick=function(){
+    var f=feed();if(!lastManifest||!f)return;headerUpdate('preparing',0);progress(true,5,'Starting background updater…');
+    setHeadline('Starting update preparation…','You can keep using After Effects. The heavy update work runs outside AE.');E('installHubUpdate').disabled=true;
+    ae("EthanHub_startBackgroundUpdate('"+esc(f)+"','"+CURRENT_VERSION+"')",function(r){var d=parseResult(r);if(!d.ok||!d.jobId){headerUpdate('available',1);progress(false,0,'');E('installHubUpdate').disabled=false;setHeadline('Update could not be started.',d.error||'Background updater could not start.');return;}pollBackgroundUpdate(d.jobId,new Date().getTime());});
+  };
+  if(E('installLocalHubUpdate'))E('installLocalHubUpdate').onclick=function(){headerUpdate('preparing',0);setHeadline('Choose an Ethan Hub update package…','Select the update ZIP; the Hub will validate its identity before staging it.');progress(true,10,'Waiting for update package…');ae("EthanHub_installLocalUpdate('"+CURRENT_VERSION+"')",function(r){var d=parseResult(r);if(!d.ok){headerUpdate('latest',0);progress(false,0,'');setHeadline(d.cancelled?'Update cancelled.':'Update package rejected.',d.error||'No update was installed.');return;}headerUpdate('ready',1);progress(true,100,'Update verified and staged.');setHeadline('Local update is ready to install.','SAVE YOUR PROJECT and close After Effects. The updater finishes automatically while AE is closed; then reopen AE.');});};
   if(E('restoreHubVersion'))E('restoreHubVersion').onclick=function(){setHeadline('Preparing rollback…','Looking for the most recent automatic Hub backup.');ae('EthanHub_restorePreviousVersion()',function(r){var d=parseResult(r);if(!d.ok){setHeadline('No rollback was prepared.',d.error||'No previous version backup was found.');return;}setHeadline('Previous version is ready to restore.','SAVE YOUR PROJECT and close After Effects. The rollback runs while AE is closed; reopen AE afterward.');});};
   window.EthanHubSoftwareUpdate={onOpen:function(){renderCurrent();var auto=E('autoCheckHubUpdates');if(auto){try{var saved=localStorage.getItem('ethanHubAutoCheckUpdates');if(saved!==null)auto.checked=saved==='1';}catch(e){}auto.onchange=function(){try{localStorage.setItem('ethanHubAutoCheckUpdates',auto.checked?'1':'0');}catch(x){}};}if(!checkedOnOpen&&auto&&auto.checked){checkedOnOpen=true;check(false);}else if(!feed())setHeadline('Software Update is ready.','Link a permanent HTTPS update feed under Advanced Settings for true one-click cloud updates.');}};
   renderCurrent();headerUpdate('latest',0);

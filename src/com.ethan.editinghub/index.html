@@ -24,9 +24,9 @@
           <span id="activePlanBadge" class="activePlanBadge plan-badge-default"><span id="activePlanIcon" class="activePlanIcon">○</span><span id="activePlanText">DEFAULT</span></span>
         </div>
       </div>
-      <div id="headerUpdateStatus" class="headerUpdateStatus is-latest" title="Software Update status" role="status" aria-live="polite">
+      <button id="headerUpdateStatus" class="headerUpdateStatus is-latest" type="button" title="Open Software Update" aria-label="Software Update status: Latest update" aria-live="polite">
         <span class="updateStatusDot" aria-hidden="true"></span><span id="headerUpdateText">LATEST UPDATE</span><span id="headerUpdateCount" class="headerUpdateCount" hidden>1</span>
-      </div>
+      </button>
       <button class="profileChip" id="headerProfileChip" type="button" title="Open Profile">
         <span class="miniAvatar"><img id="avatarImg" alt=""><span id="avatarFallback">✦</span></span>
         <span class="headerNameWithBadge"><span id="headerProfileName">officiallethannn</span><img class="headerVerifiedBadge" src="assets/verified_badge.png" alt="Verified"></span><span class="headerVip"><span class="headerVipCrown">👑</span> VIP</span>
@@ -140,8 +140,8 @@
           <section class="toolPanel" id="tool-effects">
             <div class="panelTitle"><span>FX</span><div><h3>Effects</h3><p>Viral Edit automatically handles Halftone, Cross Glitch, Snow, Flicker, Edge Rays, flashes and clip-local helpers.</p></div></div>
             <div class="infoRows">
-              <div><b>Halftone</b><span>12-frame • exact Ethan reference settings • masks from the clip underneath</span></div>
-              <div><b>BCC Cross Glitch</b><span>11-frame transition • alternates with Halftone</span></div>
+              <div><b>Halftone</b><span>13-frame • exact Ethan reference settings • masks from the clip underneath</span></div>
+              <div><b>BCC Cross Glitch</b><span>10-frame transition • alternates with Halftone</span></div>
               <div><b>Edge Rays</b><span>Direct on footage • slow Easy-Eased ray movement</span></div>
               <div><b>Ripple</b><span>Adjustment touching its clip</span></div>
             </div>
@@ -370,7 +370,7 @@
         <div class="settingsGrid">
           <label>Jaws every N clips<input id="setJawsEvery" type="number" min="2" max="30" value="12"></label>
           <label>Cross Glitch frames<input id="setCrossFrames" type="number" min="2" max="40" value="10"></label>
-          <label>Halftone frames<input id="setHalfFrames" type="number" min="2" max="40" value="10"></label>
+          <label>Halftone frames<input id="setHalfFrames" type="number" min="2" max="40" value="13"></label>
           <label>Edge Rays middle brightness<input id="setEdgeBrightness" type="number" min="0.1" max="2" step="0.01" value="0.97"></label>
           <label>Smooth skew every N clips<input id="setSkewEvery" type="number" min="2" max="30" value="8"></label>
           <label>Jaws outgoing frames<input id="setJawsOut" type="number" min="4" max="20" value="8"></label>
@@ -454,8 +454,8 @@
           <div class="softwareUpdateIcon" aria-hidden="true"><span>↻</span></div>
           <div class="softwareUpdateIdentity">
             <h2>Ethan's Editing Hub</h2>
-            <div class="softwareUpdateVersion" id="softwareCurrentVersion">PREMIUM 2.0 • 3.2.0</div>
-            <div class="softwareUpdateRelease" id="softwareCurrentRelease">Liquid Harmony</div>
+            <div class="softwareUpdateVersion" id="softwareCurrentVersion">PREMIUM 2.0 • NEW VERSION</div>
+            <div class="softwareUpdateRelease" id="softwareCurrentRelease" hidden></div>
           </div>
         </div>
 
@@ -510,7 +510,7 @@
         <div class="sectionTag">ABOUT ETHAN'S EDITING HUB</div>
         <div class="aboutHero">
           <div class="aboutAppIcon">✦</div>
-          <div><h2>Ethan's Editing Hub</h2><div class="aboutVersionLine">PREMIUM 2.0 • 3.2.0 • LIQUID HARMONY</div><p>Built for Ethan's After Effects workflow.</p></div>
+          <div><h2>Ethan's Editing Hub</h2><div class="aboutVersionLine">PREMIUM 2.0 • 3.2.4 • LIQUID HARMONY — STATUS LINK</div><p>Built for Ethan's After Effects workflow.</p></div>
         </div>
         <div class="aboutInfoGrid">
           <div><span>After Effects</span><b id="aboutAEVersion">Reading…</b></div>

@@ -33,9 +33,9 @@ function EH_macTool(name){
 }
 var ETHAN_HUB_BUNDLED = (typeof ETHAN_HUB_BUNDLED !== 'undefined') ? ETHAN_HUB_BUNDLED : null;
 try { if(!ETHAN_HUB_BUNDLED && ETHAN_HUB_EXT) ETHAN_HUB_BUNDLED = new Folder(ETHAN_HUB_EXT + '/presets'); } catch(eBundle) {}
-var ETHAN_RUNTIME_SETTINGS = {jawsEvery:12,crossFrames:10,halfFrames:10,edgeBrightness:0.97,skewEvery:8,jawsInFrames:13,jawsOutFrames:8};
+var ETHAN_RUNTIME_SETTINGS = {jawsEvery:12,crossFrames:10,halfFrames:13,edgeBrightness:0.97,skewEvery:8,jawsInFrames:13,jawsOutFrames:8};
 var ETHAN_HUB_SETTINGS = 'EthansEditingHubPREMIUM';
-var ETHAN_HUB_BUILD = 'PREMIUM 2.0 • 3.2.0 LIQUID HARMONY';
+var ETHAN_HUB_BUILD = 'PREMIUM 2.0 • 3.2.7 PERMANENT GITHUB CHANNEL';
 var ETHAN_HUB_NATIVE_PRESETS = null;
 var ETHAN_VIRAL_PREFIX = 'ETHAN_VIRAL';
 
@@ -830,9 +830,9 @@ function EH_setLayerControlTo(root,names,layer){
     return walk(root);
 }
 function EH_halftone(c,clip){
-    // Exact values from Ethan's reference screenshot. The adjustment layer defaults to 10 frames,
+    // Exact values from Ethan's reference screenshot. The adjustment layer defaults to 13 frames,
     // and Sapphire's Mask from Layer is pointed at the exact visual clip directly underneath it.
-    var end=Math.min(clip.outPoint,clip.inPoint+c.frameDuration*(ETHAN_RUNTIME_SETTINGS.halfFrames||10)),adj=EH_makeAdjustment(c,'S_Halftone',clip.inPoint,end,clip.name,'HALFTONE');
+    var end=Math.min(clip.outPoint,clip.inPoint+c.frameDuration*(ETHAN_RUNTIME_SETTINGS.halfFrames||13)),adj=EH_makeAdjustment(c,'S_Halftone',clip.inPoint,end,clip.name,'HALFTONE');
     try{adj.moveBefore(clip);}catch(em){}
     var fx=EH_addEffect(adj,['S_HalfTone','S_Halftone']);if(!fx){try{adj.remove();}catch(er){}return null;}try{fx.name='S_Halftone [VIRAL]';}catch(e){}
     EH_setLayerControlTo(fx,['mask from layer','mask layer'],clip);
@@ -855,7 +855,7 @@ function EH_halftone(c,clip){
     return adj;
 }
 function EH_crossGlitch(c,clip){
-    // 10 frames: Ethan's restored Viral Edit timing.
+    // 13 frames: extended transition polish for clearer Halftone visibility.
     var end=Math.min(clip.outPoint,clip.inPoint+c.frameDuration*(ETHAN_RUNTIME_SETTINGS.crossFrames||10)),adj=EH_makeAdjustment(c,'BCC Cross Glitch',clip.inPoint,end,clip.name,'CROSS_GLITCH'),fx=EH_addEffect(adj,['BCC Cross Glitch','BCC CrossGlitch']);
     if(!fx){try{adj.remove();}catch(er){}return null;}try{fx.name='BCC Cross Glitch [VIRAL]';}catch(e){}return adj;
 }
@@ -1922,7 +1922,7 @@ function EthanHub_setRuntimeSettings(payload){
         function num(i,d,min,max){var v=parseFloat(p[i]);if(isNaN(v))v=d;return Math.max(min,Math.min(max,v));}
         ETHAN_RUNTIME_SETTINGS.jawsEvery=Math.round(num(0,8,2,30));
         ETHAN_RUNTIME_SETTINGS.crossFrames=Math.round(num(1,10,2,40));
-        ETHAN_RUNTIME_SETTINGS.halfFrames=Math.round(num(2,10,2,40));
+        ETHAN_RUNTIME_SETTINGS.halfFrames=Math.round(num(2,13,2,40));
         ETHAN_RUNTIME_SETTINGS.edgeBrightness=num(3,.97,.1,2.0);
         ETHAN_RUNTIME_SETTINGS.skewEvery=Math.round(num(4,5,2,30));
         ETHAN_RUNTIME_SETTINGS.jawsOutFrames=Math.round(num(5,8,4,20));
@@ -2187,12 +2187,12 @@ function EthanHub_aboutPerformance(){
 }
 
 // ============================================================
-// SOFTWARE UPDATE 3.2.0 "LIQUID HARMONY" — Windows-safe staged updater
-// Remote feed is opt-in. Remote packages REQUIRE SHA-256 verification.
+// SOFTWARE UPDATE 3.2.6 "UI POLISH — NEW VERSION" — preserves PowerShell/.NET ZIP transport from 3.2.5.5
+// Remote packages REQUIRE SHA-256 verification. Dropbox folder transport downloads one public folder archive, then uses local base64 chunks.
 // ============================================================
-var ETHAN_UPDATE_VERSION = '3.2.0';
-var ETHAN_UPDATE_BUILD = '3200';
-var ETHAN_UPDATE_RELEASE = 'Liquid Harmony';
+var ETHAN_UPDATE_VERSION = '3.2.7';
+var ETHAN_UPDATE_BUILD = '3270';
+var ETHAN_UPDATE_RELEASE = 'Permanent GitHub Channel';
 var ETHAN_UPDATE_EXTENSION_ID = 'com.ethan.editinghub';
 
 function EH_upJsonString(s){s=String(s==null?'':s);return '"'+s.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n')+'"';}
@@ -2211,6 +2211,105 @@ function EH_parseUpdateJson(text){try{return eval('('+text+')');}catch(e){return
 function EH_versionParts(v){var a=String(v||'0').split('.'),out=[];for(var i=0;i<a.length;i++)out.push(parseInt(a[i],10)||0);return out;}
 function EH_versionNewer(a,b){var A=EH_versionParts(a),B=EH_versionParts(b),n=Math.max(A.length,B.length);for(var i=0;i<n;i++){var x=A[i]||0,y=B[i]||0;if(x>y)return true;if(x<y)return false;}return false;}
 function EH_isHttps(url){return /^https:\/\//i.test(String(url||''));}
+function EH_isDropboxFolderFeed(url){return /^https:\/\/(?:www\.)?dropbox\.com\/scl\/fo\//i.test(String(url||''));}
+function EH_forceDropboxDownloadUrl(url){
+    var u=String(url||'').replace(/#.*$/,''),qpos=u.indexOf('?'),base=qpos>=0?u.substring(0,qpos):u,query=qpos>=0?u.substring(qpos+1):'',bits=query?query.split('&'):[],keep=[];
+    for(var i=0;i<bits.length;i++){var bit=String(bits[i]||''),eq=bit.indexOf('='),key=(eq>=0?bit.substring(0,eq):bit).toLowerCase();if(!bit||key==='dl'||key==='st'||key==='raw')continue;keep.push(bit);}
+    keep.push('dl=1');return base+'?'+keep.join('&');
+}
+function EH_safeChunkName(name){name=String(name||'');return !!name&&name.indexOf('..')<0&&name.indexOf('/')<0&&name.indexOf('\\')<0&&/^[0-9A-Za-z._-]+$/.test(name);}
+function EH_archiveEntryByBasename(entries,name){
+    name=String(name||'');
+    if(!name||name.indexOf('..')>=0||name.indexOf('/')>=0||name.indexOf('\\')>=0||!/^[0-9A-Za-z._-]+$/.test(name))return '';
+    var want=name.toLowerCase();
+    for(var i=0;i<(entries||[]).length;i++){
+        var e=String(entries[i]||'').replace(/\\/g,'/');
+        while(e.length&&e.charAt(e.length-1)==='/')e=e.substring(0,e.length-1);
+        var p=e.lastIndexOf('/'),base=p>=0?e.substring(p+1):e;
+        if(base.toLowerCase()===want)return e;
+    }
+    return '';
+}
+function EH_safeArchiveEntry(entry){
+    entry=String(entry||'').replace(/\\/g,'/');
+    return !!entry&&entry.charAt(0)!=='/'&&entry.indexOf('..')<0&&entry.indexOf(':')<0&&entry.indexOf('%')<0&&entry.indexOf('!')<0&&entry.indexOf('&')<0&&entry.indexOf('|')<0&&entry.indexOf('<')<0&&entry.indexOf('>')<0&&entry.indexOf('"')<0&&/^[0-9A-Za-z _().\/\-]+$/.test(entry);
+}
+function EH_listArchiveEntries(zipFile){
+    try{
+        var root=EH_updateRoot(),stamp=(new Date()).getTime(),listFile=new File(root.fsName+'/zip_list_'+stamp+'.txt'),errFile=new File(root.fsName+'/zip_list_'+stamp+'.err.txt'),psFile=new File(root.fsName+'/zip_list_'+stamp+'.ps1');
+        try{if(listFile.exists)listFile.remove();if(errFile.exists)errFile.remove();if(psFile.exists)psFile.remove();}catch(e0){}
+        var ps=[
+            "$ErrorActionPreference='Stop'",
+            "Add-Type -AssemblyName System.IO.Compression.FileSystem",
+            "$zip="+EH_psQuote(zipFile.fsName),
+            "$out="+EH_psQuote(listFile.fsName),
+            "$err="+EH_psQuote(errFile.fsName),
+            "try {",
+            "  $z=[System.IO.Compression.ZipFile]::OpenRead($zip)",
+            "  try {",
+            "    $lines=@($z.Entries | ForEach-Object { $_.FullName })",
+            "    [System.IO.File]::WriteAllText($out,($lines -join [Environment]::NewLine),(New-Object System.Text.UTF8Encoding($false)))",
+            "  } finally { $z.Dispose() }",
+            "} catch {",
+            "  [System.IO.File]::WriteAllText($err,$_.Exception.ToString(),(New-Object System.Text.UTF8Encoding($false)))",
+            "  exit 41",
+            "}"
+        ].join('\r\n');
+        if(!EH_writeText(psFile,ps))return {ok:false,error:'Could not create the PowerShell ZIP inspection helper.'};
+        var r=EH_runTempCmd('ZIP_LIST_DOTNET',[ '@echo off','setlocal','powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File '+EH_cmdQuote(psFile.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+        var out=EH_readText(listFile),err=EH_readText(errFile);
+        try{if(listFile.exists)listFile.remove();if(errFile.exists)errFile.remove();if(psFile.exists)psFile.remove();}catch(e1){}
+        if(!r.ok)return {ok:false,error:'Windows PowerShell/.NET could not inspect the Dropbox ZIP. '+String(err||r.out||'').replace(/\s+/g,' ').substring(0,700)};
+        var lines=String(out||'').split(/\r?\n/),entries=[];
+        for(var i=0;i<lines.length;i++){
+            var line=String(lines[i]||'').replace(/^\s+|\s+$/g,'');
+            if(!line)continue;
+            entries.push(line);
+        }
+        if(!entries.length)return {ok:false,error:'Dropbox ZIP opened successfully, but Windows .NET reported no archive entries. Capture detail: '+String(err||r.out||'').replace(/\s+/g,' ').substring(0,500)};
+        return {ok:true,entries:entries,detail:String(out||'')};
+    }catch(e){return {ok:false,error:'Dropbox ZIP listing error: '+e.toString()};}
+}
+function EH_readArchiveEntryText(zipFile,entry){
+    try{
+        if(!EH_safeArchiveEntry(entry))return {ok:false,error:'Dropbox ZIP contains an unsafe archive path.'};
+        var root=EH_updateRoot(),stamp=(new Date()).getTime(),outFile=new File(root.fsName+'/zip_read_'+stamp+'.txt'),errFile=new File(root.fsName+'/zip_read_'+stamp+'.err.txt'),psFile=new File(root.fsName+'/zip_read_'+stamp+'.ps1');
+        try{if(outFile.exists)outFile.remove();if(errFile.exists)errFile.remove();if(psFile.exists)psFile.remove();}catch(e0){}
+        var ps=[
+            "$ErrorActionPreference='Stop'",
+            "Add-Type -AssemblyName System.IO.Compression.FileSystem",
+            "$zip="+EH_psQuote(zipFile.fsName),
+            "$entryName="+EH_psQuote(entry),
+            "$out="+EH_psQuote(outFile.fsName),
+            "$err="+EH_psQuote(errFile.fsName),
+            "try {",
+            "  $z=[System.IO.Compression.ZipFile]::OpenRead($zip)",
+            "  try {",
+            "    $e=$z.Entries | Where-Object { $_.FullName -eq $entryName } | Select-Object -First 1",
+            "    if($null -eq $e){ throw ('Archive entry not found: '+$entryName) }",
+            "    $stream=$e.Open()",
+            "    try {",
+            "      $reader=New-Object System.IO.StreamReader($stream,[System.Text.Encoding]::UTF8,$true)",
+            "      try { $text=$reader.ReadToEnd() } finally { $reader.Dispose() }",
+            "    } finally { $stream.Dispose() }",
+            "    [System.IO.File]::WriteAllText($out,$text,(New-Object System.Text.UTF8Encoding($false)))",
+            "  } finally { $z.Dispose() }",
+            "} catch {",
+            "  [System.IO.File]::WriteAllText($err,$_.Exception.ToString(),(New-Object System.Text.UTF8Encoding($false)))",
+            "  exit 42",
+            "}"
+        ].join('\r\n');
+        if(!EH_writeText(psFile,ps))return {ok:false,error:'Could not create the PowerShell ZIP entry helper.'};
+        var r=EH_runTempCmd('ZIP_READ_DOTNET',[ '@echo off','setlocal','powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File '+EH_cmdQuote(psFile.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+        var text=EH_readText(outFile),err=EH_readText(errFile);
+        try{if(outFile.exists)outFile.remove();if(errFile.exists)errFile.remove();if(psFile.exists)psFile.remove();}catch(e1){}
+        if(!r.ok)return {ok:false,error:'Windows PowerShell/.NET could not read '+entry+'. '+String(err||r.out||'').replace(/\s+/g,' ').substring(0,700)};
+        return {ok:true,text:String(text||'')};
+    }catch(e){return {ok:false,error:'Dropbox ZIP entry read error: '+e.toString()};}
+}
+function EH_findNamedFileRecursive(folder,name,depth){
+    try{if(!folder||depth<0)return null;folder=new Folder(folder.fsName);if(!folder.exists)return null;var direct=new File(folder.fsName+'/'+name);if(direct.exists)return direct;var kids=folder.getFiles('*');for(var i=0;i<kids.length;i++)if(kids[i] instanceof Folder){var hit=EH_findNamedFileRecursive(kids[i],name,depth-1);if(hit)return hit;}}catch(e){}return null;
+}
 function EH_runTempCmd(tag,lines){
     try{
         var root=EH_updateRoot(),cmd=new File(root.fsName+'/'+tag+'_'+(new Date()).getTime()+'.cmd');
@@ -2232,18 +2331,126 @@ function EH_downloadTo(url,dest){
     if(dest.exists&&dest.length>0)return {ok:true,method:'curl.exe'};
     return {ok:false,error:'Download failed with Windows curl.exe. '+String(r.out||'').replace(/\s+/g,' ').substring(0,700)};
 }
-function EH_sha256(file){
-    try{
-        var r=EH_runTempCmd('SHA256',[ '@echo off','setlocal','certutil -hashfile '+EH_cmdQuote(file.fsName)+' SHA256','set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
-        var txt=String(r.out||'').toUpperCase(),mm=txt.match(/[A-F0-9]{64}/);if(mm)return mm[0];
-    }catch(e){}
+function EH_parseSha256Output(text){
+    var lines=String(text||'').toUpperCase().split(/\r?\n/);
+    for(var i=0;i<lines.length;i++){
+        var line=String(lines[i]||'').replace(/^\s+|\s+$/g,'');
+        if(/^[A-F0-9]{64}$/.test(line))return line;
+        var compact=line.replace(/\s+/g,'');
+        if(/^[A-F0-9]{64}$/.test(compact))return compact;
+    }
     return '';
+}
+function EH_shaMismatchMessage(expected,result){
+    var want=String(expected||'').replace(/\s/g,'').toUpperCase();
+    var got=result&&result.hash?String(result.hash).replace(/\s/g,'').toUpperCase():'unavailable';
+    var method=result&&result.method?String(result.method):'none';
+    var detail=result&&result.detail?String(result.detail).replace(/\s+/g,' ').substring(0,700):'';
+    return 'SHA-256 verification FAILED. The update was not installed.\nExpected: '+want+'\nActual: '+got+'\nMethod: '+method+(detail?'\nDetail: '+detail:'');
+}
+function EH_psSingleQuote(v){return "'"+String(v||'').replace(/'/g,"''")+"'";}
+function EH_manifestHasPackage(m){
+    if(!m)return false;
+    if(m.packageUrl&&EH_isHttps(m.packageUrl))return true;
+    if(String(m.packageEncoding||'')==='base64-chunks'&&m.packageParts&&m.packageParts.length){
+        for(var i=0;i<m.packageParts.length;i++)if(!EH_isHttps(m.packageParts[i]))return false;
+        return true;
+    }
+    if(String(m.packageEncoding||'')==='dropbox-folder-chunks'&&m.packageParts&&m.packageParts.length&&m.__dropboxArchivePath){
+        for(var j=0;j<m.packageParts.length;j++)if(!EH_safeChunkName(m.packageParts[j]))return false;
+        return true;
+    }
+    return false;
+}
+function EH_decodeBase64File(source,dest){
+    try{if(dest.exists)dest.remove();}catch(e0){}
+    var r=EH_runTempCmd('BASE64_DECODE',[ '@echo off','setlocal','certutil -f -decode '+EH_cmdQuote(source.fsName)+' '+EH_cmdQuote(dest.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+    if(dest.exists&&dest.length>0)return {ok:true,method:'certutil -decode'};
+    try{if(dest.exists)dest.remove();}catch(e1){}
+    var ps="powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"$ErrorActionPreference='Stop'; [IO.File]::WriteAllBytes("+EH_psSingleQuote(dest.fsName)+",[Convert]::FromBase64String([IO.File]::ReadAllText("+EH_psSingleQuote(source.fsName)+")))\"";
+    var r2=EH_runTempCmd('BASE64_DECODE_PS',[ '@echo off','setlocal',ps,'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+    if(dest.exists&&dest.length>0)return {ok:true,method:'PowerShell Convert.FromBase64String'};
+    return {ok:false,error:'Base64 package decode failed. certutil: '+String(r.out||'').replace(/\s+/g,' ').substring(0,300)+' | PowerShell: '+String(r2.out||'').replace(/\s+/g,' ').substring(0,300)};
+}
+function EH_downloadChunkedBase64Package(m,dest){
+    try{
+        var parts=m.packageParts||[];
+        if(!parts.length)return {ok:false,error:'Chunked package has no packageParts.'};
+        var root=EH_updateRoot(),combined=new File(root.fsName+'/package_'+(new Date()).getTime()+'.b64'),all='';
+        for(var i=0;i<parts.length;i++){
+            if(!EH_isHttps(parts[i]))return {ok:false,error:'Chunk '+(i+1)+' does not use HTTPS.'};
+            var pf=new File(root.fsName+'/chunk_'+('000'+(i+1)).slice(-3)+'.b64');
+            var dl=EH_downloadTo(String(parts[i]),pf);if(!dl.ok)return {ok:false,error:'Chunk '+(i+1)+'/'+parts.length+' download failed. '+dl.error};
+            var text=EH_readText(pf);if(!text)return {ok:false,error:'Chunk '+(i+1)+' downloaded empty.'};
+            all+=String(text).replace(/\s+/g,'');
+            try{pf.remove();}catch(rx){}
+        }
+        if(!EH_writeText(combined,all))return {ok:false,error:'Could not assemble base64 update package.'};
+        var dec=EH_decodeBase64File(combined,dest);try{combined.remove();}catch(rc){}
+        if(!dec.ok)return dec;
+        return {ok:true,method:'base64-chunks -> '+dec.method,parts:parts.length};
+    }catch(e){return {ok:false,error:'Chunked package error: '+e.toString()};}
+}
+function EH_downloadDropboxFolderChunks(m,dest){
+    try{
+        var parts=m.packageParts||[],archive=new File(String(m.__dropboxArchivePath||'')),entries=m.__dropboxArchiveEntries||[];
+        if(!archive.exists)return {ok:false,error:'Dropbox OTA bundle archive is unavailable.'};
+        if(!parts.length)return {ok:false,error:'Dropbox OTA package has no packageParts.'};
+        if(!entries.length){var listed=EH_listArchiveEntries(archive);if(!listed.ok)return listed;entries=listed.entries;}
+        var root=EH_updateRoot(),combined=new File(root.fsName+'/dropbox_package_'+(new Date()).getTime()+'.b64'),all='';
+        for(var i=0;i<parts.length;i++){
+            if(!EH_safeChunkName(parts[i]))return {ok:false,error:'Dropbox OTA chunk '+(i+1)+' has an unsafe filename.'};
+            var entry=EH_archiveEntryByBasename(entries,String(parts[i]));if(!entry)return {ok:false,error:'Dropbox OTA chunk '+(i+1)+'/'+parts.length+' is missing from the shared-folder ZIP: '+String(parts[i])};
+            var rd=EH_readArchiveEntryText(archive,entry);if(!rd.ok)return rd;
+            var text=String(rd.text||'').replace(/\s+/g,'');if(!text)return {ok:false,error:'Dropbox OTA chunk '+(i+1)+' is empty.'};all+=text;
+        }
+        if(!EH_writeText(combined,all))return {ok:false,error:'Could not assemble Dropbox OTA base64 package.'};
+        var dec=EH_decodeBase64File(combined,dest);try{combined.remove();}catch(e0){}if(!dec.ok)return dec;
+        return {ok:true,method:'Dropbox folder ZIP stream -> '+dec.method,parts:parts.length};
+    }catch(e){return {ok:false,error:'Dropbox OTA package error: '+e.toString()};}
+}
+function EH_downloadManifestPackage(m,dest){
+    if(m.packageUrl&&EH_isHttps(m.packageUrl))return EH_downloadTo(String(m.packageUrl),dest);
+    if(String(m.packageEncoding||'')==='base64-chunks')return EH_downloadChunkedBase64Package(m,dest);
+    if(String(m.packageEncoding||'')==='dropbox-folder-chunks')return EH_downloadDropboxFolderChunks(m,dest);
+    return {ok:false,error:'Update manifest does not contain a supported package transport.'};
+}
+function EH_sha256Detailed(file){
+    var certHash='',psHash='',certOut='',psOut='';
+    var root=EH_updateRoot(),stamp=(new Date()).getTime(),certFile=new File(root.fsName+'/sha_cert_'+stamp+'.txt'),certErr=new File(root.fsName+'/sha_cert_'+stamp+'.err.txt'),psFile=new File(root.fsName+'/sha_ps_'+stamp+'.txt'),psErr=new File(root.fsName+'/sha_ps_'+stamp+'.err.txt'),psScript=new File(root.fsName+'/sha_ps_'+stamp+'.ps1');
+    try{
+        try{if(certFile.exists)certFile.remove();if(certErr.exists)certErr.remove();}catch(c0){}
+        var c=EH_runTempCmd('SHA256_CERTUTIL_OUT',[ '@echo off','setlocal','certutil -hashfile '+EH_cmdQuote(file.fsName)+' SHA256 > '+EH_cmdQuote(certFile.fsName)+' 2> '+EH_cmdQuote(certErr.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+        certOut=EH_readText(certFile);certHash=EH_parseSha256Output(certOut);
+        if(!certHash){var ce=EH_readText(certErr);if(ce)certOut=certOut+' '+ce;if(c&&c.out)certOut=certOut+' '+String(c.out);}
+    }catch(e0){certOut=e0.toString();}
+    try{
+        try{if(psFile.exists)psFile.remove();if(psErr.exists)psErr.remove();if(psScript.exists)psScript.remove();}catch(p0){}
+        var ps=[
+            "$ErrorActionPreference='Stop'",
+            "$hash=(Get-FileHash -LiteralPath "+EH_psQuote(file.fsName)+" -Algorithm SHA256).Hash",
+            "[System.IO.File]::WriteAllText("+EH_psQuote(psFile.fsName)+",$hash,(New-Object System.Text.UTF8Encoding($false)))"
+        ].join('\r\n');
+        if(!EH_writeText(psScript,ps))throw new Error('Could not create PowerShell SHA helper.');
+        var r=EH_runTempCmd('SHA256_POWERSHELL_OUT',[ '@echo off','setlocal','powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File '+EH_cmdQuote(psScript.fsName)+' 2> '+EH_cmdQuote(psErr.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
+        psOut=EH_readText(psFile);psHash=EH_parseSha256Output(psOut);
+        if(!psHash){var pe=EH_readText(psErr);if(pe)psOut=psOut+' '+pe;if(r&&r.out)psOut=psOut+' '+String(r.out);}
+    }catch(e1){psOut=e1.toString();}
+    try{if(certFile.exists)certFile.remove();if(certErr.exists)certErr.remove();if(psFile.exists)psFile.remove();if(psErr.exists)psErr.remove();if(psScript.exists)psScript.remove();}catch(cleanErr){}
+    if(certHash&&psHash){
+        if(certHash===psHash)return {ok:true,hash:certHash,method:'certutil + Get-FileHash',detail:'Both Windows hash engines agreed via temp-file capture.'};
+        return {ok:false,hash:certHash,method:'certutil/Get-FileHash disagreement',detail:'certutil='+certHash+' | Get-FileHash='+psHash};
+    }
+    if(certHash)return {ok:true,hash:certHash,method:'certutil',detail:'Get-FileHash fallback unavailable: '+String(psOut||'').replace(/\s+/g,' ').substring(0,350)};
+    if(psHash)return {ok:true,hash:psHash,method:'Get-FileHash',detail:'certutil unavailable: '+String(certOut||'').replace(/\s+/g,' ').substring(0,350)};
+    return {ok:false,hash:'',method:'certutil + Get-FileHash',detail:'certutil: '+String(certOut||'').replace(/\s+/g,' ').substring(0,300)+' | Get-FileHash: '+String(psOut||'').replace(/\s+/g,' ').substring(0,300)};
 }
 function EH_extractZip(zipFile,stage){
     try{
-        var r=EH_runTempCmd('EXTRACT',[ '@echo off','setlocal','where tar.exe >NUL 2>&1','if errorlevel 1 (echo TAR_NOT_FOUND&echo __EH_EXIT__=9009&exit /b 0)','tar.exe -xf '+EH_cmdQuote(zipFile.fsName)+' -C '+EH_cmdQuote(stage.fsName),'set RC=%ERRORLEVEL%','echo __EH_EXIT__=%RC%','exit /b 0' ]);
-        var kids=[];try{kids=stage.getFiles();}catch(e0){}
-        if(kids&&kids.length)return {ok:true,method:'tar.exe',detail:String(r.out||'')};
+        var qstage=EH_cmdQuote(stage.fsName);
+        var r=EH_runTempCmd('EXTRACT',[ '@echo off','setlocal','where tar.exe >NUL 2>&1','if errorlevel 1 (echo TAR_NOT_FOUND&echo __EH_EXIT__=9009&exit /b 0)','tar.exe -xf '+EH_cmdQuote(zipFile.fsName)+' -C '+qstage,'set RC=%ERRORLEVEL%','if not "%RC%"=="0" (echo __EH_FILES__=0&echo __EH_EXIT__=%RC%&exit /b 0)','dir /b /a '+qstage+' 2>NUL | findstr /R /C:"." >NUL','if errorlevel 1 (echo __EH_FILES__=0) else (echo __EH_FILES__=1)','echo __EH_EXIT__=0','exit /b 0' ]);
+        var hasFiles=String(r.out||'').indexOf('__EH_FILES__=1')>=0;
+        if(r.ok&&hasFiles)return {ok:true,method:'tar.exe',detail:String(r.out||'')};
         return {ok:false,error:'ZIP extraction failed with Windows tar.exe. '+String(r.out||'').replace(/\s+/g,' ').substring(0,700)};
     }catch(e){return {ok:false,error:'ZIP extraction error: '+e.toString()};}
 }
@@ -2251,11 +2458,25 @@ function EH_validateManifest(m,currentVersion){
     if(!m)return 'Manifest is not valid JSON.';
     if(String(m.extensionId||'')!==ETHAN_UPDATE_EXTENSION_ID)return 'Manifest extensionId must be '+ETHAN_UPDATE_EXTENSION_ID+'.';
     if(!m.version)return 'Manifest has no version.';
-    if(!m.packageUrl||!EH_isHttps(m.packageUrl))return 'Manifest packageUrl must use HTTPS.';
+    var mode=String(m.packageMode||'full');if(mode!=='full'&&mode!=='overlay')return 'Manifest packageMode must be full or overlay.';
+    if(!EH_manifestHasPackage(m))return 'Manifest must contain a supported direct, HTTPS chunked, or Dropbox-folder package transport.';
     if(!m.sha256||String(m.sha256).replace(/\s/g,'').length!==64)return 'Manifest must include a 64-character SHA-256 checksum.';
     return '';
 }
+function EH_manifestForDropboxFolder(feedUrl){
+    try{
+        var root=EH_updateRoot(),archive=new File(root.fsName+'/dropbox_ota_bundle.zip');
+        try{if(archive.exists)archive.remove();}catch(e0){}
+        var direct=EH_forceDropboxDownloadUrl(feedUrl),dl=EH_downloadTo(direct,archive);if(!dl.ok)return {ok:false,error:'Dropbox OTA folder download failed. '+dl.error};
+        var listed=EH_listArchiveEntries(archive);if(!listed.ok)return {ok:false,error:'Dropbox OTA folder downloaded, but its ZIP could not be inspected. '+listed.error};
+        var entry=EH_archiveEntryByBasename(listed.entries,'latest.json');if(!entry)return {ok:false,error:'Dropbox OTA folder ZIP does not contain latest.json. Archive entries: '+listed.entries.slice(0,12).join(', ')};
+        var rd=EH_readArchiveEntryText(archive,entry);if(!rd.ok)return {ok:false,error:rd.error};
+        var m=EH_parseUpdateJson(rd.text);if(!m)return {ok:false,error:'Dropbox OTA latest.json is invalid.'};m.__dropboxArchivePath=archive.fsName;m.__dropboxArchiveEntries=listed.entries;
+        return {ok:true,manifest:m,method:'Dropbox shared folder ZIP stream'};
+    }catch(e){return {ok:false,error:'Dropbox OTA feed error: '+e.toString()};}
+}
 function EH_manifestForFeed(feedUrl){
+    if(EH_isDropboxFolderFeed(feedUrl))return EH_manifestForDropboxFolder(feedUrl);
     var root=EH_updateRoot(),mf=new File(root.fsName+'/latest.json');try{if(mf.exists)mf.remove();}catch(e0){}
     var dl=EH_downloadTo(feedUrl,mf);if(!dl.ok)return {ok:false,error:dl.error};
     var txt=EH_readText(mf),m=EH_parseUpdateJson(txt);if(!m)return {ok:false,error:'Update feed downloaded, but latest.json is invalid.'};
@@ -2267,47 +2488,95 @@ function EthanHub_checkForUpdates(feedUrl,currentVersion){
         if(!EH_isHttps(feedUrl))return EH_upJsonObj({ok:false,error:'Software Update needs an HTTPS feed URL.'});
         var r=EH_manifestForFeed(feedUrl);if(!r.ok)return EH_upJsonObj({ok:false,error:r.error});var m=r.manifest;
         if(String(m.extensionId||'')!==ETHAN_UPDATE_EXTENSION_ID)return EH_upJsonObj({ok:false,error:'This feed belongs to '+String(m.extensionId||'another extension')+'.'});
-        return EH_upJsonObj({ok:true,extensionId:ETHAN_UPDATE_EXTENSION_ID,updateAvailable:EH_versionNewer(String(m.version),String(currentVersion||ETHAN_UPDATE_VERSION)),version:String(m.version||''),build:String(m.build||''),name:String(m.name||'Ethan Hub Update'),notes:String(m.notes||''),sizeLabel:String(m.sizeLabel||''),packageUrl:String(m.packageUrl||''),sha256:String(m.sha256||'')});
+        return EH_upJsonObj({ok:true,extensionId:ETHAN_UPDATE_EXTENSION_ID,updateAvailable:EH_versionNewer(String(m.version),String(currentVersion||ETHAN_UPDATE_VERSION)),version:String(m.version||''),build:String(m.build||''),name:String(m.name||'Ethan Hub Update'),notes:String(m.notes||''),sizeLabel:String(m.sizeLabel||''),packageUrl:String(m.packageUrl||''),packageReady:EH_manifestHasPackage(m),packageEncoding:String(m.packageEncoding||'direct'),packageMode:String(m.packageMode||'full'),sha256:String(m.sha256||'')});
     }catch(e){return EH_upJsonObj({ok:false,error:'CHECK ERROR: '+e.toString()});}
 }
-function EH_findPayload(stage){
-    var cands=[new Folder(stage.fsName+'/payload/com.ethan.editinghub'),new Folder(stage.fsName+'/com.ethan.editinghub'),stage];
-    for(var i=0;i<cands.length;i++){var a=new File(cands[i].fsName+'/index.html'),b=new File(cands[i].fsName+'/CSXS/manifest.xml'),c=new File(cands[i].fsName+'/jsx/backend.jsx');if(a.exists&&b.exists&&c.exists)return cands[i];}
+function EH_findPayload(stage,packageMode){
+    var mode=String(packageMode||'full'),cands=[new Folder(stage.fsName+'/payload/com.ethan.editinghub'),new Folder(stage.fsName+'/com.ethan.editinghub'),stage];
+    for(var i=0;i<cands.length;i++){
+        if(mode==='overlay'){
+            var marker=new File(cands[i].fsName+'/updater/overlay_release.json');if(marker.exists){var meta=EH_parseUpdateJson(EH_readText(marker));if(meta&&String(meta.extensionId||'')===ETHAN_UPDATE_EXTENSION_ID)return cands[i];}
+        }else{
+            var a=new File(cands[i].fsName+'/index.html'),b=new File(cands[i].fsName+'/CSXS/manifest.xml'),c=new File(cands[i].fsName+'/jsx/backend.jsx');if(a.exists&&b.exists&&c.exists)return cands[i];
+        }
+    }
     return null;
 }
-function EH_makeInstallCmd(payload,sourceVersion,targetVersion){
-    var root=EH_updateRoot(),backs=EH_updateBackups(),cmd=new File(root.fsName+'/INSTALL_PENDING_UPDATE.cmd');
-    var stamp=(new Date()).getTime(),backup=new Folder(backs.fsName+'/'+String(sourceVersion||ETHAN_UPDATE_VERSION).replace(/[^0-9A-Za-z._-]/g,'_')+'_'+stamp);
-    var ext=ETHAN_HUB_EXT;
-    var lines=['@echo off','setlocal','title Ethan Editing Hub Software Update','echo.','echo ETHAN EDITING HUB SOFTWARE UPDATE','echo =================================','echo Update: '+String(sourceVersion||'current')+' to '+String(targetVersion||'new'),'echo.','echo Waiting for After Effects to close...',' :WAITAE','tasklist /FI "IMAGENAME eq AfterFX.exe" 2>NUL | find /I "AfterFX.exe" >NUL','if not errorlevel 1 (','  timeout /t 2 /nobreak >NUL','  goto WAITAE',')','echo Backing up current Hub...','if not exist '+EH_cmdQuote(backup.fsName)+' mkdir '+EH_cmdQuote(backup.fsName),'robocopy '+EH_cmdQuote(ext)+' '+EH_cmdQuote(backup.fsName)+' /E /COPY:DAT /R:1 /W:1 /NFL /NDL /NJH /NJS >NUL','echo Installing verified update...','robocopy '+EH_cmdQuote(payload.fsName)+' '+EH_cmdQuote(ext)+' /MIR /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS >NUL','echo '+String(targetVersion||'updated')+' > '+EH_cmdQuote(root.fsName+'/last_installed_version.txt'),'echo.','echo =================================','echo UPDATE COMPLETE','echo Backup: '+backup.fsName,"echo Reopen After Effects and open Ethan's Editing Hub PREMIUM 2.0.",'echo =================================','echo.','pause','endlocal'];
-    if(!EH_writeText(cmd,lines.join('\r\n')))return {ok:false,error:'Could not create the staged installer.'};
-    try{system.callSystem('cmd.exe /c start "" /min '+EH_cmdQuote(cmd.fsName));}catch(e){return {ok:false,error:'Could not launch the staged installer: '+e.toString()};}
-    return {ok:true,backupHint:backup.fsName,cmd:cmd.fsName};
+function EH_launchDetachedInstaller(cmd,logFile){
+    try{
+        var root=EH_updateRoot(),vbs=new File(root.fsName+'/LAUNCH_PENDING_UPDATE.vbs');
+        var child='cmd.exe /d /c call '+EH_cmdQuote(cmd.fsName)+' >> '+EH_cmdQuote(logFile.fsName)+' 2>&1';
+        var escaped=String(child).replace(/"/g,'""');
+        var vb=['On Error Resume Next','Set sh = CreateObject("WScript.Shell")','rc = sh.Run("'+escaped+'", 0, false)','If Err.Number <> 0 Then WScript.Quit 1','WScript.Quit 0'];
+        if(!EH_writeText(vbs,vb.join('\r\n')))return {ok:false,error:'Could not create the detached FreeFlow launcher.'};
+        var out=String(system.callSystem('wscript.exe //B //Nologo '+EH_cmdQuote(vbs.fsName))||'');
+        return {ok:true,detail:out};
+    }catch(e){return {ok:false,error:'Could not launch the detached FreeFlow installer: '+e.toString()};}
 }
-function EH_stageUpdateZip(zipFile,sourceVersion,targetVersion,expectedSha){
+function EH_makeInstallCmd(payload,sourceVersion,targetVersion,packageMode){
+    var root=EH_updateRoot(),backs=EH_updateBackups(),cmd=new File(root.fsName+'/INSTALL_PENDING_UPDATE.cmd'),logFile=new File(root.fsName+'/freeflow_update.log');
+    var stamp=(new Date()).getTime(),backup=new Folder(backs.fsName+'/'+String(sourceVersion||ETHAN_UPDATE_VERSION).replace(/[^0-9A-Za-z._-]/g,'_')+'_'+stamp);
+    var ext=ETHAN_HUB_EXT,mode=(String(packageMode||'full')==='overlay'?'overlay':'full'),copySwitch=(mode==='overlay'?'/E':'/MIR');
+    var lines=['@echo off','setlocal EnableExtensions EnableDelayedExpansion','title Ethan Editing Hub Software Update','echo FREEFLOW_START '+stamp,'echo Update: '+String(sourceVersion||'current')+' to '+String(targetVersion||'new'),'echo Package mode: '+mode,'set /a WAIT_COUNT=0',':WAITAE','tasklist /FI "IMAGENAME eq AfterFX.exe" 2>NUL | find /I "AfterFX.exe" >NUL','if not errorlevel 1 (','  set /a WAIT_COUNT+=1','  if !WAIT_COUNT! GEQ 300 (','    echo FREEFLOW_TIMEOUT: AfterFX.exe remained open for 600 seconds.','    exit /b 20','  )','  timeout /t 2 /nobreak >NUL','  goto WAITAE',')','echo Backing up current Hub...','if not exist '+EH_cmdQuote(backup.fsName)+' mkdir '+EH_cmdQuote(backup.fsName),'robocopy '+EH_cmdQuote(ext)+' '+EH_cmdQuote(backup.fsName)+' /E /COPY:DAT /R:1 /W:1 /NFL /NDL /NJH /NJS >NUL','set BACK_RC=!ERRORLEVEL!','if !BACK_RC! GEQ 8 (echo FREEFLOW_BACKUP_FAILED: robocopy exit !BACK_RC!&exit /b 21)','echo Installing verified update...','robocopy '+EH_cmdQuote(payload.fsName)+' '+EH_cmdQuote(ext)+' '+copySwitch+' /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS >NUL','set INSTALL_RC=!ERRORLEVEL!','if !INSTALL_RC! GEQ 8 (echo FREEFLOW_INSTALL_FAILED: robocopy exit !INSTALL_RC!&exit /b 22)','echo '+String(targetVersion||'updated')+' > '+EH_cmdQuote(root.fsName+'/last_installed_version.txt'),'echo FREEFLOW_COMPLETE: '+String(targetVersion||'updated'),'echo Backup: '+backup.fsName,'endlocal','exit /b 0'];
+    if(!EH_writeText(cmd,lines.join('\r\n')))return {ok:false,error:'Could not create the staged installer.'};
+    var launched=EH_launchDetachedInstaller(cmd,logFile);if(!launched.ok)return launched;
+    return {ok:true,backupHint:backup.fsName,cmd:cmd.fsName,log:logFile.fsName};
+}
+function EH_stageUpdateZip(zipFile,sourceVersion,targetVersion,expectedSha,packageMode){
     try{
         if(!zipFile||!zipFile.exists)return {ok:false,error:'Update ZIP does not exist.'};
-        if(expectedSha){var got=EH_sha256(zipFile),want=String(expectedSha).replace(/\s/g,'').toUpperCase();if(!got||got!==want)return {ok:false,error:'SHA-256 verification FAILED. The update was not installed.'};}
-        var root=EH_updateRoot(),stage=new Folder(root.fsName+'/stage');
+        if(expectedSha){var want=String(expectedSha).replace(/\s/g,'').toUpperCase(),hashResult=EH_sha256Detailed(zipFile);if(!hashResult.ok||hashResult.hash!==want)return {ok:false,error:EH_shaMismatchMessage(want,hashResult)};}
+        var mode=(String(packageMode||'full')==='overlay'?'overlay':'full'),root=EH_updateRoot(),stage=new Folder(root.fsName+'/stage');
         try{if(stage.exists)system.callSystem('cmd.exe /c rmdir /s /q '+EH_cmdQuote(stage.fsName));}catch(e0){}if(!stage.exists)stage.create();
         var ex=EH_extractZip(zipFile,stage);if(!ex.ok)return {ok:false,error:ex.error};
-        var payload=EH_findPayload(stage);if(!payload){var names=[];try{var ff=stage.getFiles();for(var zi=0;zi<ff.length;zi++)names.push(ff[zi].name);}catch(zx){}return {ok:false,error:'ZIP extracted, but Ethan Hub payload files were not found. Top-level extracted items: '+names.join(', ')};}
-        var idCheck=EH_readText(new File(payload.fsName+'/CSXS/manifest.xml'));if(idCheck.indexOf('com.ethan.editinghub')<0)return {ok:false,error:'Update package identity check failed.'};
-        return EH_makeInstallCmd(payload,sourceVersion,targetVersion);
+        var payload=EH_findPayload(stage,mode);if(!payload){var names=[];try{var ff=stage.getFiles();for(var zi=0;zi<ff.length;zi++)names.push(ff[zi].name);}catch(zx){}return {ok:false,error:'ZIP extracted, but Ethan Hub '+mode+' payload files were not found. Top-level extracted items: '+names.join(', ')};}
+        if(mode==='overlay'){
+            var markerFile=new File(payload.fsName+'/updater/overlay_release.json'),marker=EH_parseUpdateJson(EH_readText(markerFile));if(!marker||String(marker.extensionId||'')!==ETHAN_UPDATE_EXTENSION_ID)return {ok:false,error:'Overlay update identity check failed.'};
+            if(targetVersion&&targetVersion!=='local update'&&marker.version&&String(marker.version)!==String(targetVersion))return {ok:false,error:'Overlay update version marker does not match the feed.'};
+        }else{
+            var idCheck=EH_readText(new File(payload.fsName+'/CSXS/manifest.xml'));if(idCheck.indexOf('com.ethan.editinghub')<0)return {ok:false,error:'Update package identity check failed.'};
+        }
+        return EH_makeInstallCmd(payload,sourceVersion,targetVersion,mode);
     }catch(e){return {ok:false,error:'STAGE ERROR: '+e.toString()};}
+}
+function EH_backgroundUpdateDir(){var d=new Folder(EH_updateRoot().fsName+'/background');if(!d.exists)d.create();return d;}
+function EH_backgroundJobSafe(jobId){return /^[0-9A-Za-z._-]+$/.test(String(jobId||''));}
+function EH_backgroundStatusFile(jobId){return new File(EH_backgroundUpdateDir().fsName+'/'+String(jobId)+'.json');}
+function EH_backgroundWorkerFile(){return new File(String(ETHAN_HUB_EXT)+'/updater/background_prepare.ps1');}
+function EthanHub_startBackgroundUpdate(feedUrl,currentVersion){
+    try{
+        var worker=EH_backgroundWorkerFile();if(!worker.exists)return EH_upJsonObj({ok:false,error:'Background updater worker is missing. Reinstall Ethan Hub 3.2.6 Easy Fix.'});
+        var feed=String(feedUrl||'');if(!/^https:\/\//i.test(feed))return EH_upJsonObj({ok:false,error:'Background updater requires an HTTPS feed.'});
+        var job='job_'+(new Date()).getTime()+'_'+Math.floor(Math.random()*1000000),dir=EH_backgroundUpdateDir(),status=EH_backgroundStatusFile(job),vbs=new File(dir.fsName+'/launch_'+job+'.vbs');
+        EH_writeText(status,EH_upJsonObj({ok:true,state:'starting',pct:4,message:'Starting background update preparation…',jobId:job}));
+        var args='powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File '+EH_cmdQuote(worker.fsName)+' -FeedUrl '+EH_cmdQuote(feed)+' -CurrentVersion '+EH_cmdQuote(String(currentVersion||ETHAN_UPDATE_VERSION))+' -ExtensionPath '+EH_cmdQuote(String(ETHAN_HUB_EXT))+' -StateRoot '+EH_cmdQuote(EH_updateRoot().fsName)+' -JobId '+EH_cmdQuote(job);
+        var escaped=String(args).replace(/"/g,'""');
+        var vb=['On Error Resume Next','Set sh = CreateObject("WScript.Shell")','rc = sh.Run("'+escaped+'", 0, false)','If Err.Number <> 0 Then WScript.Quit 1','WScript.Quit 0'];
+        if(!EH_writeText(vbs,vb.join('\r\n')))return EH_upJsonObj({ok:false,error:'Could not create background updater launcher.'});
+        system.callSystem('wscript.exe //B //Nologo '+EH_cmdQuote(vbs.fsName));
+        return EH_upJsonObj({ok:true,state:'started',pct:5,message:'Background preparation started.',jobId:job});
+    }catch(e){return EH_upJsonObj({ok:false,error:'BACKGROUND START ERROR: '+e.toString()});}
+}
+function EthanHub_pollBackgroundUpdate(jobId){
+    try{
+        var job=String(jobId||'');if(!EH_backgroundJobSafe(job))return EH_upJsonObj({ok:false,state:'error',error:'Invalid background update job id.'});
+        var f=EH_backgroundStatusFile(job);if(!f.exists)return EH_upJsonObj({ok:true,state:'starting',pct:5,message:'Background worker is starting…',jobId:job});
+        var txt=EH_readText(f),obj=EH_parseUpdateJson(txt);if(!obj)return EH_upJsonObj({ok:true,state:'working',pct:8,message:'Background worker is updating status…',jobId:job});
+        return txt;
+    }catch(e){return EH_upJsonObj({ok:false,state:'error',error:'BACKGROUND POLL ERROR: '+e.toString()});}
 }
 function EthanHub_prepareUpdate(feedUrl,currentVersion){
     try{
         var r=EH_manifestForFeed(feedUrl);if(!r.ok)return EH_upJsonObj({ok:false,error:r.error});var m=r.manifest,err=EH_validateManifest(m,currentVersion);if(err)return EH_upJsonObj({ok:false,error:err});if(!EH_versionNewer(String(m.version),String(currentVersion||ETHAN_UPDATE_VERSION)))return EH_upJsonObj({ok:false,error:'The feed does not contain a newer version.'});
         var root=EH_updateRoot(),zip=new File(root.fsName+'/EthanHub_'+String(m.version).replace(/[^0-9A-Za-z._-]/g,'_')+'.zip');try{if(zip.exists)zip.remove();}catch(e0){}
-        var dl=EH_downloadTo(String(m.packageUrl),zip);if(!dl.ok)return EH_upJsonObj({ok:false,error:dl.error});
-        var staged=EH_stageUpdateZip(zip,currentVersion,String(m.version),String(m.sha256));if(!staged.ok)return EH_upJsonObj({ok:false,error:staged.error});return EH_upJsonObj({ok:true,version:String(m.version),name:String(m.name||''),backupHint:String(staged.backupHint||'automatic')});
+        var dl=EH_downloadManifestPackage(m,zip);if(!dl.ok)return EH_upJsonObj({ok:false,error:dl.error});
+        var staged=EH_stageUpdateZip(zip,currentVersion,String(m.version),String(m.sha256),String(m.packageMode||'full'));if(!staged.ok)return EH_upJsonObj({ok:false,error:staged.error});return EH_upJsonObj({ok:true,version:String(m.version),name:String(m.name||''),backupHint:String(staged.backupHint||'automatic')});
     }catch(e){return EH_upJsonObj({ok:false,error:'UPDATE ERROR: '+e.toString()});}
 }
 function EthanHub_installLocalUpdate(currentVersion){
     try{
         var zip=File.openDialog('Choose an Ethan Editing Hub update ZIP','*.zip',false);if(!zip)return EH_upJsonObj({ok:false,cancelled:true,error:'No update package selected.'});
-        var staged=EH_stageUpdateZip(zip,currentVersion,'local update','');if(!staged.ok)return EH_upJsonObj({ok:false,error:staged.error});return EH_upJsonObj({ok:true,backupHint:String(staged.backupHint||'automatic')});
+        var staged=EH_stageUpdateZip(zip,currentVersion,'local update','','full');if(!staged.ok)return EH_upJsonObj({ok:false,error:staged.error});return EH_upJsonObj({ok:true,backupHint:String(staged.backupHint||'automatic')});
     }catch(e){return EH_upJsonObj({ok:false,error:'LOCAL UPDATE ERROR: '+e.toString()});}
 }
 function EthanHub_restorePreviousVersion(){
@@ -2316,8 +2585,9 @@ function EthanHub_restorePreviousVersion(){
         for(var i=0;i<folders.length;i++){var d=0;try{d=folders[i].modified.getTime();}catch(e0){d=i+1;}if(!latest||d>=mt){latest=folders[i];mt=d;}}
         if(!latest)return EH_upJsonObj({ok:false,error:'No automatic Software Update backup exists yet.'});
         var root=EH_updateRoot(),cmd=new File(root.fsName+'/RESTORE_PREVIOUS_VERSION.cmd'),ext=ETHAN_HUB_EXT;
-        var lines=['@echo off','setlocal','title Restore Ethan Editing Hub','echo Waiting for After Effects to close...',' :WAITAE','tasklist /FI "IMAGENAME eq AfterFX.exe" 2>NUL | find /I "AfterFX.exe" >NUL','if not errorlevel 1 (','  timeout /t 2 /nobreak >NUL','  goto WAITAE',')','echo Restoring previous Hub from:','echo '+latest.fsName,'robocopy '+EH_cmdQuote(latest.fsName)+' '+EH_cmdQuote(ext)+' /MIR /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS >NUL','echo.','echo RESTORE COMPLETE. Reopen After Effects.','pause','endlocal'];
-        if(!EH_writeText(cmd,lines.join('\r\n')))return EH_upJsonObj({ok:false,error:'Could not create rollback script.'});system.callSystem('cmd.exe /c start "" /min '+EH_cmdQuote(cmd.fsName));return EH_upJsonObj({ok:true,backup:String(latest.fsName)});
+        var logFile=new File(root.fsName+'/freeflow_restore.log');
+        var lines=['@echo off','setlocal EnableExtensions EnableDelayedExpansion','title Restore Ethan Editing Hub','echo FREEFLOW_RESTORE_START','set /a WAIT_COUNT=0',':WAITAE','tasklist /FI "IMAGENAME eq AfterFX.exe" 2>NUL | find /I "AfterFX.exe" >NUL','if not errorlevel 1 (','  set /a WAIT_COUNT+=1','  if !WAIT_COUNT! GEQ 300 (echo FREEFLOW_TIMEOUT: AfterFX.exe remained open for 600 seconds.&exit /b 20)','  timeout /t 2 /nobreak >NUL','  goto WAITAE',')','echo Restoring previous Hub from: '+latest.fsName,'robocopy '+EH_cmdQuote(latest.fsName)+' '+EH_cmdQuote(ext)+' /MIR /COPY:DAT /R:2 /W:1 /NFL /NDL /NJH /NJS >NUL','set RESTORE_RC=!ERRORLEVEL!','if !RESTORE_RC! GEQ 8 (echo FREEFLOW_RESTORE_FAILED: robocopy exit !RESTORE_RC!&exit /b 22)','echo FREEFLOW_RESTORE_COMPLETE','endlocal','exit /b 0'];
+        if(!EH_writeText(cmd,lines.join('\r\n')))return EH_upJsonObj({ok:false,error:'Could not create rollback script.'});var launched=EH_launchDetachedInstaller(cmd,logFile);if(!launched.ok)return EH_upJsonObj({ok:false,error:launched.error});return EH_upJsonObj({ok:true,backup:String(latest.fsName)});
     }catch(e){return EH_upJsonObj({ok:false,error:'ROLLBACK ERROR: '+e.toString()});}
 }
 

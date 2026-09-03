@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="com.ethan.editinghub" ExtensionBundleVersion="3.1.2" ExtensionBundleName="Ethan's Editing Hub PREMIUM">
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.ethan.editinghub" ExtensionBundleVersion="3.2.7" ExtensionBundleName="Ethan's Editing Hub PREMIUM">
   <ExtensionList>
-    <Extension Id="com.ethan.editinghub.panel" Version="3.1.2"/>
-    <Extension Id="com.ethan.editinghub.background" Version="3.1.2"/>
+    <Extension Id="com.ethan.editinghub.panel" Version="3.2.7"/>
+    <Extension Id="com.ethan.editinghub.background" Version="3.2.7"/>
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
