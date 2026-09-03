@@ -1,8 +1,8 @@
 {
   "extensionId": "com.ethan.editinghub",
-  "version": "3.2.7",
-  "build": "3270",
-  "name": "Permanent GitHub Channel",
-  "notes": "Permanent OTA infrastructure: switches the normal cloud feed back to the canonical GitHub latest.json, keeps update preparation outside After Effects, downloads complete verified GitHub release ZIPs directly, preserves FreeFlow rollback/SHA verification, and adds the automated Dropbox request inbox used to publish future Hub changes without manual file handling.",
+  "version": "3.2.8",
+  "build": "3280",
+  "name": "Neon Heartbeat",
+  "notes": "NEON HEARTBEAT: live detached About telemetry for AfterFX CPU/GPU/AE memory/system memory plus live project pulse; rebuilt Viral Jaws architecture with black comp-sized Vertical Jaws solids above rotating/skew clips, Beat Drop always Vertical Jaws with a dedicated ripple adjustment, literal Split Clip#10/#20/#30 vertical-jaws cadence, and global flicker x2 at 85%; adds Midnight Aurora, smoother event-driven dropdown/page/button motion, a LIVE SECURE CHANNEL update pill, and plan-identity subscription cards. Preserves the permanent GitHub/FreeFlow updater, SHA verification, rollback, audio, zoom choreography, Halftone/Cross, snow, watermark and extension identity.",
   "channel": "stable"
 }

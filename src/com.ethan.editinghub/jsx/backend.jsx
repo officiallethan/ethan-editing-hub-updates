@@ -35,7 +35,7 @@ var ETHAN_HUB_BUNDLED = (typeof ETHAN_HUB_BUNDLED !== 'undefined') ? ETHAN_HUB_B
 try { if(!ETHAN_HUB_BUNDLED && ETHAN_HUB_EXT) ETHAN_HUB_BUNDLED = new Folder(ETHAN_HUB_EXT + '/presets'); } catch(eBundle) {}
 var ETHAN_RUNTIME_SETTINGS = {jawsEvery:12,crossFrames:10,halfFrames:13,edgeBrightness:0.97,skewEvery:8,jawsInFrames:13,jawsOutFrames:8};
 var ETHAN_HUB_SETTINGS = 'EthansEditingHubPREMIUM';
-var ETHAN_HUB_BUILD = 'PREMIUM 2.0 • 3.2.7 PERMANENT GITHUB CHANNEL';
+var ETHAN_HUB_BUILD = 'PREMIUM 2.0 • 3.2.8 NEON HEARTBEAT';
 var ETHAN_HUB_NATIVE_PRESETS = null;
 var ETHAN_VIRAL_PREFIX = 'ETHAN_VIRAL';
 
@@ -276,21 +276,50 @@ function EH_makeSolid(c,name,a,b,color,owner,kind){
 function EH_makeAdjustment(c,name,a,b,owner,kind){var l=EH_makeSolid(c,name,a,b,[1,1,1],owner,kind);l.adjustmentLayer=true;return l;}
 function EH_moveBefore(l,target){try{l.moveBefore(target);}catch(e){}}
 function EH_flash(c,clip){var s=EH_makeSolid(c,'White Flash Transition',clip.inPoint,Math.min(clip.outPoint,clip.inPoint+c.frameDuration*2),[1,1,1],clip.name,'FLASH');try{s.property('ADBE Transform Group').property('ADBE Opacity').setValue(85);}catch(e){}return s;}
+function EH_ensureVerticalJawsSolid(c,clip){
+    if(!c||!clip)return null;
+    var jaws=EH_findOwnerKind(c,clip.name,'JAWS_VERTICAL');
+    if(!jaws){
+        jaws=EH_makeSolid(c,'Vertical Jaws',clip.inPoint,clip.outPoint,[0,0,0],clip.name,'JAWS_VERTICAL');
+        var jp=EH_findPreset(['tattooedhe8rt','jaws','vertical']);
+        if(jp){
+            var made=EH_applyPresetCaptureEffects(c,jaws,jp,clip.inPoint,'[VIRAL VERTICAL JAWS]');
+            for(var i=0;i<made.length;i++)EH_walkAnimated(made[i],function(pp){EH_ease(pp);});
+        }
+    }
+    try{jaws.name='Vertical Jaws';jaws.startTime=clip.inPoint;jaws.inPoint=clip.inPoint;jaws.outPoint=clip.outPoint;jaws.audioEnabled=false;jaws.enabled=true;}catch(e0){}
+    EH_forceCenters(jaws,c);
+    try{jaws.moveBefore(clip);}catch(e1){}
+    return jaws;
+}
+function EH_tuneVerticalJawsForRotate(c,jaws,a,b,dirSign,phase){
+    if(!jaws||b<=a)return false;var fx=EH_fx(jaws),used=false;if(!fx)return false;
+    for(var i=1;i<=fx.numProperties;i++){
+        var one=fx.property(i),nm='';try{nm=EH_low(one.name);}catch(e0){}
+        if(nm.indexOf('jaws')<0)continue;
+        EH_retimeGroupKeysUniform(one,a,b);EH_sjrTuneJawsEffect(one,c,a,b,dirSign,phase);used=true;
+    }
+    EH_forceCenters(jaws,c);return used;
+}
+function EH_addPeriodicVerticalJaws(c,pieces){
+    var count=0;if(!pieces)return count;
+    for(var i=0;i<pieces.length;i++){
+        var clip=pieces[i],m=/^Split Clip#(\d+)$/i.exec(String(clip.name||''));
+        if(!m)continue;var n=parseInt(m[1],10)||0;
+        if(n>0&&n%10===0){if(EH_ensureVerticalJawsSolid(c,clip))count++;}
+    }
+    return count;
+}
 function EH_beatDropSpecial(c,clip){
-    var ripple=EH_makeAdjustment(c,'bcc ripple',clip.inPoint,clip.outPoint,clip.name,'RIPPLE');
+    var ripple=EH_makeAdjustment(c,'ripple',clip.inPoint,clip.outPoint,clip.name,'RIPPLE');
     var rp=EH_findPreset(['tattooedhe8rt','ripple']);
     if(rp){
         var rfx=EH_applyPresetCaptureEffects(c,ripple,rp,clip.inPoint,'[VIRAL]');
         for(var ri=0;ri<rfx.length;ri++)EH_walkAnimated(rfx[ri],function(pp){EH_ease(pp);});
         EH_forceCenters(ripple,c);
     }
-    var jaws=EH_makeSolid(c,'bcc jaws vertical',clip.inPoint,clip.outPoint,[0,0,0],clip.name,'JAWS_VERTICAL');
-    var jp=EH_findPreset(['tattooedhe8rt','jaws','vertical']);
-    if(jp){
-        var jfx=EH_applyPresetCaptureEffects(c,jaws,jp,clip.inPoint,'[VIRAL]');
-        for(var ji=0;ji<jfx.length;ji++)EH_walkAnimated(jfx[ji],function(pp){EH_ease(pp);});
-        EH_forceCenters(jaws,c);
-    }
+    var jaws=EH_ensureVerticalJawsSolid(c,clip);
+    try{ripple.moveBefore(clip);if(jaws)jaws.moveBefore(ripple);}catch(e0){}
     return [ripple,jaws];
 }
 function EH_horizontalJaws(c,clip){
@@ -958,17 +987,17 @@ function EH_fixFourthFromEndViralClip(c,pieces){
 // ============================================================
 function EH_sjrRemoveTaggedEffects(layer){
     var fx=EH_fx(layer);if(!fx)return;
-    for(var i=fx.numProperties;i>=1;i--){try{var nm=EH_low(fx.property(i).name);if(nm.indexOf('[smooth jaws rotate]')>=0)fx.property(i).remove();}catch(e){}}
+    for(var i=fx.numProperties;i>=1;i--){try{var nm=EH_low(fx.property(i).name);if(nm.indexOf('[smooth jaws rotate]')>=0||nm.indexOf('[rotate motion]')>=0)fx.property(i).remove();}catch(e){}}
 }
 function EH_sjrSetKeys(p,times,values){
     if(!p||!times||!values||times.length!==values.length||!times.length)return false;
     try{EH_clearKeys(p);for(var i=0;i<times.length;i++)p.setValueAtTime(times[i],values[i]);EH_ease(p);return true;}catch(e){return false;}
 }
 function EH_sjrEffect(layer,names,label){
-    var e=EH_addEffect(layer,names);if(e)try{e.name=label+' [VIRAL] [SMOOTH JAWS ROTATE]';}catch(ex){}return e;
+    var e=EH_addEffect(layer,names);if(e)try{e.name=label+' [VIRAL] [ROTATE MOTION]';}catch(ex){}return e;
 }
 function EH_sjrTransformWH(layer,times,rotVals,widthVals,heightVals){
-    var tr=EH_sjrEffect(layer,['ADBE Geometry2','Transform'],'Smooth Jaws Rotate - Elastic Transform');if(!tr)return false;
+    var tr=EH_sjrEffect(layer,['ADBE Geometry2','Transform'],'Ethan Rotate Motion - Elastic Transform');if(!tr)return false;
     var rot=EH_findRecursive(tr,['Rotation']),sw=EH_findRecursive(tr,['Scale Width']),sh=EH_findRecursive(tr,['Scale Height']),scale=EH_findRecursive(tr,['Scale']),uni=EH_findRecursive(tr,['Uniform Scale']),shutter=EH_findRecursive(tr,['Shutter Angle']);
     try{if(uni)uni.setValue(0);}catch(e0){}try{if(shutter)shutter.setValue(360);}catch(e1){}
     if(rot)EH_sjrSetKeys(rot,times,rotVals);
@@ -1139,20 +1168,13 @@ function EH_sjrApplyPair(c,out,inc,direction,ownerSuffix){
     var dirSign=(String(direction||'left').toLowerCase()==='right')?1:-1;
     var owner=out.name+' -> '+inc.name+(ownerSuffix?(' '+ownerSuffix):'');
     EH_sjrRemoveTaggedEffects(out);EH_sjrRemoveTaggedEffects(inc);EH_sjrRemoveOldHelpers(c,owner,cut);
-
-    // Frame-for-frame remaster from the supplied 30fps / 30-frame reference:
-    // gradual squeeze for ~16 frames, visible warp starts on outgoing f18, hard cut after f19,
-    // incoming f20 is the blur/whip frame, then ~10 frames of elastic recovery.
-    // Adaptive timing for the short, fast clips Ethan normally edits with.
-    // Keep the anticipation close to the cut (not half the clip), then give the incoming shot more room to breathe.
     var outAvail=Math.max(2,Math.floor((Math.min(out.outPoint,cut)-out.inPoint)/fd));
     var inAvail=Math.max(2,Math.floor((inc.outPoint-Math.max(inc.inPoint,cut))/fd));
-    // Short-Clip Intelligence: do not cram a full Jaws rotation into physically tiny clips.
-    // Use a compact eased skew/warp substitute instead, preserving the cut without chaos.
     if(outAvail<5 || inAvail<6){
         EH_applySmoothSkew(c,out,0,dirSign*5,Math.max(2,Math.min(4,outAvail)),'Short Clip Smart Out',true);
         EH_applySmoothSkew(c,inc,-dirSign*8,0,Math.max(3,Math.min(6,inAvail)),'Short Clip Smart In',true);
-        return {ok:true,jaws:false,direction:(dirSign<0?'left':'right'),shortFallback:true};
+        var shortOutJaws=EH_ensureVerticalJawsSolid(c,out),shortInJaws=EH_ensureVerticalJawsSolid(c,inc);
+        return {ok:true,jaws:!!(shortOutJaws||shortInJaws),direction:(dirSign<0?'left':'right'),shortFallback:true};
     }
     var squeezeF=Math.max(5,Math.min(ETHAN_RUNTIME_SETTINGS.jawsOutFrames||8,Math.round(outAvail*.46)));
     var turnF=Math.max(3,Math.min(4,squeezeF-1));
@@ -1163,33 +1185,18 @@ function EH_sjrApplyPair(c,out,inc,direction,ownerSuffix){
     var squeezeMid=oStart+Math.max(fd,Math.round(((turnStart-oStart)/fd)*.58)*fd);if(squeezeMid>=turnStart)squeezeMid=Math.max(oStart,turnStart-fd);
     var ot=[oStart,squeezeMid,turnStart,oEnd];
     EH_sjrTransformWH(out,ot,[0,dirSign*.8,dirSign*7.5,dirSign*29],[100,91,76,69],[100,100,102,111]);
-    // Skew starts ONLY near the cut so the first clip does not lean too early.
-    EH_applySmoothSkew(c,out,0,dirSign*8.5,Math.max(3,turnF+1),'Smooth Jaws Outgoing Late Skew',true);
-    var warpStart=Math.max(oStart,turnStart-fd);
-    EH_sjrWarp(out,[warpStart,turnStart,oEnd],[0,6,22]);
-    EH_sjrWave(out,[warpStart,turnStart,oEnd],[0,(-dirSign)*1.8,(-dirSign)*5.8]);
-    EH_sjrLens(out,[warpStart,turnStart,oEnd],[0,5.5,10]);
-    EH_sjrBlur(out,[warpStart,turnStart,oEnd],[0,4,18]);
-
+    EH_applySmoothSkew(c,out,0,dirSign*8.5,Math.max(3,turnF+1),'Rotate Outgoing Late Skew',true);
     var iStart=Math.max(inc.inPoint,cut),iEnd=Math.min(inc.outPoint-fd,iStart+fd*(settleF-1));if(iEnd<iStart+fd)iEnd=Math.min(inc.outPoint,iStart+fd);
-    var iSpan=Math.max(fd,iEnd-iStart);
     var it=[iStart,Math.min(iEnd,iStart+fd),Math.min(iEnd,iStart+fd*3),Math.min(iEnd,iStart+fd*6),iEnd];
-    // Remove duplicate timestamps in very short clips.
     var cleanT=[],cleanR=[],cleanW=[],cleanH=[],baseR=[17,10,-2.4,.8,0],baseW=[71,77,87,97,100],baseH=[110,108,103,101,100];
     for(var ti=0;ti<it.length;ti++)if(!cleanT.length||it[ti]>cleanT[cleanT.length-1]+fd*.1){cleanT.push(it[ti]);cleanR.push(baseR[ti]*(-dirSign));cleanW.push(baseW[ti]);cleanH.push(baseH[ti]);}
     EH_sjrTransformWH(inc,cleanT,cleanR,cleanW,cleanH);
-    var amt=[21,15,7,2,0],wav=[5.8,4,2,.6,0],lens=[10,7,3.5,.8,0],blur=[19,13,6,1.5,0],a2=[],w2=[],l2=[],b2=[];
-    for(var av=0;av<cleanT.length;av++){a2.push(amt[av]);w2.push(wav[av]*(-dirSign));l2.push(lens[av]);b2.push(blur[av]);}
-    EH_sjrWarp(inc,cleanT,a2);EH_sjrWave(inc,cleanT,w2);EH_sjrLens(inc,cleanT,l2);EH_sjrBlur(inc,cleanT,b2);
-    EH_applySmoothSkew(c,inc,-15.0,0.0,Math.min(ETHAN_RUNTIME_SETTINGS.jawsInFrames||13,Math.max(7,settleF)),'Smooth Jaws Incoming Skew',true);
-
-    var preset=EH_findPreset(['tattooedhe8rt','jaws','vertical']);
-    // Literal black BCC/CC Jaws solid above BOTH clips, following the same left/right rotate.
-    var pairJaws=EH_sjrPairBlackJaws(c,out,inc,preset,oStart,cut,Math.min(inc.outPoint,iEnd+fd),owner,dirSign);
-    var outStack=EH_sjrBuildSideStack(c,out,'OUT',preset,oStart,turnStart,Math.min(out.outPoint,cut),owner,dirSign);
-    var inEndSafe=Math.min(inc.outPoint,iEnd+fd);
-    var inStack=EH_sjrBuildSideStack(c,inc,'IN',preset,iStart,iStart,inEndSafe,owner,dirSign);
-    return {ok:true,jaws:!!((pairJaws&&pairJaws.used)||(outStack&&outStack.used)||(inStack&&inStack.used)),direction:(dirSign<0?'left':'right')};
+    EH_applySmoothSkew(c,inc,-15.0,0.0,Math.min(ETHAN_RUNTIME_SETTINGS.jawsInFrames||13,Math.max(7,settleF)),'Rotate Incoming Skew',true);
+    var outJaws=EH_ensureVerticalJawsSolid(c,out),inJaws=EH_ensureVerticalJawsSolid(c,inc),jawsUsed=false;
+    if(outJaws)jawsUsed=EH_tuneVerticalJawsForRotate(c,outJaws,oStart,oEnd,dirSign,'OUT')||jawsUsed;
+    if(inJaws)jawsUsed=EH_tuneVerticalJawsForRotate(c,inJaws,iStart,iEnd,dirSign,'IN')||jawsUsed;
+    try{if(outJaws)outJaws.moveBefore(out);if(inJaws)inJaws.moveBefore(inc);}catch(e0){}
+    return {ok:true,jaws:jawsUsed||!!(outJaws||inJaws),direction:(dirSign<0?'left':'right')};
 }
 function EH_applyViralSmoothJawsPattern(c,pieces){
     var count=0,jawsCount=0,dir='left',r;
@@ -1212,7 +1219,7 @@ function EthanHub_smoothJawsRotate(){
         var r=EH_sjrApplyPair(c,pair.outgoing,pair.incoming,'left','[MANUAL]');
         EH_clearSel(c);try{pair.outgoing.selected=true;pair.incoming.selected=true;}catch(es){}
         app.endUndoGroup();
-        return r.ok?('✅ Smooth Jaws Rotate V5 applied LEFT across both selected clips: slower adaptive squeeze/rear ghost, REAL black-solid BCC Vertical Jaws with Completion 100→70→100, Height 0, Width 10, Spikes, direction following the rotate, plus a -15→0 incoming skew and a 10-frame elastic rebound.'):('Could not build Smooth Jaws Rotate on that pair.');
+        return r.ok?('✅ Smooth Jaws Rotate • Neon Heartbeat applied LEFT: rotate/elastic transform + Smooth Skew stay on the footage, while BCC Vertical Jaws live only on full-duration black vertical-jaws helper solids directly above the affected clips.'):('Could not build Smooth Jaws Rotate on that pair.');
     }catch(e){try{app.endUndoGroup();}catch(x){}return 'ERROR: '+e.toString();}
 }
 
@@ -1287,7 +1294,7 @@ function EthanHub_addFixedSnow(){
     }catch(e){try{app.endUndoGroup();}catch(x){}return 'ERROR: '+e.toString();}
 }
 function EH_globalFinish(c){
-    var flick=EH_makeAdjustment(c,'Jamesmaximoffs Flicker x2',0,c.duration,'GLOBAL','FLICKER');try{flick.property('ADBE Transform Group').property('ADBE Opacity').setValue(75);}catch(e){}var fp=EH_findPreset(['jamesmaximoffs','flicker']);if(fp){EH_applyPreset(c,flick,fp,0,true);EH_applyPreset(c,flick,fp,0,true);}
+    var flick=EH_makeAdjustment(c,'flicker',0,c.duration,'GLOBAL','FLICKER');try{flick.property('ADBE Transform Group').property('ADBE Opacity').setValue(85);}catch(e){}var fp=EH_findPreset(['jamesmaximoffs','flicker']);if(fp){EH_applyPreset(c,flick,fp,0,true);EH_applyPreset(c,flick,fp,0,true);}
     var snow=EH_addOriginalSnowLayer(c,true);
     return [snow,flick];
 }
@@ -1532,14 +1539,14 @@ function EH_layersOfKinds(c,kinds){
 function EH_stackAfter(anchor,layers){for(var i=0;i<layers.length;i++){try{layers[i].moveAfter(anchor);anchor=layers[i];}catch(e){}}return anchor;}
 function EH_findOwnerKind(c,owner,kind){for(var i=1;i<=c.numLayers;i++){var l=c.layer(i);if(EH_kind(l)===kind&&EH_owner(l)===owner)return l;}return null;}
 function EH_orderTimeline(c,pieces){
-    var snow=EH_layersOfKinds(c,['SNOW']),watermark=EH_layersOfKinds(c,['WATERMARK']),jaws=EH_layersOfKinds(c,['JAWS_VERTICAL','JAWS_HORIZONTAL','SMOOTH_JAWS_BG','SMOOTH_JAWS_SIDE_BG','SMOOTH_JAWS_REAR','SMOOTH_JAWS_FRONT']),flashes=EH_layersOfKinds(c,['FLASH','BLACK_FLASH_2']),flick=EH_layersOfKinds(c,['FLICKER']),trans=EH_layersOfKinds(c,['HALFTONE','CROSS_GLITCH','SATURATION','EXPOSURE']);
-    var anchor=null;if(snow.length){try{snow[0].moveToBeginning();anchor=snow[0];}catch(e){}}
-    if(!anchor&&c.numLayers)anchor=c.layer(1);if(anchor){anchor=EH_stackAfter(anchor,watermark);anchor=EH_stackAfter(anchor,jaws);anchor=EH_stackAfter(anchor,flashes);anchor=EH_stackAfter(anchor,flick);anchor=EH_stackAfter(anchor,trans);}
-    // Clip-local helpers are deliberately restored LAST. Ripple must touch the clip with no layer between it and the footage.
+    var snow=EH_layersOfKinds(c,['SNOW']),watermark=EH_layersOfKinds(c,['WATERMARK']),jawsAll=EH_layersOfKinds(c,['JAWS_VERTICAL','JAWS_HORIZONTAL','SMOOTH_JAWS_BG','SMOOTH_JAWS_SIDE_BG','SMOOTH_JAWS_REAR','SMOOTH_JAWS_FRONT']),flashes=EH_layersOfKinds(c,['FLASH','BLACK_FLASH_2']),flick=EH_layersOfKinds(c,['FLICKER']),trans=EH_layersOfKinds(c,['HALFTONE','CROSS_GLITCH','SATURATION','EXPOSURE']);
+    var anchor=null;if(flick.length){try{flick[0].moveToBeginning();anchor=flick[0];}catch(e0){}}
+    if(!anchor&&c.numLayers)anchor=c.layer(1);if(anchor){anchor=EH_stackAfter(anchor,snow);anchor=EH_stackAfter(anchor,watermark);anchor=EH_stackAfter(anchor,jawsAll);anchor=EH_stackAfter(anchor,flashes);anchor=EH_stackAfter(anchor,trans);}
     for(var i=0;i<pieces.length;i++){
-        var clip=pieces[i],r=EH_findOwnerKind(c,clip.name,'RIPPLE'),b=EH_findOwnerKind(c,clip.name,'BLUR');
-        if(r){try{r.moveBefore(clip);}catch(er){}if(b)try{b.moveBefore(r);}catch(eb){}}
-        else if(b)try{b.moveBefore(clip);}catch(eb2){}
+        var clip=pieces[i],r=EH_findOwnerKind(c,clip.name,'RIPPLE'),jaws=EH_findOwnerKind(c,clip.name,'JAWS_VERTICAL'),b=EH_findOwnerKind(c,clip.name,'BLUR');
+        if(r){try{r.moveBefore(clip);}catch(er){}if(jaws)try{jaws.moveBefore(r);}catch(ej){}if(b)try{b.moveBefore(jaws||r);}catch(eb){}}
+        else if(jaws){try{jaws.moveBefore(clip);}catch(ej2){}if(b)try{b.moveBefore(jaws);}catch(eb2){}}
+        else if(b)try{b.moveBefore(clip);}catch(eb3){}
     }
 }
 function EH_rainbow(c){var labs=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16];for(var i=1;i<=c.numLayers;i++)try{c.layer(i).label=labs[(i-1)%labs.length];}catch(e){}}
@@ -1577,10 +1584,10 @@ function EthanHub_viralEdit(forceResolution,resolutionLabel,backupFirst){
         // Bring back the original one-click foundation that got lost in later Premium builds.
         EH_restoreOriginalFullEditStack(c,pieces);
         EH_beatDropSpecial(c,pieces[1]);
+        var periodicVerticalJaws=EH_addPeriodicVerticalJaws(c,pieces);
         var crossMissing=false;
         for(var i=1;i<pieces.length;i++){
             EH_flash(c,pieces[i]);EH_saturation(c,pieces[i]);EH_blur(c,pieces[i]);var num=i-1;
-            if(num>0&&num%9===0)EH_horizontalJaws(c,pieces[i]);
             if(num>0&&num%4===0){if(((num/4)%2)===1)EH_halftone(c,pieces[i]);else if(!EH_crossGlitch(c,pieces[i]))crossMissing=true;}
         }
         EH_choreograph(c,pieces);
@@ -1602,7 +1609,7 @@ function EthanHub_viralEdit(forceResolution,resolutionLabel,backupFirst){
         EH_clearSel(c);
         if(everything)try{everything.selected=true;}catch(es0){}
         else for(var s=0;s<pieces.length;s++)try{pieces[s].selected=true;}catch(es){}
-        app.endUndoGroup();return '✅ Viral Edit finished on '+pieces.length+' VISUAL clips INCLUDING Intro. Smooth Jaws Rotate auto-pairs: '+(sjrAuto?sjrAuto.count:0)+' (real BCC Jaws active on '+(sjrAuto?sjrAuto.jaws:0)+'). Intro->Beat Drop starts LEFT; each spaced 12th+13th pair alternates RIGHT/LEFT after that. Original Pan Left + Super-calm Shake + 4-frame Black Flash 2 + Exposure -5→+1.77→0 are restored on every visual clip. Every 8th Split Clip also receives a subtle Easy-Eased Smooth Skew. Edge Rays brightness pulses 0→0.97→0 with Easy Ease. Original Intro -> full-comp ethan\'s edit audio (eye OFF / audio ON); duplicated Intro -> visual Intro and was edited with every other split clip. ethan\'s edit audio was excluded from all visual effects. The complete helper stack is organized inside the selected EVERYTHING precomp; ethan\'s edit audio and live text stay outside. Auto-splitting: OFF; auto-select visual split clips: ON. Resolution forced: '+(forceResolution?resolutionLabel:'NO')+'.'+(crossMissing?' ⚠ BCC Cross Glitch was not found, so those slots were skipped.':'');
+        app.endUndoGroup();return '✅ Viral Edit finished on '+pieces.length+' VISUAL clips INCLUDING Intro. Rotate/skew auto-pairs: '+(sjrAuto?sjrAuto.count:0)+' (Vertical Jaws helper solids active on '+(sjrAuto?sjrAuto.jaws:0)+'). Beat Drop always has Vertical Jaws + ripple; literal Split Clip#10/#20/#30... also receive Vertical Jaws (created this run: '+periodicVerticalJaws+'). Intro->Beat Drop starts LEFT; each spaced rotate pair alternates RIGHT/LEFT after that. Original Pan Left + Super-calm Shake + 4-frame Black Flash 2 + Exposure -5→+1.77→0 are restored on every visual clip. Every 8th Split Clip also receives a subtle Easy-Eased Smooth Skew. Edge Rays brightness pulses 0→0.97→0 with Easy Ease. Original Intro -> full-comp ethan\'s edit audio (eye OFF / audio ON); duplicated Intro -> visual Intro and was edited with every other split clip. ethan\'s edit audio was excluded from all visual effects. The complete helper stack is organized inside the selected EVERYTHING precomp; ethan\'s edit audio and live text stay outside. Auto-splitting: OFF; auto-select visual split clips: ON. Resolution forced: '+(forceResolution?resolutionLabel:'NO')+'.'+(crossMissing?' ⚠ BCC Cross Glitch was not found, so those slots were skipped.':'');
     }catch(e){try{app.endUndoGroup();}catch(x){}return '❌ Viral Edit stopped: '+e.toString();}
 }
 function EH_removeRecursive(c,visited){
@@ -2172,27 +2179,43 @@ function EthanHub_aboutInfo(){
         return EH_jsonSimple({ae:ae,device:device||'Windows PC',os:String($.os||'Windows'),cpu:cpu||'Unavailable',cores:coreDetail||cores||'Unavailable',ram:ram||'Unavailable',gpu:gpu||'Unavailable'});
     }catch(e){return EH_jsonSimple({ae:'After Effects',device:'Windows PC',os:String($.os||'Windows'),cpu:'Unavailable',cores:'Unavailable',ram:'Unavailable',gpu:'Unavailable'});}
 }
-function EthanHub_aboutPerformance(){
+function EH_aboutTelemetryDir(){var d=new Folder(EH_updateRoot().fsName+'/about_telemetry');if(!d.exists)d.create();return d;}
+function EH_aboutTelemetryWorker(){return new File(String(ETHAN_HUB_EXT)+"/updater/about_telemetry.ps1");}
+function EH_aboutTelemetrySnapshot(){return new File(EH_aboutTelemetryDir().fsName+'/snapshot.json');}
+function EH_aboutTelemetryHeartbeat(){return new File(EH_aboutTelemetryDir().fsName+'/heartbeat.txt');}
+function EH_aboutTouchHeartbeat(){try{return EH_writeText(EH_aboutTelemetryHeartbeat(),String((new Date()).getTime()));}catch(e){return false;}}
+function EthanHub_startAboutTelemetry(){
     try{
-        var rendering=false;try{rendering=!!(app.project&&app.project.renderQueue&&app.project.renderQueue.rendering);}catch(er){}
-        var cpu=-1,gpu=-1,mem=-1,memPct=-1;
-        if(!rendering){
-            try{var co=EH_cmdFirst('powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Get-Process AfterFX -ErrorAction SilentlyContinue | Select-Object -First 1;if($p){$c=(Get-Counter \'\\Process(AfterFX*)\\% Processor Time\' -SampleInterval 1 -MaxSamples 1 -ErrorAction SilentlyContinue).CounterSamples | Measure-Object CookedValue -Sum;[math]::Round(($c.Sum/[Environment]::ProcessorCount),1)}else{-1}"');cpu=parseFloat(co);if(isNaN(cpu))cpu=-1;}catch(e0){}
-            try{var mo=EH_cmdFirst('powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Get-Process AfterFX -ErrorAction SilentlyContinue | Select-Object -First 1;if($p){[math]::Round($p.WorkingSet64/1MB,0)}else{-1}"');mem=parseFloat(mo);if(isNaN(mem))mem=-1;}catch(e1){}
-            try{var gp=EH_cmdFirst('powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Get-Process AfterFX -ErrorAction SilentlyContinue | Select-Object -First 1;if(!$p){-1;exit};$pidText=\'pid_\'+$p.Id+\'_\';$s=(Get-Counter \'\\GPU Engine(*)\\Utilization Percentage\' -ErrorAction SilentlyContinue).CounterSamples | Where-Object {$_.Path -like (\'*\'+$pidText+\'*\')} | Measure-Object CookedValue -Sum;if($s.Count){[math]::Round([math]::Min(100,$s.Sum),1)}else{-1}"');gpu=parseFloat(gp);if(isNaN(gpu))gpu=-1;}catch(e2){}
-            try{var total=EH_cmdFirst('powershell -NoProfile -ExecutionPolicy Bypass -Command "[math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory/1MB,0)"');var tm=parseFloat(total);if(tm>0&&mem>=0)memPct=Math.min(100,mem/tm*100);}catch(e3){}
-        }
-        return EH_jsonSimple({rendering:rendering,cpuPercent:cpu,gpuPercent:gpu,memoryMB:mem,memoryPercent:memPct});
-    }catch(e){return EH_jsonSimple({rendering:false,cpuPercent:-1,gpuPercent:-1,memoryMB:-1,memoryPercent:-1});}
+        var worker=EH_aboutTelemetryWorker();if(!worker.exists)return EH_upJsonObj({ok:false,message:'Neon Heartbeat telemetry worker is missing.'});
+        EH_aboutTouchHeartbeat();var dir=EH_aboutTelemetryDir(),vbs=new File(dir.fsName+'/launch_about_telemetry.vbs');
+        var args='powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File '+EH_cmdQuote(worker.fsName)+' -StateDir '+EH_cmdQuote(dir.fsName);
+        var escaped=String(args).replace(/"/g,'""'),vb=['On Error Resume Next','Set sh = CreateObject("WScript.Shell")','rc = sh.Run("'+escaped+'", 0, false)','WScript.Quit 0'];
+        if(!EH_writeText(vbs,vb.join('\r\n')))return EH_upJsonObj({ok:false,message:'Could not create telemetry launcher.'});
+        system.callSystem('wscript.exe //B //Nologo '+EH_cmdQuote(vbs.fsName));
+        return EH_upJsonObj({ok:true,message:'Neon Heartbeat telemetry started.'});
+    }catch(e){return EH_upJsonObj({ok:false,message:'TELEMETRY START ERROR: '+e.toString()});}
 }
+function EthanHub_readAboutTelemetry(){
+    try{EH_aboutTouchHeartbeat();var f=EH_aboutTelemetrySnapshot();if(!f.exists)return EH_upJsonObj({ok:false,message:'Sampler starting…'});var t=EH_readText(f);return t||EH_upJsonObj({ok:false,message:'Sampler warming up…'});}catch(e){return EH_upJsonObj({ok:false,message:'TELEMETRY READ ERROR: '+e.toString()});}
+}
+function EthanHub_stopAboutTelemetry(){try{var h=EH_aboutTelemetryHeartbeat();if(h.exists)h.remove();return EH_upJsonObj({ok:true});}catch(e){return EH_upJsonObj({ok:false,message:e.toString()});}}
+function EthanHub_aboutProjectPulse(){
+    try{
+        var c=(app.project&&app.project.activeItem instanceof CompItem)?app.project.activeItem:null,rendering=false,rq=0,layers=0,effects=0;
+        try{rendering=!!(app.project&&app.project.renderQueue&&app.project.renderQueue.rendering);rq=app.project.renderQueue.numItems||0;}catch(er){}
+        if(c){layers=c.numLayers;for(var i=1;i<=c.numLayers;i++){var fx=null;try{fx=c.layer(i).property('ADBE Effect Parade');}catch(ef){}if(fx)effects+=fx.numProperties;}}
+        return EH_jsonSimple({rendering:rendering,activeComp:c?c.name:'None',layers:layers,effects:effects,renderQueue:rq});
+    }catch(e){return EH_jsonSimple({rendering:false,activeComp:'Unavailable',layers:0,effects:0,renderQueue:0});}
+}
+function EthanHub_aboutPerformance(){return EthanHub_readAboutTelemetry();}
 
 // ============================================================
 // SOFTWARE UPDATE 3.2.6 "UI POLISH — NEW VERSION" — preserves PowerShell/.NET ZIP transport from 3.2.5.5
 // Remote packages REQUIRE SHA-256 verification. Dropbox folder transport downloads one public folder archive, then uses local base64 chunks.
 // ============================================================
-var ETHAN_UPDATE_VERSION = '3.2.7';
-var ETHAN_UPDATE_BUILD = '3270';
-var ETHAN_UPDATE_RELEASE = 'Permanent GitHub Channel';
+var ETHAN_UPDATE_VERSION = '3.2.8';
+var ETHAN_UPDATE_BUILD = '3280';
+var ETHAN_UPDATE_RELEASE = 'Neon Heartbeat';
 var ETHAN_UPDATE_EXTENSION_ID = 'com.ethan.editinghub';
 
 function EH_upJsonString(s){s=String(s==null?'':s);return '"'+s.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\r/g,'\\r').replace(/\n/g,'\\n')+'"';}

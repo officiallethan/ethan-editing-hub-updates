@@ -540,6 +540,17 @@ body[data-theme="gold"]{
   --theme-accent:linear-gradient(90deg,#8b6e18,#d5aa27);--theme-accent2:#e7c45a;
 }
 
+
+body[data-theme="aurora"]{
+  --theme-text:#f7fbff;--theme-muted:#a8b9d7;--theme-line:#28336f;
+  --theme-body:radial-gradient(circle at 12% -8%,rgba(56,216,255,.20),transparent 30%),radial-gradient(circle at 91% 4%,rgba(111,67,255,.26),transparent 34%),linear-gradient(160deg,#050812,#070617 62%,#02040a);
+  --theme-shell:linear-gradient(135deg,#081027,#151052 48%,#071934 76%,#050812);
+  --theme-card:linear-gradient(145deg,#0a1024,#080817 72%,#04050d);--theme-panel:#070a16;--theme-control:#0d1430;--theme-control2:#151052;
+  --theme-accent:linear-gradient(90deg,#38d8ff,#755cff 58%,#ba54ff);--theme-accent2:#38d8ff;--theme-accent-solid:#38d8ff;--theme-accent-soft:rgba(56,216,255,.22);
+}
+body[data-theme="aurora"] .topShell,body[data-theme="aurora"] .panelCard{box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 14px 38px rgba(0,0,0,.38),0 0 24px rgba(56,216,255,.035)!important}
+body[data-theme="aurora"] .diamondLogo{box-shadow:0 0 0 1px rgba(56,216,255,.18),0 0 22px rgba(117,92,255,.24)!important}
+
 body[data-theme]{background:var(--theme-body)!important;color:var(--theme-text)!important}
 body[data-theme] .topShell{background:var(--theme-shell)!important;border-color:var(--theme-line)!important}
 body[data-theme] .panelCard,
@@ -699,27 +710,12 @@ body[data-theme] .presetCreator{box-shadow:inset 0 0 0 1px var(--theme-accent-so
 body[data-theme] .activePlanBadge.plan-badge-elite{background:var(--theme-elite)!important;border-color:var(--theme-accent2)!important;color:var(--theme-text)!important;text-shadow:none!important}
 body[data-theme="white"] .activePlanBadge.plan-badge-elite{color:#17151a!important}
 
-/* Subscription cards are UI surfaces too: the selected theme owns their background.
-   Their labels/icons still identify the plan; permanent identity badges remain exempt. */
-body[data-theme] .planCard,
-body[data-theme] .plan-default,
-body[data-theme] .plan-plus,
-body[data-theme] .plan-pro,
-body[data-theme] .plan-premium,
-body[data-theme] .plan-bronze,
-body[data-theme] .plan-silver,
-body[data-theme] .plan-gold,
-body[data-theme] .plan-diamond,
-body[data-theme] .plan-elite{
-  background:linear-gradient(145deg,var(--theme-control),var(--theme-control2))!important;
-  border-color:var(--theme-line)!important;
-  text-shadow:none!important;
-}
+/* 3.2.8: subscription choices keep their own plan identity colors regardless of Hub theme.
+   The small persistent profile plan badge remains theme-aware through the existing badge rules. */
 body[data-theme] .planCard.selected{
-  border-color:var(--theme-accent-solid)!important;
-  box-shadow:0 0 0 2px var(--theme-accent-soft),0 0 20px var(--theme-accent-soft),inset 0 1px 0 rgba(255,255,255,.12)!important;
+  border-color:var(--theme-accent-solid,#fff)!important;
+  box-shadow:0 0 0 2px var(--theme-accent-soft,rgba(255,255,255,.18)),0 0 22px var(--theme-accent-soft,rgba(211,112,255,.24)),inset 0 1px 0 rgba(255,255,255,.15)!important;
 }
-body[data-theme="white"] .planCard{color:#17151a!important}
 
 
 /* PREMIUM 2.0 — Settings / Inspector / Remove / extra one-click tools */
@@ -904,3 +900,38 @@ button.headerUpdateStatus .headerUpdateCount{min-width:11px!important;height:11p
 @media(max-width:360px){
   button.headerUpdateStatus{max-width:105px!important;height:19px!important;padding:0 7px!important;font-size:6.2px!important}
 }
+
+
+/* ============================================================
+   3.2.8 — NEON HEARTBEAT UI MOTION + LIVE CHANNEL
+   Event-driven only; performance-lock / motion-off disables it.
+   ============================================================ */
+.softwareUpdateRelease{width:fit-content!important;max-width:100%!important;padding:4px 10px!important;letter-spacing:.75px!important;white-space:nowrap;overflow:hidden;position:relative}
+.softwareUpdateRelease::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.16) 50%,transparent 80%);transform:translateX(-120%);pointer-events:none}
+.page.active .panelCard{animation:neonHeartbeatPageIn .26s cubic-bezier(.2,.82,.28,1) both}
+@keyframes neonHeartbeatPageIn{from{opacity:.15;transform:translateY(7px) scale(.992);filter:blur(1px)}to{opacity:1;transform:none;filter:none}}
+.mainNav.pageSelectNav .pageSelectMenu{display:block!important;visibility:hidden;opacity:0;transform:translateY(-8px) scale(.985);transform-origin:top center;pointer-events:none;transition:opacity .18s ease,transform .22s cubic-bezier(.2,.84,.22,1),visibility 0s linear .22s!important}
+.mainNav.pageSelectNav.open .pageSelectMenu{display:block!important;visibility:visible;opacity:1;transform:translateY(0) scale(1);pointer-events:auto;transition-delay:0s!important}
+.mainNav.pageSelectNav .pageSelectMenu button{opacity:0;transform:translateY(-4px);transition:opacity .14s ease,transform .18s ease,background .14s ease!important}
+.mainNav.pageSelectNav.open .pageSelectMenu button{opacity:1;transform:none}
+.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(1){transition-delay:.015s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(2){transition-delay:.025s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(3){transition-delay:.035s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(4){transition-delay:.045s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(5){transition-delay:.055s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(6){transition-delay:.065s}.mainNav.pageSelectNav.open .pageSelectMenu button:nth-child(n+7){transition-delay:.075s}
+body:not(.performance-lock)[data-motion="full"] button:not(:disabled){transition:transform .13s cubic-bezier(.2,.8,.2,1),filter .14s ease,box-shadow .16s ease!important}
+body:not(.performance-lock)[data-motion="full"] button:not(:disabled):active{transform:translateY(1px) scale(.972)!important;filter:brightness(.94)!important;box-shadow:inset 0 2px 8px rgba(0,0,0,.24)!important}
+body:not(.performance-lock)[data-motion="full"] .planCard:hover .planElement{transform:translateY(-2px) scale(1.08);filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}.planElement{transition:transform .16s ease,filter .16s ease}
+.aboutPulseGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}.aboutPulseGrid>div{padding:8px;border-radius:10px;background:var(--theme-control);border:1px solid var(--theme-line);min-width:0}.aboutPulseGrid span,.aboutPulseGrid b{display:block}.aboutPulseGrid span{font-size:6.7px;text-transform:uppercase;letter-spacing:.65px;color:var(--theme-muted);margin-bottom:3px}.aboutPulseGrid b{font-size:8px;overflow:hidden;text-overflow:ellipsis}.aboutTelemetryStamp{font:7px/1.3 Consolas,monospace;color:var(--theme-muted);padding:5px 2px 1px}
+body.performance-lock .page.active .panelCard,body[data-motion="off"] .page.active .panelCard{animation:none!important}
+body.performance-lock .mainNav.pageSelectNav .pageSelectMenu button,body[data-motion="off"] .mainNav.pageSelectNav .pageSelectMenu button{transition:none!important}
+@media(max-width:350px){.aboutPulseGrid{grid-template-columns:1fr}.softwareUpdateRelease{white-space:normal!important}}
+
+/* NEON HEARTBEAT — animated native-select proxies */
+.neonSelect{position:relative;display:inline-block;width:100%;min-width:0;vertical-align:middle;z-index:6}
+.neonNativeSelect{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+.neonSelectToggle{width:100%!important;min-height:29px!important;margin:0!important;padding:6px 8px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:7px!important;text-align:left!important;background:linear-gradient(145deg,var(--theme-control,#1a1820),var(--theme-control2,#211827))!important;border:1px solid var(--theme-line,#51485e)!important;color:var(--theme-text,#fff)!important;border-radius:9px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
+.neonSelectValue{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8.5px;font-weight:850}.neonSelectArrow{font-size:12px;line-height:1;transition:transform .2s cubic-bezier(.2,.8,.2,1)}.neonSelect.open .neonSelectArrow{transform:rotate(180deg)}
+.neonSelectMenu{position:absolute;left:0;right:0;top:calc(100% + 4px);max-height:230px;overflow:auto;padding:4px;border-radius:10px;background:linear-gradient(155deg,var(--theme-card,#17141e),var(--theme-panel,#0d0c11));border:1px solid var(--theme-line,#51485e);box-shadow:0 14px 30px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05);visibility:hidden;opacity:0;transform:translateY(-7px) scale(.985);transform-origin:top center;pointer-events:none;transition:opacity .16s ease,transform .2s cubic-bezier(.2,.86,.24,1),visibility 0s linear .2s;z-index:999}
+.neonSelect.open{z-index:200}.neonSelect.open .neonSelectMenu{visibility:visible;opacity:1;transform:none;pointer-events:auto;transition-delay:0s}
+.neonSelectOption{width:100%!important;margin:0!important;padding:7px 8px!important;border:0!important;border-radius:7px!important;background:transparent!important;color:var(--theme-text,#fff)!important;text-align:left!important;font-size:8px!important;opacity:0;transform:translateY(-3px);transition:opacity .12s ease,transform .16s ease,background .12s ease!important}.neonSelect.open .neonSelectOption{opacity:1;transform:none}.neonSelect.open .neonSelectOption:nth-child(1){transition-delay:.015s}.neonSelect.open .neonSelectOption:nth-child(2){transition-delay:.025s}.neonSelect.open .neonSelectOption:nth-child(3){transition-delay:.035s}.neonSelect.open .neonSelectOption:nth-child(4){transition-delay:.045s}.neonSelect.open .neonSelectOption:nth-child(n+5){transition-delay:.055s}.neonSelectOption:hover,.neonSelectOption.selected{background:var(--theme-accent-soft,rgba(151,91,255,.18))!important}.neonSelectOption.selected{box-shadow:inset 2px 0 0 var(--theme-accent-solid,#9c67ff)!important}
+.themeChooser .neonSelect{min-width:130px}.scaleMini .neonSelect{width:58px}.resolutionBox .neonSelect{min-width:76px}
+#page-softwareupdate.active .softwareUpdateRelease::after{animation:neonHeartbeatSweep .62s cubic-bezier(.2,.8,.2,1) .08s 1 both}
+@keyframes neonHeartbeatSweep{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
+body.performance-lock .neonSelectMenu,body[data-motion="off"] .neonSelectMenu,body[data-motion="off"] .neonSelectOption{transition:none!important}

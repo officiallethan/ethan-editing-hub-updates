@@ -19,6 +19,7 @@
     if(pageDropdownLabel)pageDropdownLabel.textContent=pageLabel(name);
     if(name==='softwareupdate'&&window.EthanHubSoftwareUpdate&&window.EthanHubSoftwareUpdate.onOpen)window.EthanHubSoftwareUpdate.onOpen();
     if(name==='about'&&window.EthanHubAbout&&window.EthanHubAbout.onOpen)window.EthanHubAbout.onOpen();
+    else if(window.EthanHubAbout&&window.EthanHubAbout.onClose)window.EthanHubAbout.onClose();
     closePageMenu();
   }
   if(pageDropdownToggle)pageDropdownToggle.onclick=function(e){if(e&&e.stopPropagation)e.stopPropagation();var willOpen=!mainNav.classList.contains('open');mainNav.classList.toggle('open',willOpen);pageDropdownToggle.setAttribute('aria-expanded',willOpen?'true':'false');};
@@ -41,7 +42,7 @@
   var themeSelect=document.getElementById('themeSelect');
   function normalizeTheme(theme){if(theme==='tahoe')return 'tahoe-light';return theme;}
   function setTheme(theme){
-    var valid={"tahoe-light":1,"tahoe-dark":1,default:1,black:1,white:1,ocean:1,emerald:1,ruby:1,gold:1,rainbow:1};
+    var valid={"tahoe-light":1,"tahoe-dark":1,default:1,black:1,white:1,ocean:1,emerald:1,ruby:1,gold:1,rainbow:1,aurora:1};
     theme=normalizeTheme(theme);theme=valid[theme]?theme:'tahoe-light';
     document.body.setAttribute('data-theme',theme);
     document.documentElement.setAttribute('data-theme',theme);
@@ -313,9 +314,9 @@
 // SOFTWARE UPDATE — safe in-panel updater for Windows / AE 2025
 // ============================================================
 (function(){
-  var CURRENT_VERSION='3.2.7';
-  var CURRENT_BUILD='3270';
-  var CURRENT_RELEASE='Permanent GitHub Channel';
+  var CURRENT_VERSION='3.2.8';
+  var CURRENT_BUILD='3280';
+  var CURRENT_RELEASE='Neon Heartbeat';
   var EXTENSION_ID='com.ethan.editinghub';
   var lastManifest=null;
   var checking=false;
@@ -331,7 +332,7 @@
   function feed(){var def='https://raw.githubusercontent.com/officiallethan/ethan-editing-hub-updates/refs/heads/main/latest.json';var oldDropbox='https://www.dropbox.com/scl/fo/sq3pmcx9ybnmsrrvr78m9/AApkrBLppkh55By938Z5Kf0?rlkey=o6yvzz0wkmpd1xknm9d2v24mr&dl=0';try{var saved=(localStorage.getItem('ethanHubUpdateFeedUrl')||'').trim();var sameGitHub=(saved===def)||/raw\.githubusercontent\.com\/officiallethan\/ethan-editing-hub-updates/i.test(saved);var oldDropboxFeed=(saved===oldDropbox)||/dropbox\.com\/scl\/fo\/sq3pmcx9ybnmsrrvr78m9/i.test(saved);if(!saved||sameGitHub||oldDropboxFeed){localStorage.setItem('ethanHubUpdateFeedUrl',def);return def;}return saved;}catch(e){return def;}}
   function semver(v){return String(v||'0').split('.').map(function(x){return parseInt(x,10)||0;});}
   function newer(a,b){var A=semver(a),B=semver(b),n=Math.max(A.length,B.length);for(var i=0;i<n;i++){var x=A[i]||0,y=B[i]||0;if(x>y)return true;if(x<y)return false;}return false;}
-  function renderCurrent(){if(E('softwareCurrentVersion'))E('softwareCurrentVersion').textContent='PREMIUM 2.0 • NEW VERSION';if(E('softwareCurrentRelease')){E('softwareCurrentRelease').textContent='';E('softwareCurrentRelease').hidden=true;}var f=feed();if(E('softwareUpdateFeedUrl'))E('softwareUpdateFeedUrl').value=f;setFeedText(f?'Cloud update feed linked.':'Cloud update feed: not linked yet.');}
+  function renderCurrent(){if(E('softwareCurrentVersion'))E('softwareCurrentVersion').textContent='PREMIUM 2.0 • NEW VERSION';if(E('softwareCurrentRelease')){E('softwareCurrentRelease').textContent='● LIVE • SECURE CHANNEL';E('softwareCurrentRelease').hidden=false;}var f=feed();if(E('softwareUpdateFeedUrl'))E('softwareUpdateFeedUrl').value=f;setFeedText(f?'Cloud update feed linked.':'Cloud update feed: not linked yet.');}
   function hideUpdate(){lastManifest=null;if(E('softwareUpdateDetails'))E('softwareUpdateDetails').hidden=true;if(E('installHubUpdate'))E('installHubUpdate').disabled=true;progress(false,0,'');}
   function showManifest(m){lastManifest=m;if(E('softwareUpdateDetails'))E('softwareUpdateDetails').hidden=false;if(E('softwareUpdateName'))E('softwareUpdateName').textContent=(m.name||'Ethan Hub Update')+' • '+m.version;if(E('softwareUpdateMeta'))E('softwareUpdateMeta').textContent='Build '+(m.build||'—')+(m.sizeLabel?' • '+m.sizeLabel:'');if(E('softwareUpdateNotes'))E('softwareUpdateNotes').textContent=m.notes||'No release notes provided.';if(E('installHubUpdate'))E('installHubUpdate').disabled=!((m.packageReady||m.packageUrl)&&m.sha256&&m.extensionId===EXTENSION_ID);}
   function check(manual){
@@ -410,21 +411,50 @@
 
 
 // ============================================================
-// ABOUT + LOW-COST PERFORMANCE SNAPSHOT — LIQUID HARMONY 3.2
-// ============================================================
+// ABOUT + NEON HEARTBEAT LIVE TELEMETRY — 3.2.8
+// Windows sampling is detached; CEP only reads cached JSON snapshots.
 (function(){
-  function E(id){return document.getElementById(id);}function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+  function E(id){return document.getElementById(id);}
   function ae(code,cb){if(!window.__adobe_cep__){if(cb)cb('');return;}window.__adobe_cep__.evalScript(code,function(r){if(cb)cb(String(r||''));});}
-  var loaded=false,timer=null;
+  var loaded=false,timer=null,projectTimer=null,workerStarted=false;
   function pctBar(id,v){var e=E(id),n=Math.max(0,Math.min(100,Number(v)||0));if(e)e.style.width=n+'%';}
   function renderInfo(r){try{var d=JSON.parse(r);if(E('aboutAEVersion'))E('aboutAEVersion').textContent=d.ae||'After Effects';if(E('aboutDevice'))E('aboutDevice').textContent=d.device||'Windows PC';if(E('aboutOS'))E('aboutOS').textContent=d.os||'Windows';if(E('aboutCPU'))E('aboutCPU').textContent=d.cpu||'Unavailable';if(E('aboutCores'))E('aboutCores').textContent=d.cores||'Unavailable';if(E('aboutRAM'))E('aboutRAM').textContent=d.ram||'Unavailable';if(E('aboutGPU'))E('aboutGPU').textContent=d.gpu||'Unavailable';loaded=true;}catch(e){}}
   function refreshInfo(){ae('EthanHub_aboutInfo()',renderInfo);}
-  function renderLive(r){try{var d=JSON.parse(r);if(d.rendering){document.body.classList.add('performance-lock');if(E('aboutPerformanceNote'))E('aboutPerformanceNote').textContent='Render Queue is active — Hub animations and live sampling are temporarily paused to stay out of After Effects’ way.';return;}document.body.classList.remove('performance-lock');var cpu=d.cpuPercent,gpu=d.gpuPercent,mem=d.memoryMB;if(E('aboutCPUUsage'))E('aboutCPUUsage').textContent=(cpu>=0?cpu.toFixed(1)+'%':'Unavailable');if(E('aboutGPUUsage'))E('aboutGPUUsage').textContent=(gpu>=0?gpu.toFixed(1)+'%':'Unavailable');if(E('aboutMemUsage'))E('aboutMemUsage').textContent=(mem>=0?Math.round(mem)+' MB':'Unavailable');pctBar('aboutCPUBar',cpu>=0?cpu:0);pctBar('aboutGPUBar',gpu>=0?gpu:0);pctBar('aboutMemBar',d.memoryPercent>=0?d.memoryPercent:0);if(E('aboutPerformanceNote'))E('aboutPerformanceNote').textContent='Sampling about every 8 seconds while About is open. This is intentionally slow/lightweight. GPU may be unavailable if Windows does not expose a per-process counter for AfterFX.';}catch(e){}}
-  function liveTick(){var p=E('page-about'),t=E('aboutLiveToggle');if(!p||!p.classList.contains('active')||!t||!t.checked)return;ae('EthanHub_aboutPerformance()',renderLive);}
-  function start(){if(timer)clearInterval(timer);timer=setInterval(liveTick,8000);liveTick();}
-  var toggle=E('aboutLiveToggle');if(toggle)toggle.onchange=function(){try{localStorage.setItem('ethanHubAboutLive',toggle.checked?'1':'0');}catch(e){}if(toggle.checked)start();else{if(timer){clearInterval(timer);timer=null;}document.body.classList.remove('performance-lock');}};
-  var rf=E('refreshAbout');if(rf)rf.onclick=function(){refreshInfo();liveTick();};
-  try{if(toggle)toggle.checked=localStorage.getItem('ethanHubAboutLive')==='1';}catch(e){}
-  window.EthanHubAbout={onOpen:function(){if(!loaded)refreshInfo();if(toggle&&toggle.checked)start();}};
-  window.addEventListener('unload',function(){if(timer)clearInterval(timer);});
+  function renderLive(r){try{var d=JSON.parse(r||'{}');if(!d.ok){if(E('aboutTelemetryStamp'))E('aboutTelemetryStamp').textContent=d.message||'Sampler starting…';return;}var cpu=Number(d.cpuPercent),gpu=Number(d.gpuPercent),mem=Number(d.memoryMB),memPct=Number(d.memoryPercent),sys=Number(d.systemMemoryPercent);if(E('aboutCPUUsage'))E('aboutCPUUsage').textContent=(cpu>=0?cpu.toFixed(1)+'%':'Unavailable');if(E('aboutGPUUsage'))E('aboutGPUUsage').textContent=(gpu>=0?gpu.toFixed(1)+'%':'Unavailable');if(E('aboutMemUsage'))E('aboutMemUsage').textContent=(mem>=0?Math.round(mem)+' MB':'Unavailable');if(E('aboutSystemMemUsage'))E('aboutSystemMemUsage').textContent=(sys>=0?sys.toFixed(1)+'%':'Unavailable');pctBar('aboutCPUBar',cpu>=0?cpu:0);pctBar('aboutGPUBar',gpu>=0?gpu:0);pctBar('aboutMemBar',memPct>=0?memPct:0);pctBar('aboutSystemMemBar',sys>=0?sys:0);if(E('aboutTelemetryStamp'))E('aboutTelemetryStamp').textContent='LIVE • '+(d.timestamp||'just now')+' • PID '+(d.pid||'—');if(E('aboutPerformanceNote'))E('aboutPerformanceNote').textContent='Neon Heartbeat samples outside AE about every 1.5 seconds. The panel only reads cached JSON; GPU remains best-effort when a Windows driver does not expose a matching AfterFX engine counter.';}catch(e){}}
+  function renderProject(r){try{var d=JSON.parse(r||'{}'),box=E('aboutProjectStats');if(!box)return;var render=d.rendering?'RENDERING':'Idle';box.innerHTML='<div><span>Active comp</span><b>'+(d.activeComp||'None')+'</b></div><div><span>Render queue</span><b>'+render+' • '+(d.renderQueue||0)+' item(s)</b></div><div><span>Layers</span><b>'+(d.layers||0)+'</b></div><div><span>Effects</span><b>'+(d.effects||0)+'</b></div>';document.body.classList.toggle('performance-lock',!!d.rendering);}catch(e){}}
+  function liveTick(){var p=E('page-about'),t=E('aboutLiveToggle');if(!p||!p.classList.contains('active')||!t||!t.checked)return;ae('EthanHub_readAboutTelemetry()',renderLive);}
+  function projectTick(){var p=E('page-about'),t=E('aboutLiveToggle');if(!p||!p.classList.contains('active')||!t||!t.checked)return;ae('EthanHub_aboutProjectPulse()',renderProject);}
+  function start(){if(!workerStarted){workerStarted=true;ae('EthanHub_startAboutTelemetry()',function(){liveTick();});}if(timer)clearInterval(timer);if(projectTimer)clearInterval(projectTimer);timer=setInterval(liveTick,1500);projectTimer=setInterval(projectTick,3000);liveTick();projectTick();}
+  function stop(){if(timer){clearInterval(timer);timer=null;}if(projectTimer){clearInterval(projectTimer);projectTimer=null;}if(workerStarted){workerStarted=false;ae('EthanHub_stopAboutTelemetry()');}document.body.classList.remove('performance-lock');}
+  var toggle=E('aboutLiveToggle');if(toggle)toggle.onchange=function(){try{localStorage.setItem('ethanHubAboutLive',toggle.checked?'1':'0');}catch(e){}if(toggle.checked)start();else stop();};
+  var rf=E('refreshAbout');if(rf)rf.onclick=function(){refreshInfo();if(toggle&&toggle.checked){liveTick();projectTick();}};
+  try{if(toggle){var saved=localStorage.getItem('ethanHubAboutLive');toggle.checked=saved===null?true:saved==='1';}}catch(e){if(toggle)toggle.checked=true;}
+  window.EthanHubAbout={onOpen:function(){if(!loaded)refreshInfo();if(toggle&&toggle.checked)start();},onClose:function(){stop();}};
+  window.addEventListener('unload',function(){stop();});
+})();
+
+// ============================================================
+// NEON HEARTBEAT — animated proxy for every native <select>
+// Keeps the real select/value/change events underneath for compatibility.
+// ============================================================
+(function(){
+  function closeAll(except){document.querySelectorAll('.neonSelect.open').forEach(function(w){if(w!==except){w.classList.remove('open');var b=w.querySelector('.neonSelectToggle');if(b)b.setAttribute('aria-expanded','false');}});}
+  function enhanceNeonSelect(sel){
+    if(!sel||sel.dataset.neonEnhanced==='1'||sel.multiple)return;
+    sel.dataset.neonEnhanced='1';
+    var wrap=document.createElement('div');wrap.className='neonSelect';
+    sel.parentNode.insertBefore(wrap,sel);wrap.appendChild(sel);sel.classList.add('neonNativeSelect');sel.tabIndex=-1;
+    var toggle=document.createElement('button');toggle.type='button';toggle.className='neonSelectToggle';toggle.setAttribute('aria-haspopup','listbox');toggle.setAttribute('aria-expanded','false');
+    var label=document.createElement('span');label.className='neonSelectValue';var arrow=document.createElement('span');arrow.className='neonSelectArrow';arrow.textContent='⌄';toggle.appendChild(label);toggle.appendChild(arrow);
+    var menu=document.createElement('div');menu.className='neonSelectMenu';menu.setAttribute('role','listbox');wrap.appendChild(toggle);wrap.appendChild(menu);
+    function sync(){
+      var current=sel.options[sel.selectedIndex]||sel.options[0];label.textContent=current?current.text:'Choose';menu.innerHTML='';
+      for(var i=0;i<sel.options.length;i++)(function(opt){var b=document.createElement('button');b.type='button';b.className='neonSelectOption'+(opt.selected?' selected':'');b.textContent=opt.text;b.disabled=!!opt.disabled;b.setAttribute('role','option');b.setAttribute('aria-selected',opt.selected?'true':'false');b.onclick=function(e){if(e)e.stopPropagation();sel.value=opt.value;sel.dispatchEvent(new Event('change',{bubbles:true}));sync();wrap.classList.remove('open');toggle.setAttribute('aria-expanded','false');};menu.appendChild(b);})(sel.options[i]);
+    }
+    toggle.onclick=function(e){if(e)e.stopPropagation();sync();var open=!wrap.classList.contains('open');closeAll(wrap);wrap.classList.toggle('open',open);toggle.setAttribute('aria-expanded',open?'true':'false');};
+    sel.addEventListener('change',sync);sync();
+  }
+  document.querySelectorAll('select').forEach(enhanceNeonSelect);
+  document.addEventListener('click',function(){closeAll(null);});
+  window.EthanHubRefreshSelects=function(){document.querySelectorAll('select').forEach(function(s){if(s.dataset.neonEnhanced!=='1')enhanceNeonSelect(s);else s.dispatchEvent(new Event('change',{bubbles:false}));});};
 })();
